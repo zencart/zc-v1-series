@@ -29,8 +29,8 @@ require_once(DIR_WS_CLASSES . 'currencies.php');
 $currencies = new currencies();
 
 ?>
-<div class="panel panel-default reportBox">
-    <div class="panel-heading header"><?php echo BOX_ENTRY_NEW_ORDERS; ?> </div>
+<div class="card reportBox mb-3">
+    <div class="card-header header"><?php echo BOX_ENTRY_NEW_ORDERS; ?> </div>
     <table class="table table-striped table-condensed">
         <?php
 

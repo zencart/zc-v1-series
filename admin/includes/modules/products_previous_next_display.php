@@ -27,7 +27,7 @@ if (!defined('IS_ADMIN_FLAG')) {
 <div class="row">
     <?php if ($counter > 0) { ?>
         <div class="col-sm-2 text-center">
-            <a href="<?php echo zen_href_link($curr_page, "products_filter=" . $previous . '&current_category_id=' . $current_category_id); ?>" class="btn btn-default" role="button"><?php echo BUTTON_PREVIOUS_ALT; ?></a>
+            <a href="<?php echo zen_href_link($curr_page, "products_filter=" . $previous . '&current_category_id=' . $current_category_id); ?>" class="btn btn-secondary" role="button"><?php echo BUTTON_PREVIOUS_ALT; ?></a>
         </div>
     <?php } ?>
     <div class="col-sm-4">
@@ -44,7 +44,7 @@ if (!defined('IS_ADMIN_FLAG')) {
     </div>
     <?php if ($counter > 0) { ?>
         <div class="col-sm-2 text-center">
-            <a href="<?php echo zen_href_link($curr_page, "products_filter=" . $next_item . '&current_category_id=' . $current_category_id); ?>" class="btn btn-default" role="button"><?php echo BUTTON_NEXT_ALT; ?></a>
+            <a href="<?php echo zen_href_link($curr_page, "products_filter=" . $next_item . '&current_category_id=' . $current_category_id); ?>" class="btn btn-secondary" role="button"><?php echo BUTTON_NEXT_ALT; ?></a>
         </div>
     <?php } ?>
 </div>

@@ -42,7 +42,7 @@ $db->Execute("UPDATE " . TABLE_PRODUCTS . "
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
           <table class="table table-hover" role="listbox">
-            <thead>
+            <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCTS_NAME; ?></th>
                 <th class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_DATE_EXPECTED; ?></th>

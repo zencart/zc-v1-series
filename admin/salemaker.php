@@ -283,38 +283,38 @@ if (!empty($action)) {
       <div class="row">
         <div class="col-sm-6"><?php echo TEXT_SALEMAKER_POPUP; ?></div>
         <div class="col-sm-6 text-right">
-          <button type="submit" class="btn btn-primary"><?php echo (($form_action == 'insert') ? IMAGE_INSERT : IMAGE_UPDATE); ?></button> <a href="<?php echo zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . (!empty($_GET['sID']) ? '&sID=' . $_GET['sID'] : '')); ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a></div>
+          <button type="submit" class="btn btn-primary"><?php echo (($form_action == 'insert') ? IMAGE_INSERT : IMAGE_UPDATE); ?></button> <a href="<?php echo zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . (!empty($_GET['sID']) ? '&sID=' . $_GET['sID'] : '')); ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a></div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_NAME, 'name', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_NAME, 'name', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
             <?php echo zen_draw_input_field('name', htmlspecialchars(($sInfo->sale_name ?? ''), ENT_COMPAT, CHARSET, TRUE), 'size="37" class="form-control" autofocus'); ?>
         </div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_DEDUCTION, 'deduction', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_DEDUCTION, 'deduction', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
           <div class="col-sm-5"><?php echo zen_draw_input_field('deduction', $sInfo->sale_deduction_value, 'size="8" class="form-control"'); ?></div>
           <div class="col-sm-2"><?php echo TEXT_SALEMAKER_DEDUCTION_TYPE; ?></div>
           <div class="col-sm-5"><?php echo zen_draw_pull_down_menu('type', $deduction_type_array, $sInfo->sale_deduction_type, 'class="form-control"'); ?></div>
         </div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_PRICERANGE_FROM, 'from', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_PRICERANGE_FROM, 'from', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
           <div class="col-sm-5"><?php echo zen_draw_input_field('from', $sInfo->sale_pricerange_from, 'size="8" class="form-control"'); ?></div>
           <div class="col-sm-2"><?php echo TEXT_SALEMAKER_PRICERANGE_TO; ?></div>
           <div class="col-sm-5"><?php echo zen_draw_input_field('to', $sInfo->sale_pricerange_to, 'size="8" class="form-control"'); ?></div>
         </div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_SPECIALS_CONDITION, 'condition', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_SPECIALS_CONDITION, 'condition', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
             <?php echo zen_draw_pull_down_menu('condition', $specials_condition_array, $sInfo->sale_specials_condition, 'class="form-control"'); ?>
         </div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_DATE_START, 'start', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_DATE_START, 'start', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
           <script>
             StartDate.writeControl();
@@ -322,8 +322,8 @@ if (!empty($action)) {
           </script>
         </div>
       </div>
-      <div class="form-group">
-          <?php echo zen_draw_label(TEXT_SALEMAKER_DATE_END, 'end', 'class="col-sm-3 control-label"'); ?>
+      <div class="form-group row mb-3">
+          <?php echo zen_draw_label(TEXT_SALEMAKER_DATE_END, 'end', 'class="col-sm-3 form-label"'); ?>
         <div class="col-sm-9 col-md-6">
           <script>
             EndDate.writeControl();
@@ -384,20 +384,20 @@ if (!empty($action)) {
         $zc_check_all_cats = 0;
       }
       ?>
-      <div class="form-group">
-        <div class="col-sm-offset-3">
+      <div class="form-group row mb-3">
+        <div class="offset-sm-3">
           <?php echo zen_icon('caret-right', size: 'lg'); ?>&nbsp;<?php echo TEXT_SALEMAKER_ENTIRE_CATALOG; ?>
         </div>
       </div>
-      <div class="form-group" onClick="RowClick('0')">
-        <div class="col-sm-offset-3">
+      <div class="form-group row mb-3" onClick="RowClick('0')">
+        <div class="offset-sm-3">
           <div>
             <label><?php echo zen_draw_checkbox_field('categories[]', '0', $zc_check_all_cats); ?>&nbsp;<?php echo TEXT_SALEMAKER_TOP; ?></label>
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-sm-offset-3">
+      <div class="form-group row mb-3">
+        <div class="offset-sm-3">
           <?php echo zen_icon('caret-right', size: 'lg'); ?>&nbsp;<?php echo TEXT_SALEMAKER_CATEGORIES; ?>
         </div>
       </div>
@@ -409,8 +409,8 @@ if (!empty($action)) {
           $selected = false;
         }
         ?>
-        <div class="form-group row">
-          <div class="col-sm-offset-3 col-xs-5 col-sm-4 col-md-4" onClick="RowClick('<?php echo $category['path'];
+        <div class="form-group row mb-3 row">
+          <div class="offset-sm-3 col-xs-5 col-sm-4 col-md-4" onClick="RowClick('<?php echo $category['path'];
           ?>')">
             <div class="checkbox">
               <label><?php echo zen_draw_checkbox_field('categories[]', $category['path'], $selected); ?><?php echo $category['text']; ?></label>
@@ -436,7 +436,7 @@ if (!empty($action)) {
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
           <table class="table table-striped table-hover">
-            <thead>
+            <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_SALE_NAME; ?></th>
                 <th class="dataTableHeadingContent right"><?php echo TABLE_HEADING_SALE_DEDUCTION; ?></th>
@@ -516,9 +516,9 @@ if (!empty($action)) {
                 $heading[] = array('text' => '<h4>' . TEXT_INFO_HEADING_COPY_SALE . '</h4>');
 
                 $contents = array('form' => zen_draw_form('sales', FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&sID=' . $sInfo->sale_id . '&action=copyconfirm'));
-                $contents[] = array('text' => zen_draw_label(sprintf(TEXT_INFO_COPY_INTRO, $sInfo->sale_name), 'newname', 'class="control-label"'));
+                $contents[] = array('text' => zen_draw_label(sprintf(TEXT_INFO_COPY_INTRO, $sInfo->sale_name), 'newname', 'class="form-label"'));
                 $contents[] = array('text' => zen_draw_input_field('newname', htmlspecialchars($sInfo->sale_name . '_', ENT_COMPAT, CHARSET, TRUE), 'size="31" class="form-control"'));
-                $contents[] = array('align' => 'center', 'text' => '<button type="submit" class="btn btn-primary">' . IMAGE_COPY . '</button>&nbsp;<a href="' . zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&sID=' . $sInfo->sale_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>');
+                $contents[] = array('align' => 'center', 'text' => '<button type="submit" class="btn btn-primary">' . IMAGE_COPY . '</button>&nbsp;<a href="' . zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&sID=' . $sInfo->sale_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>');
                 break;
               case 'delete':
                 $heading[] = array('text' => '<h4>' . TEXT_INFO_HEADING_DELETE_SALE . '</h4>');
@@ -526,7 +526,7 @@ if (!empty($action)) {
                 $contents = array('form' => zen_draw_form('sales', FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&action=deleteconfirm') . zen_draw_hidden_field('sID', $sInfo->sale_id));
                 $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
                 $contents[] = array('text' => '<br><b>' . $sInfo->sale_name . '</b>');
-                $contents[] = array('align' => 'center', 'text' => '<br>' . '<button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button>' . '&nbsp;<a href="' . zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&sID=' . $sInfo->sale_id) . '"' . ' class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>');
+                $contents[] = array('align' => 'center', 'text' => '<br>' . '<button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button>' . '&nbsp;<a href="' . zen_href_link(FILENAME_SALEMAKER, 'page=' . $_GET['page'] . '&sID=' . $sInfo->sale_id) . '"' . ' class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>');
                 break;
               default:
                 if (!empty($sInfo) && is_object($sInfo)) {

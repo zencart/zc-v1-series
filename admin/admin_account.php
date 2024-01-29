@@ -92,7 +92,7 @@ $userDetails = $userList[0];
         }
     ?>
     <table class="table">
-        <thead>
+        <thead class="table-dark">
         <tr class="headingRow">
             <th class="name"><?php echo TEXT_ADMIN_NAME ?></th>
             <th class="email"><?php echo TEXT_EMAIL ?></th>
@@ -122,7 +122,7 @@ $userDetails = $userList[0];
                 <?php if ($user == $userDetails['id']) { ?>
                         <td class="actions">
                             <button type="submit" class="btn btn-primary"><?php echo IMAGE_UPDATE; ?></button>
-                            <a href="<?php echo zen_href_link(FILENAME_ADMIN_ACCOUNT) ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a>
+                            <a href="<?php echo zen_href_link(FILENAME_ADMIN_ACCOUNT) ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a>
                         </td>
                     <?php } else { ?>
                         <td class="actions">&nbsp;</td>

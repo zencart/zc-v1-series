@@ -99,7 +99,7 @@ switch ($_GET['action']) {
             </tr>
             <tr class="dataTableHeadingRow">
               <td class="dataTableHeadingContent">
-                  <?php echo zen_draw_label(TEXT_SELECT_OPTION, 'options_id', 'class="control-label"');
+                  <?php echo zen_draw_label(TEXT_SELECT_OPTION, 'options_id', 'class="form-label"');
                   //filter the dropdown to only show Option Names that have Option Values defined
                   $options_values = $db->Execute("SELECT DISTINCT po.products_options_id, po.products_options_name
                                                   FROM " . TABLE_PRODUCTS_OPTIONS . " po INNER JOIN " . TABLE_PRODUCTS_OPTIONS_VALUES_TO_PRODUCTS_OPTIONS . " povtpo
@@ -181,7 +181,7 @@ switch ($_GET['action']) {
               }
               ?>
               <td <?php echo ($option_values_exist == true ? '' : 'colspan="3"'); ?> class="dataTableHeadingContent text-left">
-                <a href="<?php echo zen_href_link(FILENAME_PRODUCTS_OPTIONS_VALUES); ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a>
+                <a href="<?php echo zen_href_link(FILENAME_PRODUCTS_OPTIONS_VALUES); ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a>
               </td>
             </tr>
           </table>

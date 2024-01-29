@@ -37,8 +37,8 @@ if ($result->RecordCount()) {
 
 
 ?>
-<div class="panel panel-default reportBox">
-    <div class="panel-heading header"><?php echo BOX_TITLE_STATISTICS; ?> </div>
+<div class="card reportBox mb-3">
+    <div class="card-header header"><?php echo BOX_TITLE_STATISTICS; ?> </div>
     <table class="table table-striped table-condensed">
         <tr>
           <td> <?php echo BOX_ENTRY_COUNTER_DATE; ?></td>

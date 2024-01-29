@@ -533,7 +533,7 @@ if (empty($products_array)) {
     <div class="row">
         <a href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN,
             (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') .
-            'cid=' . (!empty($cInfo->coupon_id) ? $cInfo->coupon_id : $_GET['cid'])); ?>" class="btn btn-default" role="button"><?php echo IMAGE_BACK; ?></a>
+            'cid=' . (!empty($cInfo->coupon_id) ? $cInfo->coupon_id : $_GET['cid'])); ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_BACK; ?></a>
     </div>
 </div>
 <!-- body_eof //-->

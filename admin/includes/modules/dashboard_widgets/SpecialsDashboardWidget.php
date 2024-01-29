@@ -24,8 +24,8 @@ $result = $db->Execute("SELECT count(*) as count FROM " . TABLE_SALEMAKER_SALES 
 $salemaker_act = $result->fields['count'];
 ?>
 
- <div class="panel panel-default reportBox">
-    <div class="panel-heading header"><?php echo BOX_TITLE_FEATURES_SALES; ?></div>
+ <div class="card reportBox mb-3">
+    <div class="card-header header"><?php echo BOX_TITLE_FEATURES_SALES; ?></div>
     <table class="table table-striped table-condensed">
       <tr>
         <td><?php echo BOX_ENTRY_SPECIALS_EXPIRED; ?></td>

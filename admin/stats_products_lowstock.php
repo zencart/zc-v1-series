@@ -34,7 +34,7 @@ require('includes/application_top.php');
       <h1 class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
       <!-- body //-->
       <table class="table table-hover">
-        <thead>
+        <thead class="table-dark">
           <tr class="dataTableHeadingRow">
             <th class="dataTableHeadingContent right"><?php echo TABLE_HEADING_NUMBER; ?></th>
             <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCTS_NAME; ?></th>

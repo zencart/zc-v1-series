@@ -60,7 +60,7 @@ if (!empty($action)) {
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
             <table class="table table-hover" role="listbox">
-                <thead>
+                <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
                     <th class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_ID; ?></th>
                     <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_GROUP_NAME; ?></th>
@@ -114,7 +114,7 @@ if (!empty($action)) {
                     if (isset($gInfo) && is_object($gInfo) && ($group['group_id'] == $gInfo->group_id)) {
                         $class_and_id = 'id="defaultSelected" class="dataTableRowSelected"';
                         $role = 'role="option" aria-selected="true"';
-                    } 
+                    }
                     ?>
                     <tr <?php echo $class_and_id; ?> onclick="document.location.href='<?php echo zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $group['group_id']); ?>'" <?php echo $role;?>>
                         <td class="dataTableContent text-center"><?php echo $group['group_id']; ?></td>
@@ -123,14 +123,14 @@ if (!empty($action)) {
                         <td class="dataTableContent"><?php echo $group['group_comment']; ?></td>
                         <td class="dataTableContent text-right actions">
                             <div class="btn-group">
-                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $group['group_id'] . '&action=edit')?>" class="btn btn-sm btn-default btn-edit" role="button" data-toggle="tooltip" title="<?php echo ICON_EDIT; ?>">
+                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $group['group_id'] . '&action=edit')?>" class="btn btn-sm btn-secondary btn-edit" role="button" data-toggle="tooltip" title="<?php echo ICON_EDIT; ?>">
                                 <?php echo zen_icon('pencil', hidden: true) ?>
                             </a>
-                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $group['group_id'] . '&action=delete')?>" class="btn btn-sm btn-default btn-delete" role="button" data-toggle="tooltip" title="<?php echo ICON_DELETE;?>">
+                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $group['group_id'] . '&action=delete')?>" class="btn btn-sm btn-secondary btn-delete" role="button" data-toggle="tooltip" title="<?php echo ICON_DELETE;?>">
                                 <?php echo zen_icon('trash') ?>
                             </a>
                             </div>
-<?php 
+<?php
                     if (isset($gInfo) && is_object($gInfo) && ($group['group_id'] == $gInfo->group_id)) {
                         echo zen_icon('caret-right', ICON_SELECTED, '2x', true);
                     } else {
@@ -160,18 +160,18 @@ if (!empty($action)) {
 
                     $contents = ['form' => zen_draw_form('group_add', FILENAME_CUSTOMER_GROUPS, 'action=insert', 'post', 'class="form-horizontal"')];
                     $contents[] = ['text' => TEXT_NEW_INTRO];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_NAME, 'group_name', 'class="control-label"') . zen_draw_input_field('group_name', '', zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_name') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_COMMENT, 'group_comment', 'class="control-label"') . zen_draw_input_field('group_comment', '', zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_comment') . ' class="form-control"')];
-                    $contents[] = ['align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_SAVE . '</button> <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . (!empty($_GET['gID']) ? 'gID=' . $_GET['gID'] : '')) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_NAME, 'group_name', 'class="form-label"') . zen_draw_input_field('group_name', '', zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_name') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_COMMENT, 'group_comment', 'class="form-label"') . zen_draw_input_field('group_comment', '', zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_comment') . ' class="form-control"')];
+                    $contents[] = ['align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_SAVE . '</button> <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . (!empty($_GET['gID']) ? 'gID=' . $_GET['gID'] : '')) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     break;
                 case 'edit':
                     $heading[] = ['text' => '<h4>' . TEXT_HEADING_EDIT_GROUP . '</h4>'];
 
                     $contents = ['form' => zen_draw_form('group_edit', FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $gInfo->group_id . '&action=save', 'post', 'class="form-horizontal"')];
                     $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_NAME, 'group_name', 'class="control-label"') . zen_draw_input_field('group_name', htmlspecialchars($gInfo->group_name, ENT_COMPAT, CHARSET, TRUE), zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_name') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_COMMENT, 'group_comment', 'class="control-label"') . zen_draw_input_field('group_comment', zen_output_string_protected($gInfo->group_comment), zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_comment') . ' class="form-control"')];
-                    $contents[] = ['align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_SAVE . '</button> <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $gInfo->group_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_NAME, 'group_name', 'class="form-label"') . zen_draw_input_field('group_name', htmlspecialchars($gInfo->group_name, ENT_COMPAT, CHARSET, TRUE), zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_name') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_GROUP_COMMENT, 'group_comment', 'class="form-label"') . zen_draw_input_field('group_comment', zen_output_string_protected($gInfo->group_comment), zen_set_field_length(TABLE_CUSTOMER_GROUPS, 'group_comment') . ' class="form-control"')];
+                    $contents[] = ['align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_SAVE . '</button> <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $gInfo->group_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     break;
                 case 'delete':
                     $heading[] = ['text' => '<h4>' . TEXT_HEADING_DELETE_GROUP . '</h4>'];
@@ -186,7 +186,7 @@ if (!empty($action)) {
                     }
 
                     $contents[] = ['align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button>
-                                <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $gInfo->group_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                                <a href="' . zen_href_link(FILENAME_CUSTOMER_GROUPS, $href_page_param . 'gID=' . $gInfo->group_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     break;
                 default:
                     if (isset($gInfo) && is_object($gInfo) && !empty($gInfo->group_name)) {

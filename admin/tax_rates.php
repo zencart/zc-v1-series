@@ -79,7 +79,7 @@ if (!empty($action)) {
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
           <table class="table table-hover" role="listbox">
-            <thead>
+            <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_TAX_RATE_PRIORITY; ?></th>
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_TAX_CLASS_TITLE; ?></th>
@@ -139,24 +139,24 @@ if (!empty($action)) {
 
                 $contents = array('form' => zen_draw_form('rates', FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&action=insert'));
                 $contents[] = array('text' => TEXT_INFO_INSERT_INTRO);
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_CLASS_TITLE, 'tax_class_id', 'class="control-label"') . zen_tax_classes_pull_down('name="tax_class_id" class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_ZONE_NAME, 'tax_zone_id', 'class="control-label"') . zen_geo_zones_pull_down('name="tax_zone_id" class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE, 'tax_rate', 'class="control-label"') . zen_draw_input_field('tax_rate', '', 'class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_RATE_DESCRIPTION, 'tax_description', 'class="control-label"') . zen_draw_input_field('tax_description', '', 'class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE_PRIORITY, 'tax_priority', 'class="control-label"') . zen_draw_input_field('tax_priority', '', 'class="form-control"'));
-                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_INSERT . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page']) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>');
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_CLASS_TITLE, 'tax_class_id', 'class="form-label"') . zen_tax_classes_pull_down('name="tax_class_id" class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_ZONE_NAME, 'tax_zone_id', 'class="form-label"') . zen_geo_zones_pull_down('name="tax_zone_id" class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE, 'tax_rate', 'class="form-label"') . zen_draw_input_field('tax_rate', '', 'class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_RATE_DESCRIPTION, 'tax_description', 'class="form-label"') . zen_draw_input_field('tax_description', '', 'class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE_PRIORITY, 'tax_priority', 'class="form-label"') . zen_draw_input_field('tax_priority', '', 'class="form-control"'));
+                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_INSERT . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page']) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>');
                 break;
               case 'edit':
                 $heading[] = array('text' => '<h4>' . TEXT_INFO_HEADING_EDIT_TAX_RATE . '</h4>');
 
                 $contents = array('form' => zen_draw_form('rates', FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&tID=' . $trInfo->tax_rates_id . '&action=save'));
                 $contents[] = array('text' => TEXT_INFO_EDIT_INTRO);
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_CLASS_TITLE, 'tax_class_id', 'class="control-label"') . zen_tax_classes_pull_down('name="tax_class_id" class="form-control"', $trInfo->tax_class_id));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_ZONE_NAME, 'tax_zone_id', 'class="control-label"') . zen_geo_zones_pull_down('name="tax_zone_id" class="form-control"', $trInfo->geo_zone_id));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE, 'tax_rate', 'class="control-label"') . zen_draw_input_field('tax_rate', $trInfo->tax_rate, 'class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_RATE_DESCRIPTION, 'tax_description', 'class="control-label"') . zen_draw_input_field('tax_description', htmlspecialchars($trInfo->tax_description, ENT_COMPAT, CHARSET, TRUE), 'class="form-control"'));
-                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE_PRIORITY, 'tax_priority', 'class="control-label"') . zen_draw_input_field('tax_priority', $trInfo->tax_priority, 'class="form-control"'));
-                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_UPDATE . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&tID=' . $trInfo->tax_rates_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>');
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_CLASS_TITLE, 'tax_class_id', 'class="form-label"') . zen_tax_classes_pull_down('name="tax_class_id" class="form-control"', $trInfo->tax_class_id));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_ZONE_NAME, 'tax_zone_id', 'class="form-label"') . zen_geo_zones_pull_down('name="tax_zone_id" class="form-control"', $trInfo->geo_zone_id));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE, 'tax_rate', 'class="form-label"') . zen_draw_input_field('tax_rate', $trInfo->tax_rate, 'class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_RATE_DESCRIPTION, 'tax_description', 'class="form-label"') . zen_draw_input_field('tax_description', htmlspecialchars($trInfo->tax_description, ENT_COMPAT, CHARSET, TRUE), 'class="form-control"'));
+                $contents[] = array('text' => '<br>' . zen_draw_label(TEXT_INFO_TAX_RATE_PRIORITY, 'tax_priority', 'class="form-label"') . zen_draw_input_field('tax_priority', $trInfo->tax_priority, 'class="form-control"'));
+                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_UPDATE . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&tID=' . $trInfo->tax_rates_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>');
                 break;
               case 'delete':
                 $heading[] = array('text' => 'h4>' . TEXT_INFO_HEADING_DELETE_TAX_RATE . '</h4>');
@@ -164,7 +164,7 @@ if (!empty($action)) {
                 $contents = array('form' => zen_draw_form('rates', FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&action=deleteconfirm') . zen_draw_hidden_field('tID', $trInfo->tax_rates_id));
                 $contents[] = array('text' => TEXT_INFO_DELETE_INTRO);
                 $contents[] = array('text' => '<br><b>' . $trInfo->tax_class_title . ' ' . $trInfo->tax_rate . '%</b>');
-                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&tID=' . $trInfo->tax_rates_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>');
+                $contents[] = array('align' => 'text-center', 'text' => '<br><button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button> <a href="' . zen_href_link(FILENAME_TAX_RATES, 'page=' . $_GET['page'] . '&tID=' . $trInfo->tax_rates_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>');
                 break;
               default:
                 if (!empty($trInfo) && is_object($trInfo)) {

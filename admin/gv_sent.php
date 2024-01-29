@@ -25,7 +25,7 @@ $currencies = new currencies();
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
             <table class="table table-hover table-striped">
-              <thead>
+              <thead class="table-dark">
                 <tr>
                   <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_SENDERS_NAME; ?></th>
                   <th class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_VOUCHER_VALUE; ?></th>

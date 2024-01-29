@@ -124,7 +124,7 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
       </table>
       <div><?php echo zen_draw_separator('pixel_trans.gif', '', '10'); ?></div>
       <table class="table table-striped">
-        <thead>
+        <thead class="table-dark">
           <tr class="dataTableHeadingRow">
             <?php if ($show_product_images_pack) { ?>
             <th class="dataTableHeadingContent" style="width: <?php echo (int)$img_width . 'px'; ?>">&nbsp;</th>
@@ -264,7 +264,7 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
       </table>
       <?php if (ORDER_COMMENTS_PACKING_SLIP > 0) { ?>
         <table class="table table-condensed">
-          <thead>
+          <thead class="table-dark">
             <tr>
               <th class="text-center"><strong><?php echo TABLE_HEADING_DATE_ADDED; ?></strong></th>
               <th class="text-center"><strong><?php echo TABLE_HEADING_STATUS; ?></strong></th>

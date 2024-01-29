@@ -30,10 +30,10 @@ foreach ($visits as $data) {
     $i++;
 }
 ?>
-  <div class="panel panel-default reportBox">
-    <div class="panel-heading header"><?php echo sprintf(TEXT_COUNTER_HISTORY_TITLE, (int)$maxRows); ?></div>
+  <div class="card reportBox mb-3">
+    <div class="card-header header"><?php echo sprintf(TEXT_COUNTER_HISTORY_TITLE, (int)$maxRows); ?></div>
     <?php if (count($visit_history)) { ?>
-      <div class="panel-body">
+      <div class="card-body">
         <div id="trafficgraph"></div>
       </div>
       <table class="table table-striped table-condensed">

@@ -190,7 +190,7 @@ for ($i = 0; $i < $report->size; $i++) {
       <div class="col-sm-12 col-md-6">
         <div class="table-responsive">
           <table class="table table-striped table-hover">
-            <thead>
+            <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"></th>
                 <th class="dataTableHeadingContent text-center"><?php echo REPORT_TEXT_ORDERS; ?></th>

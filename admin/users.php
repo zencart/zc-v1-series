@@ -126,7 +126,7 @@ $userList = zen_get_users();
         echo zen_draw_hidden_field('user', $user);
     } ?>
     <table class="table table-striped">
-        <thead>
+        <thead class="table-dark">
         <tr class="headingRow">
             <th class="id"><?php echo TEXT_ID ?></th>
             <th class="name"><?php echo TEXT_ADMIN_NAME ?></th>
@@ -150,7 +150,7 @@ $userList = zen_get_users();
                 <td class="confirm"><?php echo zen_draw_input_field('confirm', isset($_POST['confirm']) ? $_POST['confirm'] : '', 'class="form-control" autocomplete="off"', true, 'password'); ?></td>
                 <td class="actions">
                     <button type="submit" class="btn btn-primary"><?php echo IMAGE_INSERT; ?></button>
-                    <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a></td>
+                    <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a></td>
             </tr>
         <?php } ?>
         <?php if (count($userList) > 0) { ?>
@@ -184,7 +184,7 @@ $userList = zen_get_users();
                     <?php if ($action != 'add' && $user == $userDetails['id']) { ?>
                         <td class="actions">
                             <button type="submit" class="btn btn-primary"><?php echo IMAGE_UPDATE; ?></button>
-                            <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a>
+                            <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a>
                         </td>
                     <?php } else { ?>
                         <td class="actions">&nbsp;</td>
@@ -208,7 +208,7 @@ $userList = zen_get_users();
                             <?php echo zen_draw_hidden_field('user', $userDetails['id']); ?>
                             <?php echo ($action == 'delete' && $userDetails['id'] == $user ? TEXT_CONFIRM_DELETE : '') . ($btn_class == '' ? '' : '<button class="' . $btn_class . '">' . IMAGE_DELETE . '</button>') ?>
                             <?php if ($action == 'delete' && $userDetails['id'] == $user) { ?>
-                                <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a>
+                                <a href="<?php echo zen_href_link(FILENAME_USERS) ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a>
                             <?php } ?>
                             <?php echo '</form>'; ?>
                         <?php } ?>
