@@ -13,11 +13,8 @@ if (!defined('IS_ADMIN_FLAG')) {
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo TITLE; ?></title>
-<?php if (file_exists($value = DIR_WS_INCLUDES . 'css/bootstrap.min.css')) { ?>
-    <link rel="stylesheet" href="<?php echo $value; ?>">
-<?php } else { ?>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<?php } ?>
 <?php if (file_exists($value = DIR_WS_INCLUDES . 'fontawesome/css/fontawesome.min.css')) { ?>
     <link rel="stylesheet" href="<?php echo $value; ?>">
     <link rel="stylesheet" href="<?php echo DIR_WS_INCLUDES ?>fontawesome/css/solid.min.css">
