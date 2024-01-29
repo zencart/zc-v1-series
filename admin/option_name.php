@@ -69,7 +69,8 @@ if ($_GET['action'] == "update_sort_order") {
       <h1><?php echo HEADING_TITLE; ?></h1>
       <div class="table-responsive">
         <!-- body_text //-->
-        <table class="table table-condensed table-striped">
+          <div class="table-responsive">
+          <table class="table table-condensed table-striped">
           <thead class="table-dark">
             <tr class="dataTableHeadingRow">
               <th class="dataTableHeadingContent text-center" colspan="2"><?php echo TEXT_EDIT_ALL; ?></th>
@@ -153,6 +154,7 @@ if ($_GET['action'] == "update_sort_order") {
                 </td>
             </tr>
         </table>
+          </div>
         <!-- body_text_eof //-->
         <!-- body_eof //-->
       </div>

@@ -576,7 +576,8 @@ if (!empty($action) && $order_exists === true) {
         <div class="row noprint"><?php echo zen_draw_separator(); ?></div>
         <div class="row">
           <div class="col-sm-4">
-            <table class="table">
+              <div class="table-responsive">
+              <table class="table">
               <tr>
                 <td><strong><?php echo ENTRY_CUSTOMER_ADDRESS; ?></strong></td>
                 <td><?php echo zen_address_format($order->customer['format_id'], $order->customer, 1, '', '<br>'); ?></td>
@@ -622,8 +623,10 @@ if (!empty($action) && $order_exists === true) {
                 <td class="noprint"><?php echo '<a href="' . zen_href_link(FILENAME_CUSTOMERS, 'search=' . $order->customer['email_address'], 'SSL') . '">' . TEXT_CUSTOMER_LOOKUP . '</a>'; ?></td>
               </tr>
             </table>
+              </div>
           </div>
           <div class="col-sm-4">
+              <div class="table-responsive">
             <table class="table">
               <tr>
                 <td><strong><?php echo ENTRY_SHIPPING_ADDRESS; ?></strong></td>
@@ -643,8 +646,10 @@ if (!empty($action) && $order_exists === true) {
                 <tr><td>&nbsp;</td><td><?php echo $address_footer_suffix; ?></td></tr>
 <?php } ?>
             </table>
+              </div>
           </div>
           <div class="col-sm-4">
+              <div class="table-responsive">
             <table class="table">
               <tr>
                 <td><strong><?php echo ENTRY_BILLING_ADDRESS; ?></strong></td>
@@ -662,11 +667,13 @@ if (!empty($action) && $order_exists === true) {
                 <tr><td>&nbsp;</td><td><?php echo $address_footer_suffix; ?></td></tr>
 <?php } ?>
             </table>
+              </div>
           </div>
         </div>
         <div class="row noprint"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></div>
         <div class="row"><strong><?php echo ENTRY_ORDER_ID . $oID; ?></strong></div>
         <div class="row">
+            <div class="table-responsive">
           <table>
             <tr>
               <td class="main"><strong><?php echo ENTRY_DATE_PURCHASED; ?></strong></td>
@@ -737,6 +744,7 @@ if (!empty($action) && $order_exists === true) {
             }
             ?>
           </table>
+            </div>
           <?php $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_PAYMENTDATA_COLUMN2', $oID, $order); ?>
         </div>
         <?php
@@ -750,6 +758,7 @@ if (!empty($action) && $order_exists === true) {
         ?>
 
         <div class="row">
+            <div class="table-responsive">
           <table class="table">
             <tr class="dataTableHeadingRow">
               <th class="dataTableHeadingContent" colspan="2"><?php echo TABLE_HEADING_PRODUCTS_NAME; ?></th>
@@ -863,6 +872,7 @@ if (!empty($action) && $order_exists === true) {
               </td>
             </tr>
           </table>
+            </div>
         </div>
 <?php
     // -----
@@ -880,6 +890,7 @@ if (!empty($action) && $order_exists === true) {
         </div>
         <div class="row noprint"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></div>
         <div class="row">
+            <div class="table-responsive">
           <table class="table-condensed table-striped table-bordered">
             <thead class="table-dark">
               <tr>
@@ -989,6 +1000,7 @@ if (!empty($action) && $order_exists === true) {
               ?>
             </tbody>
           </table>
+            </div>
         </div>
 <?php
     $additional_content = false;
@@ -1120,7 +1132,8 @@ if (!empty($action) && $order_exists === true) {
 ?>
         <div class="row"><div class="col-12"><?php echo TEXT_LEGEND . ' ' . zen_icon('status-red', TEXT_BILLING_SHIPPING_MISMATCH) . ' ' . TEXT_BILLING_SHIPPING_MISMATCH . $extra_legends; ?></div></div>
         <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 configurationColumnLeft">
+              <div class="table-responsive">
             <table id="orders-table" class="table table-hover">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
@@ -1421,6 +1434,8 @@ if (!empty($action) && $order_exists === true) {
               ?>
               </tbody>
             </table>
+              </div>
+              <div class="table-responsive">
             <table class="table">
               <tr>
                   <td><?php echo $orders_split->display_count($orders_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_ORDERS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_ORDERS); ?></td>
@@ -1445,8 +1460,9 @@ if (!empty($action) && $order_exists === true) {
               }
               ?>
             </table>
+              </div>
           </div>
-          <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 configurationColumnRight">
               <?php
               $heading = [];
               $contents = [];

@@ -452,6 +452,7 @@ function translate_type_to_name($opt_type)
                     <a href="<?php echo zen_href_link(FILENAME_OPTIONS_NAME_MANAGER, zen_get_all_get_params(['action', 'page']) . ($currentPage !== 0 ? '&page=' . $currentPage : '')); ?>" class="btn btn-secondary" role="button"><?php echo TEXT_CANCEL; ?></a>
                 </div>
             </div>
+    <div class="table-responsive">
             <table class="table table-striped">
                 <tr class="dataTableHeadingRow">
                     <th class="dataTableHeadingContent text-center"><?php echo TEXT_OPTION_ID; ?></th>
@@ -472,6 +473,7 @@ function translate_type_to_name($opt_type)
                     <td colspan="4"><?php echo zen_draw_separator('pixel_black.gif', '100%', '2'); ?></td>
                 </tr>
             </table>
+    </div>
         <?php } else { ?>
             <div class="row">
                 <div class="col-sm-9"><?php echo TEXT_OK_TO_DELETE; ?></div>
@@ -507,6 +509,7 @@ function translate_type_to_name($opt_type)
                 <div class="col-sm-6 text-right"><?php echo $options_split->display_links($options_query_numrows, MAX_ROW_LISTS_OPTIONS, MAX_DISPLAY_PAGE_LINKS, $currentPage, zen_get_all_get_params(['page'])); ?></div>
             </div>
         <?php } ?>
+    <div class="table-responsive">
         <table class="table table-striped">
             <thead class="table-dark">
             <tr class="dataTableHeadingRow">
@@ -690,6 +693,7 @@ function translate_type_to_name($opt_type)
             </tr>
             </tbody>
         </table>
+    </div>
     <?php }
     //eof Options Names
     ////////////////////////////////////////////////////////////////////////////

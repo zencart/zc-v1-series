@@ -63,7 +63,8 @@ if (!empty($action)) {
       <div class="row">
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover" role="listbox">
+            <div class="table-responsive">
+            <table class="table table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_COUNTRY_NAME; ?></th>
@@ -110,6 +111,7 @@ if (!empty($action)) {
             ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -164,7 +166,8 @@ if (!empty($action)) {
         </div>
 
         <div class="row">
-          <table class="table">
+            <div class="table-responsive">
+            <table class="table">
             <tr>
               <td><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['zone_page'], TEXT_DISPLAY_NUMBER_OF_ZONES); ?></td>
               <td class="text-right"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['zone_page'], '', 'zone_page'); ?></td>
@@ -179,6 +182,7 @@ if (!empty($action)) {
             }
             ?>
           </table>
+            </div>
         </div>
       </div>
       <!-- body_text_eof //-->

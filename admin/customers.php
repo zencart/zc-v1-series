@@ -1192,7 +1192,7 @@ if (!empty($action)) {
             <?php
         } else {
             ?>
-            <div class="offset-sm-8 col-sm-4">
+            <div class="col-sm-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8">
                 <?php include DIR_WS_MODULES . 'search_box.php'; ?>
             </div>
             <?php
@@ -1255,7 +1255,8 @@ if (!empty($action)) {
             }
             ?>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 configurationColumnLeft">
+                    <div class="table-responsive">
                     <table class="table table-hover" role="listbox">
                         <thead class="table-dark">
                         <tr class="dataTableHeadingRow">
@@ -1810,9 +1811,10 @@ if (!empty($action)) {
                         ?>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 configurationColumnRight">
                     <?php
                     $heading = [];
                     $contents = [];
@@ -2159,6 +2161,7 @@ if (!empty($action)) {
                 </div>
             </div>
             <div class="row">
+                <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <td>
@@ -2194,6 +2197,7 @@ if (!empty($action)) {
                     }
                     ?>
                 </table>
+                </div>
             </div>
             <?php
         }

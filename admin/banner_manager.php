@@ -265,6 +265,7 @@ if (!empty($action)) {
       <!-- body_text //-->
       <?php if ($action == '') { ?>
         <div class="row">
+            <div class="table-responsive">
           <table class="table-condensed">
             <tr>
               <td class="text-right"><?php echo TEXT_LEGEND; ?></td>
@@ -291,6 +292,7 @@ if (!empty($action)) {
               </div></td>
             </tr>
           </table>
+            </div>
         </div>
       <?php } // legend ?>
       <?php
@@ -478,6 +480,7 @@ if (!empty($action)) {
         ?>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+              <div class="table-responsive">
             <table class="table table-hover table-striped">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
@@ -589,6 +592,7 @@ if (!empty($action)) {
                 <?php } ?>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -694,6 +698,7 @@ if (!empty($action)) {
           </div>
         </div>
         <div class="row">
+            <div class="table-responsive">
           <table class="table">
             <tr>
               <td><?php echo $banners_split->display_count($banners_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_BANNERS); ?></td>
@@ -703,6 +708,7 @@ if (!empty($action)) {
               <td class="text-right" colspan="2"><a href="<?php echo zen_href_link(FILENAME_BANNER_MANAGER, 'action=new'); ?>" class="btn btn-primary" role="button"><?php echo IMAGE_NEW_BANNER; ?></a></td>
             </tr>
           </table>
+            </div>
         </div>
       <?php } ?>
 

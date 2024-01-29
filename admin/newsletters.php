@@ -328,7 +328,8 @@ if (!empty($action)) {
         ?>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-            <table class="table table-striped table-hover">
+              <div class="table-responsive">
+              <table class="table table-striped table-hover">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
                   <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_NEWSLETTERS; ?></th>
@@ -379,6 +380,7 @@ if (!empty($action)) {
                   <?php } ?>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
               <?php
@@ -416,7 +418,8 @@ if (!empty($action)) {
           </div>
         </div>
         <div class="row">
-          <table class="table">
+            <div class="table-responsive">
+            <table class="table">
             <tr>
               <td><?php echo $newsletters_split->display_count($newsletters_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_NEWSLETTERS); ?></td>
               <td class="text-right"><?php echo $newsletters_split->display_links($newsletters_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
@@ -425,6 +428,7 @@ if (!empty($action)) {
               <td class="text-right" colspan="2"><a href="<?php echo zen_href_link(FILENAME_NEWSLETTERS, 'action=new'); ?>" class="btn btn-primary" role="button"><?php echo IMAGE_NEW_NEWSLETTER; ?></a></td>
             </tr>
           </table>
+            </div>
         </div>
         <?php
       }

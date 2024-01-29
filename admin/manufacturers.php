@@ -167,7 +167,8 @@ if (!empty($action)) {
       <div class="row">
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover">
+            <div class="table-responsive">
+            <table class="table table-hover">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_ID; ?></th>
@@ -293,6 +294,7 @@ if (is_array($extra_data)) {
               <?php } ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
           <?php
@@ -443,12 +445,14 @@ if (is_array($extra_data)) {
         </div>
       <?php } ?>
       <div class="row">
-        <table class="table">
+          <div class="table-responsive">
+          <table class="table">
           <tr>
             <td><?php echo $manufacturers_split->display_count($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_MANUFACTURERS); ?></td>
             <td class="text-right"><?php echo $manufacturers_split->display_links($manufacturers_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
           </tr>
         </table>
+          </div>
       </div>
       <!-- body_eof //-->
     </div>

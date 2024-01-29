@@ -355,6 +355,7 @@ switch ($_GET['action']) {
           case 'voucherreport':
             ?>
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
               <table class="table table-striped table-hover">
                 <thead class="table-dark">
                   <tr class="dataTableHeadingRow">
@@ -409,6 +410,8 @@ switch ($_GET['action']) {
                   <?php } ?>
                 </tbody>
               </table>
+                </div>
+                <div class="table-responsive">
               <table class="table">
                 <tr>
                   <td><?php echo $cc_split->display_count($cc_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_DISCOUNT_COUPONS_REPORTS, $_GET['reports_page'], TEXT_DISPLAY_NUMBER_OF_COUPONS); ?></td>
@@ -418,6 +421,7 @@ switch ($_GET['action']) {
                   <td class="text-right" colspan="2"><a href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN, (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'cid=' . (!empty($cInfo->coupon_id) ? $cInfo->coupon_id : $_GET['cid']) . (isset($_GET['status']) ? '&status=' . $_GET['status'] : '')); ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_BACK; ?></a></td>
                 </tr>
               </table>
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
               <?php
@@ -446,6 +450,7 @@ switch ($_GET['action']) {
           case 'voucherreportduplicates':
             ?>
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
               <table class="table table-hover table-striped">
                 <thead class="table-dark">
                   <tr class="dataTableHeadingRow">
@@ -505,6 +510,8 @@ switch ($_GET['action']) {
                   <?php } ?>
                 </tbody>
               </table>
+                </div>
+                <div class="table-responsive">
               <table class="table">
                 <tr>
                   <td><?php echo $cc_split->display_count($cc_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_DISCOUNT_COUPONS_REPORTS, $_GET['reports_page'], TEXT_DISPLAY_NUMBER_OF_COUPONS); ?></td>
@@ -514,6 +521,7 @@ switch ($_GET['action']) {
                   <td class="text-right" colspan="2"><a href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN, (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'cid=' . $cc_previous_cid . (isset($_GET['status']) ? '&status=' . $_GET['status'] : '')); ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_BACK; ?></a></td>
                 </tr>
               </table>
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
               <?php
@@ -548,6 +556,7 @@ switch ($_GET['action']) {
             $mail_sent_to = $audience_select['query_name'];
             echo zen_draw_form('mail', FILENAME_COUPON_ADMIN, 'action=send_email_to_user&cid=' . $_GET['cid']);
             ?>
+          <div class="table-responsive">
             <table class="table">
               <tr>
                 <td class="text-right col-sm-3"><b><?php echo TEXT_CUSTOMER; ?></b></td>
@@ -591,6 +600,7 @@ switch ($_GET['action']) {
                 </td>
               </tr>
             </table>
+          </div>
             <?php echo '</form>'; ?>
             <?php
             break;
@@ -650,6 +660,7 @@ switch ($_GET['action']) {
           case 'update_preview':
             echo zen_draw_form('coupon', FILENAME_COUPON_ADMIN, 'action=update_confirm&oldaction=' . $_GET['oldaction'] . '&cid=' . $_GET['cid'] . (isset($_GET['page']) ? '&page=' . $_GET['page'] : ''));
             ?>
+          <div class="table-responsive">
             <table class="table">
               <tr>
                 <td class="main col-sm-3"><?php echo COUPON_ZONE_RESTRICTION; ?></td>
@@ -755,6 +766,7 @@ switch ($_GET['action']) {
                 <td></td>
               </tr>
             </table>
+          </div>
             <?php echo '</form>'; ?>
             <?php
             break;
@@ -1041,6 +1053,7 @@ switch ($_GET['action']) {
             <?php require DIR_WS_MODULES . 'search_box.php'; ?>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
               <table class="table table-hover table-striped">
                 <thead class="table-dark">
                   <tr class="dataTableHeadingRow">
@@ -1146,6 +1159,8 @@ switch ($_GET['action']) {
                   <?php } ?>
                 </tbody>
               </table>
+                </div>
+                <div class="table-responsive">
               <table class="table">
                 <tr>
                   <td><?php echo $cc_split->display_count($cc_query_numrows, $maxDisplaySearchResults, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_COUPONS); ?></td>
@@ -1155,6 +1170,7 @@ switch ($_GET['action']) {
                   <td class="text-right" colspan="2"><a id="couponInsert" href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN, (isset($_GET['page']) ? 'page=' . $_GET['page'] . '&' : '') . 'cid=' . (int)$cInfo->coupon_id . '&action=new'); ?>" class="btn btn-primary" role="button"><?php echo IMAGE_INSERT; ?></a></td>
                 </tr>
               </table>
+                </div>
             </div>
             <?php
             $heading = [];

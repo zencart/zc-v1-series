@@ -79,7 +79,8 @@ if (!empty($action)) {
       <h1><?php echo HEADING_TITLE; ?></h1>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover" role="listbox">
+            <div class="table-responsive">
+            <table class="table table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_TAX_CLASS_ID; ?></th>
@@ -121,6 +122,7 @@ if (!empty($action)) {
 
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -173,7 +175,8 @@ if (!empty($action)) {
         </div>
       </div>
       <div class="row">
-        <table class="table">
+          <div class="table-responsive">
+          <table class="table">
           <tr>
             <td><?php echo $classes_split->display_count($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_TAX_CLASSES); ?></td>
             <td class="text-right"><?php echo $classes_split->display_links($classes_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
@@ -188,6 +191,7 @@ if (!empty($action)) {
           }
           ?>
         </table>
+          </div>
       </div>
       <!-- body_text_eof //-->
     </div>

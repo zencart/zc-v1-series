@@ -658,6 +658,7 @@ if ($target_subcategory_count > $max_input_vars) { //warning when in excess of P
                 </div>
                 <?php echo zen_draw_form('update', FILENAME_PRODUCTS_TO_CATEGORIES, 'action=update_product&products_filter=' . $products_filter . '&current_category_id=' . $current_category_id . '&target_category_id=' . $target_category_id, 'post');
                 zen_draw_hidden_field('current_master_categories_id', $product_to_copy->fields['master_categories_id']); ?>
+                <div class="table-responsive">
                 <table class="table-bordered">
                     <thead class="table-dark">
                     <?php $cnt_columns = 0; ?>
@@ -725,6 +726,7 @@ if ($target_subcategory_count > $max_input_vars) { //warning when in excess of P
                     ?>
                     </tbody>
                 </table>
+                </div>
                 <div class="form-group row mb-3 text-center">
                     <button type="submit" class="btn btn-primary floatButton"
                             title="<?php echo BUTTON_UPDATE_CATEGORY_LINKS . " - " . $product_to_copy->fields['products_name']; ?>"><?php echo BUTTON_UPDATE_CATEGORY_LINKS . '<br><span>' . $product_to_copy->fields['products_model'] . '<br>' . $product_to_copy->fields['products_name'] . '<br>(#' . $products_filter . ')'; ?></span></button>

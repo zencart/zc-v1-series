@@ -313,8 +313,9 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
       <?php if ($action === '') { ?>
         <div class="row">
           <div class="col-md-4">
-            <table class="table-condensed">
-              <thead class="table-dark">
+              <div class="table-responsive">
+            <table class="table table-condensed">
+              <thead class="table-light">
                 <tr>
                   <th class="smallText"><?php echo TEXT_LEGEND; ?></th>
                   <th class="text-center smallText"><?php echo TEXT_LEGEND_STATUS_OFF; ?></th>
@@ -335,7 +336,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
                   <td class="text-center">
                     <?php echo zen_icon('linked', size: 'lg', hidden: true) ?>
                   </td>
-                  <td class="text-center btn-group actions">
+                  <td class="text-center">
                     <span class="btn-sm btn-metatags-on">
                       <?php echo zen_icon('metatags', hidden: true) ?>
                     </span>
@@ -352,6 +353,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
                 </tr>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-md-4">
             <?php echo zen_draw_form('set_editor_form', FILENAME_CATEGORY_PRODUCT_LISTING, '', 'get', 'class="form-horizontal"'); ?>
@@ -532,7 +534,8 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
           $wholesale_pricing_indicator = '<span class="text-danger">*</span>';
           $wholesale_pricing_heading = ($wholesale_pricing_enabled === true) ? '<br>' . $wholesale_pricing_indicator . '<small>' . TABLE_HEADING_HAS_WHOLESALE_PRICE . '</small>' : '';
           ?>
-          <table id="categories-products-table" class="table table-striped">
+            <div class="table-responsive">
+            <table id="categories-products-table" class="table table-striped">
             <thead class="table-dark">
               <tr>
                 <th class="text-right shrink"><?php echo TABLE_HEADING_ID; ?></th>
@@ -1063,6 +1066,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
               </tr>
             <?php } ?>
           </table>
+            </div>
         </div>
         <?php
         $heading = [];
@@ -1284,6 +1288,7 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
           </div>
         </div>
         <div class="row text-center alert">
+            <div class="col-12">
           <?php
           // warning if products are in top level categories
           $check_products_top_categories = zen_get_linked_products_for_category(TOPMOST_CATEGORY_PARENT_ID);
@@ -1291,14 +1296,17 @@ if (is_dir(DIR_FS_CATALOG_IMAGES)) {
             echo WARNING_PRODUCTS_IN_TOP_INFO . count($check_products_top_categories) . '<br>';
           }
           ?>
+            </div>
         </div>
         <div class="row text-center">
+            <div class="col-12">
           <?php
 // Split Page
           if ($products_query_numrows > 0) {
             echo $products_split->display_count($products_query_numrows, $max_results, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS) . '<br>' . $products_split->display_links($products_query_numrows, $max_results, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], zen_get_all_get_params(['page', 'info', 'x', 'y', 'pID']));
           }
           ?>
+            </div>
         </div>
       <?php } ?>
     </div>

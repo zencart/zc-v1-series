@@ -45,24 +45,29 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
   <body>
     <div class="container">
       <!-- body_text //-->
+        <div class="table-responsive">
       <table class="table">
         <tr>
           <td class="pageHeading"><?php echo nl2br(STORE_NAME_ADDRESS); ?></td>
           <td class="pageHeading text-right"><?php echo zen_image(DIR_WS_IMAGES . HEADER_LOGO_IMAGE, HEADER_ALT_TEXT); ?></td>
         </tr>
       </table>
+        </div>
       <div><?php echo zen_draw_separator(); ?></div>
       <?php
         $additional_content = false;
         $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_PACKINGSLIP_ADDITIONAL_DATA_TOP', $oID, $additional_content);
           if ($additional_content !== false) {
       ?>
+        <div class="table-responsive">
           <table class="table">
               <tr><td class="main additional_data" colspan="2"><?php echo $additional_content; ?></td></tr>
           </table>
+        </div>
       <?php
           }
       ?>
+        <div class="table-responsive">
       <table class="table">
           <?php
           if ($show_customer == true) {
@@ -108,6 +113,8 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
           </td>
         </tr>
       </table>
+        </div>
+        <div class="table-responsive">
       <table>
         <tr>
           <td class="main"><strong><?php echo ENTRY_ORDER_ID; ?></strong></td>
@@ -122,7 +129,9 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
           <td class="main"><?php echo $order->info['payment_method']; ?></td>
         </tr>
       </table>
+        </div>
       <div><?php echo zen_draw_separator('pixel_trans.gif', '', '10'); ?></div>
+        <div class="table-responsive">
       <table class="table table-striped">
         <thead class="table-dark">
           <tr class="dataTableHeadingRow">
@@ -262,7 +271,9 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
           ?>
         </tbody>
       </table>
+        </div>
       <?php if (ORDER_COMMENTS_PACKING_SLIP > 0) { ?>
+        <div class="table-responsive">
         <table class="table table-condensed">
           <thead class="table-dark">
             <tr>
@@ -317,15 +328,18 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
             ?>
           </tbody>
         </table>
+        </div>
       <?php } // order comments ?>
       <?php
         $additional_content = false;
         $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_PACKINGSLIP_ADDITIONAL_DATA_BOTTOM', $oID, $additional_content);
           if ($additional_content !== false) {
       ?>
+        <div class="table-responsive">
           <table class="table">
               <tr><td class="main additional_data" colspan="2"><?php echo $additional_content; ?></td></tr>
           </table>
+        </div>
       <?php
           }
       ?>

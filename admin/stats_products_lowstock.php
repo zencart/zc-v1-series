@@ -33,6 +33,7 @@ require('includes/application_top.php');
     <div class="container-fluid">
       <h1 class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
       <!-- body //-->
+        <div class="table-responsive">
       <table class="table table-hover">
         <thead class="table-dark">
           <tr class="dataTableHeadingRow">
@@ -68,12 +69,15 @@ require('includes/application_top.php');
           ?>
         </tbody>
       </table>
+        </div>
+        <div class="table-responsive">
       <table class="table">
         <tr>
           <td><?php echo $products_split->display_count($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></td>
           <td class="text-right"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
         </tr>
       </table>
+        </div>
       <!-- body_text_eof //-->
     </div>
     <!-- body_eof //-->

@@ -68,6 +68,7 @@ if (!empty($action)) {
         <h1 class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
                 <table class="table table-hover table-striped">
                     <thead class="table-dark">
                     <tr class="dataTableHeadingRow">
@@ -113,6 +114,7 @@ if (!empty($action)) {
                     ?>
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
                 <?php
@@ -163,6 +165,7 @@ if (!empty($action)) {
                 ?>
             </div>
         </div>
+        <div class="table-responsive">
         <table class="table">
             <tr>
                 <td><?php echo $media_type_split->display_count($media_type_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_MEDIA_TYPES); ?></td>
@@ -176,6 +179,7 @@ if (!empty($action)) {
                 </tr>
             <?php } ?>
         </table>
+        </div>
         <!-- body_text_eof //-->
 
         <!-- body_eof //-->

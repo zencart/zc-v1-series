@@ -171,7 +171,8 @@ if (!empty($_GET['action'])) {
       <div class="row">
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover">
+            <div class="table-responsive">
+            <table class="table table-hover">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_LAYOUT_BOX_NAME; ?></th>
@@ -248,6 +249,7 @@ if (!empty($_GET['action'])) {
           ?>
           </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php

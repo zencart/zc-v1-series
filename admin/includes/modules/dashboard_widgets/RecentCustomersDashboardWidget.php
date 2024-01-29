@@ -25,6 +25,7 @@ $customers = $db->Execute($sql, (int)$maxRows, true, 1800);
 
 <div class="card reportBox mb-3">
     <div class="card-header header"><?php echo BOX_ENTRY_NEW_CUSTOMERS; ?> </div>
+    <div class="table-responsive">
     <table class="table table-striped table-condensed">
     <?php
         foreach ($customers as $customer) {
@@ -43,4 +44,5 @@ $customers = $db->Execute($sql, (int)$maxRows, true, 1800);
       }
     ?>
     </table>
+    </div>
 </div>

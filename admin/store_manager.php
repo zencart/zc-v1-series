@@ -7,7 +7,7 @@
  */
 
   require 'includes/application_top.php';
-  require DIR_FS_CATALOG . 'includes/extra_configures/log_files.php'; 
+  require DIR_FS_CATALOG . 'includes/extra_configures/log_files.php';
   require DIR_WS_CLASSES . 'currencies.php';
   $currencies = new currencies();
 
@@ -190,6 +190,7 @@
 <!-- header_eof //-->
 
 <!-- body //-->
+<div class="table-responsive">
 <table>
   <tr>
 <!-- body_text //-->
@@ -348,6 +349,7 @@ if ($processing_message != '') {
 <!-- body_text_eof //-->
   </tr>
 </table>
+</div>
 <!-- body_eof //-->
 
 <!-- footer //-->

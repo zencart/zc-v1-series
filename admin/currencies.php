@@ -121,6 +121,7 @@ if (!empty($action)) {
       <div class="row">
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+            <div class="table-responsive">
           <table class="table table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
@@ -172,6 +173,7 @@ if (!empty($action)) {
 
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -247,6 +249,7 @@ if (!empty($action)) {
         </div>
       </div>
       <div class="row">
+          <div class="table-responsive">
         <table class="table">
           <tr>
             <td><?php echo $currency_split->display_count($currency_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CURRENCIES); ?></td>
@@ -267,6 +270,7 @@ if (!empty($action)) {
           }
           ?>
         </table>
+          </div>
       </div>
       <!-- body_text_eof //-->
     </div>

@@ -13,6 +13,7 @@ if (!zen_is_superuser() && !check_page(FILENAME_ORDERS, '')) return;
 ?>
 <div class="card reportBox mb-3">
     <div class="card-header header"><?php echo BOX_TITLE_ORDERS; ?> </div>
+    <div class="table-responsive">
     <table class="table table-striped table-condensed">
         <?php
         $ordersStatus = zen_getOrdersStatuses();
@@ -29,4 +30,5 @@ if (!zen_is_superuser() && !check_page(FILENAME_ORDERS, '')) return;
       }
       ?>
     </table>
+    </div>
 </div>

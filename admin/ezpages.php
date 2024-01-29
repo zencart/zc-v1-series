@@ -514,6 +514,7 @@ if (!empty($action)) {
         <div class="row"><?php echo TEXT_LEGEND . ' ' . zen_icon('status-red', TEXT_WARNING_MULTIPLE_SETTINGS) . ' ' . TEXT_WARNING_MULTIPLE_SETTINGS .  $extra_legends; ?></div>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+              <div class="table-responsive">
             <table class="table table-hover" role="listbox">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
@@ -748,6 +749,7 @@ if (!empty($action)) {
                 ?>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -805,6 +807,7 @@ if (!empty($action)) {
           </div>
         </div>
         <div class="row">
+            <div class="table-responsive">
           <table class="table">
             <tr>
               <td><?php echo $pages_split->display_count($pages_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_EZPAGE, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PAGES); ?></td>
@@ -814,6 +817,7 @@ if (!empty($action)) {
               <td class="text-right" colspan="2"><a href="<?php echo zen_href_link(FILENAME_EZPAGES_ADMIN, 'action=new'); ?>" class="btn btn-primary" role="button"><?php echo IMAGE_NEW_PAGE; ?></a></td>
             </tr>
           </table>
+            </div>
         </div>
         <?php
       }

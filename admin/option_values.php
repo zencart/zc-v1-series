@@ -93,7 +93,8 @@ switch ($_GET['action']) {
         if (empty($_GET['options_id'])) {
           ?>
           <?php echo zen_draw_form('quick_jump', FILENAME_PRODUCTS_OPTIONS_VALUES, '', 'get', 'class="form-horizontal"'); ?>
-          <table class="table table-condensed">
+          <div class="table-responsive">
+            <table class="table table-condensed">
             <tr class="dataTableHeadingRow">
               <td colspan="2" class="dataTableHeadingContent text-center"><?php echo TEXT_UPDATE_OPTION_VALUES; ?></td>
             </tr>
@@ -124,12 +125,14 @@ switch ($_GET['action']) {
               </td>
             </tr>
           </table>
+          </div>
           <?php echo '</form>'; ?>
           <?php
         } else {
           ?>
           <?php echo zen_draw_form('update', FILENAME_PRODUCTS_OPTIONS_VALUES, 'action=update_sort_order&options_id=' . $_GET['options_id'], 'post', 'class="form-horizontal"'); ?>
-          <table class="table table-condensed table-striped">
+          <div class="table-responsive">
+            <table class="table table-condensed table-striped">
             <tr class="dataTableHeadingRow">
               <td colspan="3" class="dataTableHeadingContent text-center">
                 <?php echo TEXT_EDIT_OPTION_NAME; ?> <?php echo zen_options_name($_GET['options_id']); ?></td>
@@ -185,6 +188,7 @@ switch ($_GET['action']) {
               </td>
             </tr>
           </table>
+          </div>
           <?php echo '</form>'; ?>
           <?php
         } // which table

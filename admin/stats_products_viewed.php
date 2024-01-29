@@ -96,6 +96,7 @@ $products = $db->Execute($sql);
         </div>
 <br>
 
+        <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-dark">
             <tr class="dataTableHeadingRow">
@@ -124,12 +125,15 @@ $products = $db->Execute($sql);
             ?>
             </tbody>
         </table>
+        </div>
+        <div class="table-responsive">
         <table class="table">
             <tr>
                 <td><?php echo $products_split->display_count($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></td>
                 <td class="text-right"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], 'start_date=' . $startdate . '&end_date=' . $enddate); ?></td>
             </tr>
         </table>
+        </div>
         <!-- body_text_eof //-->
         <!-- body_eof //-->
     </div>

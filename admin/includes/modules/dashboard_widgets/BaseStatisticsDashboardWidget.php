@@ -39,6 +39,7 @@ if ($result->RecordCount()) {
 ?>
 <div class="card reportBox mb-3">
     <div class="card-header header"><?php echo BOX_TITLE_STATISTICS; ?> </div>
+    <div class="table-responsive">
     <table class="table table-striped table-condensed">
         <tr>
           <td> <?php echo BOX_ENTRY_COUNTER_DATE; ?></td>
@@ -79,5 +80,6 @@ if ($result->RecordCount()) {
         <td class="text-right"><?php echo $newsletters; ?></td>
       </tr>
     </table>
+    </div>
 </div>
 

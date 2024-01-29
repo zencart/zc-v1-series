@@ -526,7 +526,8 @@ if (!empty($action)) {
           switch ($action) {
             case 'delete_special':
               ?>
-              <table class="table">
+        <div class="table-responsive">
+          <table class="table">
                 <tr class="pageHeading">
                   <td class="alert text-center"><?php echo TEXT_SPECIALS_CONFIRM_DELETE; ?></td>
                 </tr>
@@ -538,8 +539,10 @@ if (!empty($action)) {
                   </td>
                 </tr>
               </table>
+        </div>
               <?php break; ?>
             <?php case 'delete_featured': ?>
+        <div class="table-responsive">
               <table class="table">
                 <tr class="pageHeading">
                   <td class="alert text-center"><?php echo TEXT_FEATURED_CONFIRM_DELETE; ?></td>
@@ -552,6 +555,7 @@ if (!empty($action)) {
                   </td>
                 </tr>
               </table>
+        </div>
               <?php break; ?>
             <?php
             case 'edit':

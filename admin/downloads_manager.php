@@ -81,7 +81,8 @@ if (!empty($action)) {
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
           <!-- body_text //-->
           <!-- downloads by product_name//-->
-          <table class="table table-hover" role="listbox">
+            <div class="table-responsive">
+            <table class="table table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_ATTRIBUTES_ID; ?></th>
@@ -194,6 +195,7 @@ if (!empty($action)) {
               <?php } ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
 
@@ -243,6 +245,7 @@ if (!empty($action)) {
         <!-- downloads by product_name_eof //-->
       </div>
       <div class="row">
+          <div class="table-responsive">
         <table class="table">
           <tr>
             <td><?php echo $products_downloads_split->display_count($products_downloads_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_DOWNLOADS_MANAGER, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS_DOWNLOADS_MANAGER); ?></td>
@@ -257,6 +260,7 @@ if (!empty($action)) {
             </tr>
           <?php } ?>
         </table>
+          </div>
       </div>
     </div>
     <!-- body_text_eof //-->

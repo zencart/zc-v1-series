@@ -109,6 +109,9 @@ form
 .btn {
     margin: 10px 20px;
 }
+.input-group .btn {
+    margin: 0;
+}
 a.btn-edit {
     background-color: #008000;
     color: #eee;
@@ -160,7 +163,6 @@ a.btn-pricemanager-off {
 }
 
 .btn-metatags-on {
-    background-color: #000;
     color: #ffa500;
 }
 

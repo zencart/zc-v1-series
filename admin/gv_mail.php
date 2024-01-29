@@ -202,7 +202,8 @@ if (!empty($_GET['mail_sent_to']) && $_GET['mail_sent_to']) {
           }
           ?>
           <?php echo zen_draw_form('mail', FILENAME_GV_MAIL, 'action=send_email_to_user'); ?>
-          <table class="table">
+        <div class="table-responsive">
+            <table class="table">
             <tr>
               <td class="text-right col-sm-3"><b><?php echo TEXT_FROM; ?></b></td>
               <td><?php echo htmlspecialchars(stripslashes($_POST['from']), ENT_COMPAT, CHARSET, true); ?></td>
@@ -231,6 +232,7 @@ if (!empty($_GET['mail_sent_to']) && $_GET['mail_sent_to']) {
               <td class="tt"><?php echo nl2br(htmlspecialchars(stripslashes($_POST['message']), ENT_COMPAT, CHARSET, true)); ?></td>
             </tr>
           </table>
+        </div>
           <div class="form-group row mb-3">
             <div class="offset-sm-3 col-sm-9">
               <?php echo($_POST['amount'] <= 0 ? '' : '<button type="submit" class="btn btn-primary" name="send">' . IMAGE_SEND . '</button>&nbsp;'); ?><button type="submit" class="btn btn-info" name="back"><?php echo IMAGE_BACK; ?></button>&nbsp;<button type="submit" class="btn btn-secondary" name="cancel"><?php echo IMAGE_CANCEL; ?></button>

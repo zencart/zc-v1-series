@@ -83,7 +83,8 @@ $products_filter_name_model = (isset($_GET['products_filter_name_model']) ? $_GE
 
         $chk_orders_products = $db->Execute($chk_orders_products_query);
         ?>
-        <table class="table table-hover">
+        <div class="table-responsive">
+          <table class="table table-hover">
           <thead class="table-dark">
             <tr class="dataTableHeadingRow">
               <th class="dataTableHeadingContent right"><?php echo TABLE_HEADING_CUSTOMERS_ID; ?></th>
@@ -125,18 +126,22 @@ $products_filter_name_model = (isset($_GET['products_filter_name_model']) ? $_GE
             <?php } ?>
           </tbody>
         </table>
+        </div>
 
-        <table class="table">
+        <div class="table-responsive">
+          <table class="table">
           <tr>
             <td><?php echo $chk_orders_products_split->display_count($chk_orders_products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></td>
             <td class="text-right"><?php echo $chk_orders_products_split->display_links($chk_orders_products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], zen_get_all_get_params(array('page', 'x', 'y'))); ?></td>
           </tr>
         </table>
+        </div>
 
         <?php
       } else {
 // all products by name and quantity display
         ?>
+        <div class="table-responsive">
         <table class="table">
           <tr class="dataTableHeadingRow">
             <th class="dataTableHeadingContent right"><?php echo TABLE_HEADING_NUMBER; ?></th>
@@ -164,12 +169,15 @@ $products_filter_name_model = (isset($_GET['products_filter_name_model']) ? $_GE
             </tr>
           <?php } ?>
         </table>
+        </div>
+        <div class="table-responsive">
         <table class="table">
           <tr>
             <td><?php echo $products_split->display_count($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_PRODUCTS); ?></td>
             <td class="text-right"><?php echo $products_split->display_links($products_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_REPORTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
           </tr>
         </table>
+        </div>
         <?php
       } // $products_filter > 0
       ?>

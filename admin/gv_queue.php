@@ -134,7 +134,8 @@ if ($_GET['action'] == 'confirmrelease' && isset($_POST['gid'])) {
       <!-- body_text //-->
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover table-striped">
+            <div class="table-responsive">
+            <table class="table table-hover table-striped">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CUSTOMERS; ?></th>
@@ -181,12 +182,15 @@ if ($_GET['action'] == 'confirmrelease' && isset($_POST['gid'])) {
               <?php } ?>
               </tbody>
           </table>
+            </div>
+            <div class="table-responsive">
           <table class="table">
             <tr>
               <td><?php echo $gv_split->display_count($gv_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_GIFT_VOUCHERS); ?></td>
               <td class="text-right"><?php echo $gv_split->display_links($gv_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
             </tr>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
           <?php

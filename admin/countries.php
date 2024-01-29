@@ -140,6 +140,7 @@ if (!empty($action)) {
       <!-- body_text //-->
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+            <div class="table-responsive">
           <table class="table table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
@@ -198,6 +199,7 @@ if (!empty($action)) {
               <?php } ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
           <?php
@@ -257,6 +259,7 @@ if (!empty($action)) {
       </div>
 
       <div class="row">
+          <div class="table-responsive">
         <table class="table">
           <tr>
             <td><?php echo $countries_split->display_count($countries_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $currentPage, TEXT_DISPLAY_NUMBER_OF_COUNTRIES); ?></td>
@@ -268,6 +271,7 @@ if (!empty($action)) {
             </tr>
           <?php } ?>
         </table>
+          </div>
       </div>
     </div>
     <!-- body_eof //-->

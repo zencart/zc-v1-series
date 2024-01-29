@@ -454,6 +454,7 @@ if (!empty($action)) {
         <div class="row">
             <div><?php echo TEXT_STATUS_WARNING; ?></div>
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
                 <table class="table table-hover">
                     <thead class="table-dark">
                     <tr class="dataTableHeadingRow">
@@ -599,6 +600,7 @@ if (!empty($action)) {
                 <?php } ?>
               </tbody>
             </table>
+                </div>
             <div class="row">
               <div class="col-sm-6"><?php echo $specials_split->display_count($specials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_SPECIALS); ?></div>
               <div class="col-sm-6 text-right"><?php echo $specials_split->display_links($specials_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], zen_get_all_get_params(['page', 'sID'])); ?></div>

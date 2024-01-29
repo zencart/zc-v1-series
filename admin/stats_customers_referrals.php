@@ -118,7 +118,8 @@ include DIR_FS_CATALOG . DIR_WS_CLASSES . 'order.php';
       $customers_orders_query = $db->bindVars($customers_orders_query, ':refcode:', $_GET['referral_code'], 'string');
       $customers_orders = $db->Execute($customers_orders_query);
       ?>
-      <table class="table">
+        <div class="table-responsive">
+        <table class="table">
           <?php
           foreach ($customers_orders as $customers_order) {
             $current_orders_id = $customers_order['orders_id'];
@@ -142,6 +143,7 @@ include DIR_FS_CATALOG . DIR_WS_CLASSES . 'order.php';
           <?php } ?>
         <?php } ?>
       </table>
+        </div>
       <!-- body_text_eof //-->
     </div>
     <!-- body_eof //-->

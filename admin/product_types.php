@@ -140,7 +140,8 @@ if (!empty($action)) {
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
             <!-- body_text //-->
-            <table class="table table-hover" role="listbox">
+              <div class="table-responsive">
+              <table class="table table-hover" role="listbox">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
                   <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CONFIGURATION_TITLE; ?></th>
@@ -200,6 +201,7 @@ if (!empty($action)) {
               ?>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -257,7 +259,8 @@ if (!empty($action)) {
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
             <!-- body_text //-->
 
-            <table class="table table-hover" role="listbox">
+              <div class="table-responsive">
+              <table class="table table-hover" role="listbox">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
                   <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCT_TYPES; ?></th>
@@ -302,6 +305,7 @@ if (!empty($action)) {
               ?>
               </tbody>
             </table>
+              </div>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php

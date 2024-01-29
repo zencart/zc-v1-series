@@ -125,6 +125,7 @@ $userList = zen_get_users();
     if ($action == 'edit' || $action == 'password') {
         echo zen_draw_hidden_field('user', $user);
     } ?>
+    <div class="table-responsive">
     <table class="table table-striped">
         <thead class="table-dark">
         <tr class="headingRow">
@@ -225,6 +226,7 @@ $userList = zen_get_users();
         <?php } ?>
         </tbody>
     </table>
+    </div>
     <?php if ($action == '' || $action == 'delete_confirm') { ?>
         <div><a href="<?php echo zen_href_link(FILENAME_USERS, 'action=add'); ?>" class="btn btn-primary" role="button"><?php echo IMAGE_ADD_USER; ?></a></div>
     <?php }

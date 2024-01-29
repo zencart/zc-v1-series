@@ -26,7 +26,8 @@ $salemaker_act = $result->fields['count'];
 
  <div class="card reportBox mb-3">
     <div class="card-header header"><?php echo BOX_TITLE_FEATURES_SALES; ?></div>
-    <table class="table table-striped table-condensed">
+     <div class="table-responsive">
+     <table class="table table-striped table-condensed">
       <tr>
         <td><?php echo BOX_ENTRY_SPECIALS_EXPIRED; ?></td>
         <td class="text-right"><?php echo $specials; ?></td>
@@ -52,4 +53,5 @@ $salemaker_act = $result->fields['count'];
         <td class="text-right"><?php echo $salemaker_act; ?></td>
       </tr>
     </table>
+     </div>
   </div>

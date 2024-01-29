@@ -103,7 +103,7 @@ if ($gID == 7) {
           <h1><?php echo $cfg_group->fields['configuration_group_title']; ?></h1>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-
+            <div class="table-responsive">
           <table class="table table-striped table-hover" role="listbox">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
@@ -198,6 +198,7 @@ if ($gID == 7) {
             ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
           <?php

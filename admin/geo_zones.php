@@ -161,7 +161,8 @@ if (!empty($action)) {
         ?>
         <div class="row">
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-            <table class="table table-hover" role="listbox">
+              <div class="table-responsive">
+              <table class="table table-hover" role="listbox">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
                   <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_COUNTRY_NAME; ?></th>
@@ -223,6 +224,7 @@ if (!empty($action)) {
               ?>
               </tbody>
             </table>
+              </div>
           </div>
           <?php
         } else {
@@ -232,6 +234,7 @@ if (!empty($action)) {
           </div>
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="table-responsive">
               <table class="table table-hover" role="listbox">
                 <thead class="table-dark">
                   <tr class="dataTableHeadingRow">
@@ -324,6 +327,7 @@ if (!empty($action)) {
                 ?>
                 </tbody>
               </table>
+                </div>
             </div>
             <?php
           }
@@ -429,7 +433,8 @@ if (!empty($action)) {
         </div>
         <div class="row">
             <?php if ($action == 'list') { ?>
-            <table class="table">
+            <div class="table-responsive">
+                <table class="table">
               <tr>
                 <td><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['spage'], TEXT_DISPLAY_NUMBER_OF_GEO_ZONES); ?></td>
                 <td class="text-right"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['spage'], 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list', 'spage'); ?></td>
@@ -438,8 +443,10 @@ if (!empty($action)) {
                 <td class="text-right" colspan="2"><?php if (empty($saction)) echo '<a href="' . zen_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID']) . '" class="btn btn-secondary" role="button">' . IMAGE_BACK . '</a> <a href="' . zen_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&' . (isset($sInfo) ? 'sID=' . $sInfo->association_id . '&' : '') . 'saction=new') . '" class="btn btn-primary" role="button">' . IMAGE_INSERT . '</a>'; ?></td>
               </tr>
             </table>
+            </div>
           <?php } else { ?>
-            <table class="table">
+            <div class="table-responsive">
+                <table class="table">
               <tr>
                 <td><?php echo $zones_split->display_count($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['zpage'], TEXT_DISPLAY_NUMBER_OF_GEO_ZONES); ?></td>
                 <td class="text-right"><?php echo $zones_split->display_links($zones_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['zpage'], '', 'zpage'); ?></td>
@@ -448,6 +455,7 @@ if (!empty($action)) {
                 <td class="text-right" colspan="2"><?php if (!$action) echo '<a href="' . zen_href_link(FILENAME_GEO_ZONES, 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=new_zone') . '" class="btn btn-primary" role="button">' . IMAGE_INSERT . '</a>'; ?></td>
               </tr>
             </table>
+            </div>
           <?php } ?>
         </div>
       </div>

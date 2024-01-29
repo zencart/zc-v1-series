@@ -148,7 +148,8 @@ if (!empty($action)) {
       <div class="row">
           <?php require_once(DIR_WS_MODULES . 'notificationsDisplay.php');?>
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover">
+            <div class="table-responsive">
+            <table class="table table-hover">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_MODULES; ?></th>
@@ -283,6 +284,7 @@ if (!empty($action)) {
             ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
 

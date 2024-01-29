@@ -112,7 +112,8 @@ switch ($action) {
 
         <h1><?php echo HEADING_TITLE_ALL_PROFILES ?></h1>
 
-        <table class="table table-striped">
+        <div class="table-responsive">
+          <table class="table table-striped">
           <thead class="table-dark">
             <tr>
               <th class="id"><?php echo TEXT_ID ?></th>
@@ -181,6 +182,7 @@ switch ($action) {
             </tfoot>
           <?php } ?>
         </table>
+        </div>
 
       <?php } elseif ($action == 'edit') { ?>
 

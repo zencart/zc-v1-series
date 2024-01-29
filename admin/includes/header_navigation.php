@@ -17,8 +17,8 @@ $menuTitles = zen_get_menu_titles();
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
+            <ul class="navbar-nav flex-wrap">
                 <?php foreach (zen_get_admin_menu_for_user() as $menuKey => $pages) { ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="<?php echo zen_href_link(FILENAME_ALT_NAV) ?>" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

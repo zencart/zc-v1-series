@@ -31,6 +31,7 @@ $currencies = new currencies();
 ?>
 <div class="card reportBox mb-3">
     <div class="card-header header"><?php echo BOX_ENTRY_NEW_ORDERS; ?> </div>
+    <div class="table-responsive">
     <table class="table table-striped table-condensed">
         <?php
 
@@ -91,6 +92,7 @@ $currencies = new currencies();
         </tr>
       <?php } ?>
     </table>
+    </div>
 </div>
 <!--  enable popovers-->
 <script>

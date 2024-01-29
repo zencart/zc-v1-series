@@ -91,6 +91,7 @@ $userDetails = $userList[0];
             echo zen_draw_hidden_field('action', $formAction);
         }
     ?>
+    <div class="table-responsive">
     <table class="table">
         <thead class="table-dark">
         <tr class="headingRow">
@@ -136,6 +137,7 @@ $userDetails = $userList[0];
         <?php } ?>
         </tbody>
     </table>
+    </div>
     <?php echo '</form>'; ?>
 </div>
 <!-- body_eof //-->

@@ -358,6 +358,7 @@ if (!empty($action)) {
         <div class="row">
           <div><?php echo TEXT_STATUS_WARNING; ?></div>
           <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+              <div class="table-responsive">
             <table class="table table-hover">
               <thead class="table-dark">
                 <tr class="dataTableHeadingRow">
@@ -503,6 +504,7 @@ if (!empty($action)) {
                 <?php } ?>
               </tbody>
             </table>
+              </div>
             <div class="row">
               <div class="col-sm-6"><?php echo $featured_split->display_count($featured_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_FEATURED_ADMIN, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_FEATURED); ?></div>
               <div class="col-sm-6 text-right"><?php echo $featured_split->display_links($featured_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_FEATURED_ADMIN, MAX_DISPLAY_PAGE_LINKS, $_GET['page'], zen_get_all_get_params(['page', 'fID'])); ?></div>

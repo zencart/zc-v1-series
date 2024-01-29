@@ -84,7 +84,8 @@ $paypal_ipn_sort_order_array = [
    </div>
        <div class="row">
            <div class="col-sm-12 col-md-9 configurationColumnLeft">
-              <table class="table">
+               <div class="table-responsive">
+               <table class="table">
               <tr class="dataTableHeadingRow">
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_ORDER_NUMBER; ?></td>
                 <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_PAYPAL_ID; ?></td>
@@ -135,6 +136,7 @@ $paypal_ipn_sort_order_array = [
                     <td colspan="3" class="smallText text-right"><?php echo $ipn_split->display_links($ipn_query_numrows, MAX_DISPLAY_SEARCH_RESULTS_PAYPAL_IPN, MAX_DISPLAY_PAGE_LINKS, isset($_GET['page']) ? (int)$_GET['page'] : 1, zen_get_all_get_params(['page'])); ?></td>
               </tr>
             </table>
+               </div>
            </div>
 <?php
   $heading = [];

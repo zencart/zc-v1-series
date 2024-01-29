@@ -75,7 +75,8 @@ if (!empty($action)) {
       <h1 class="pageHeading"><?php echo HEADING_TITLE; ?></h1>
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-          <table class="table table-hover table-striped">
+            <div class="table-responsive">
+            <table class="table table-hover table-striped">
             <thead class="table-dark">
               <tr class="dataTableHeadingRow">
                 <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_MUSIC_GENRE; ?></th>
@@ -121,6 +122,7 @@ if (!empty($action)) {
               <?php } ?>
             </tbody>
           </table>
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -177,7 +179,8 @@ if (!empty($action)) {
             ?>
         </div>
       </div>
-      <table class="table">
+        <div class="table-responsive">
+        <table class="table">
         <tr>
           <td><?php echo $music_genre_split->display_count($music_genre_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_MUSIC_GENRES); ?></td>
           <td class="text-right"><?php echo $music_genre_split->display_links($music_genre_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']); ?></td>
@@ -188,6 +191,7 @@ if (!empty($action)) {
           </tr>
         <?php } ?>
       </table>
+        </div>
       <!-- body_text_eof //-->
 
       <!-- body_eof //-->

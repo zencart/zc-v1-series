@@ -937,6 +937,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
           ?>
           <div class="row">
             <div class="col-sm-12">
+                <div class="table-responsive">
               <table class="table-bordered">
                 <tr>
                   <td class="text-right"><?php echo LEGEND_BOX; ?></td>
@@ -1028,6 +1029,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
                   </td>
                 </tr>
               </table>
+                </div>
             </div>
           </div>
         <?php } ?>
@@ -1050,6 +1052,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
         </div>
         <div class="row">
           <div class="col-sm-12">
+              <div class="table-responsive">
             <?php echo zen_draw_form('attributes', FILENAME_ATTRIBUTES_CONTROLLER, 'action=' . $form_action . '&' . ($currentPage != 0 ? 'page=' . $currentPage . '&' : '') . 'products_filter=' . $products_filter, 'post', 'enctype="multipart/form-data" class="form-horizontal"') . "\n"; ?>
             <table class="table table-striped table-condensed">
               <tr class="dataTableHeadingRow">
@@ -2053,6 +2056,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
               <?php } ?>
             </table>
           <?php echo'</form>'; ?>
+              </div>
           </div>
         </div>
       <?php } ?>
