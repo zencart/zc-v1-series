@@ -12,16 +12,27 @@ if (!defined('IS_ADMIN_FLAG')) {
 ?>
 <!-- bof: products_previous_next_display -->
 <!-- heading -->
-<div class="row"><strong>
-        <?php echo(HEADING_TITLE == '' ? HEADING_TITLE2 : HEADING_TITLE); ?>&nbsp;-&nbsp;<?php echo zen_output_generated_category_path($current_category_id); ?></strong>
-    <?php echo '<br>' . TEXT_CATEGORIES_PRODUCTS; ?>
+<div class="row">
+    <div class="col-12">
+        <strong>
+            <?php echo(HEADING_TITLE == '' ? HEADING_TITLE2 : HEADING_TITLE); ?>&nbsp;-&nbsp;<?php echo zen_output_generated_category_path($current_category_id); ?></strong>
+        <?php echo '<br>' . TEXT_CATEGORIES_PRODUCTS; ?>
+    </div>
 </div>
 <!-- heading eof -->
 <!-- category/product status -->
-<div class="row"><?php echo (zen_get_categories_status($current_category_id) == '0' ? TEXT_CATEGORIES_STATUS_INFO_OFF : '') . (zen_get_products_status($products_filter) == '0' ? ' ' . TEXT_PRODUCTS_STATUS_INFO_OFF : ''); ?></div>
+<div class="row">
+    <div class="col-12">
+        <?php echo (zen_get_categories_status($current_category_id) == '0' ? TEXT_CATEGORIES_STATUS_INFO_OFF : '') . (zen_get_products_status($products_filter) == '0' ? ' ' . TEXT_PRODUCTS_STATUS_INFO_OFF : ''); ?>
+    </div>
+</div>
 <!-- category/product status eof -->
 <!-- product count -->
-<div class="row"><?php echo($counter > 0 ? (PREV_NEXT_PRODUCT) . ($position + 1 . "/" . $counter) : '&nbsp;'); ?></div>
+<div class="row">
+    <div class="col-12">
+        <?php echo($counter > 0 ? (PREV_NEXT_PRODUCT) . ($position + 1 . "/" . $counter) : '&nbsp;'); ?>
+    </div>
+</div>
 <!-- product count eof-->
 <!-- prev-cat-next navigation -->
 <div class="row">
