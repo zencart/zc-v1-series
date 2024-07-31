@@ -3,15 +3,16 @@
  * filenames.php
  * Defines the filenames used in the project
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Erik Kerkhoven 2021 Dec 31 Modified in v1.5.8-alpha $
+ * @version $Id: Scott C Wilson 2024 Mar 01 Modified in v2.0.0-rc1 $
  */
 /**
  * define project filenames
  */
 define('FILENAME_ABOUT_US', 'about_us');
+define('FILENAME_ACCESSIBILITY', 'accessibility');
 define('FILENAME_ACCOUNT', 'account');
 define('FILENAME_ACCOUNT_EDIT', 'account_edit');
 define('FILENAME_ACCOUNT_HISTORY', 'account_history');
@@ -52,6 +53,7 @@ define('FILENAME_CONTACT_US', 'contact_us');
 define('FILENAME_COOKIE_USAGE', 'cookie_usage');
 define('FILENAME_COUNTRIES', 'countries');
 define('FILENAME_COUPON_ADMIN', 'coupon_admin');
+define('FILENAME_COUPON_REFERRERS', 'coupon_referrers');
 define('FILENAME_COUPON_RESTRICT', 'coupon_restrict');
 define('FILENAME_COUPON_ADMIN_EXPORT', 'coupon_admin_export');
 define('FILENAME_CREATE_ACCOUNT', 'create_account');
@@ -61,6 +63,7 @@ define('FILENAME_CUSTOMERS', 'customers');
 define('FILENAME_CUSTOMER_GROUPS', 'customer_groups');
 define('FILENAME_DEFAULT', 'index');
 define('FILENAME_DEFINE_ABOUT_US', 'define_about_us');
+define('FILENAME_DEFINE_ACCESSIBILITY', 'define_accessibility');
 define('FILENAME_DEFINE_ASK_A_QUESTION', 'define_ask_a_question');
 define('FILENAME_DEFINE_PAGES_EDITOR', 'define_pages_editor');
 define('FILENAME_DEFINE_MAIN_PAGE', 'define_main_page');
@@ -102,6 +105,7 @@ define('FILENAME_LOGOFF', 'logoff');
 define('FILENAME_MAIL', 'mail');
 define('FILENAME_MAIN_PRODUCT_IMAGE', 'main_product_image');
 define('FILENAME_MANUFACTURERS', 'manufacturers');
+define('FILENAME_MFA', 'mfa');
 define('FILENAME_META_TAGS', 'meta_tags');
 define('FILENAME_MODULES', 'modules');
 define('FILENAME_NEWSLETTERS', 'newsletters');

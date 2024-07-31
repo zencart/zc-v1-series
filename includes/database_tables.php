@@ -3,10 +3,10 @@
  * database_tables.php
  * Defines the database table names used in the project
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2021 Apr 26 Modified in v1.5.8-alpha $
+ * @version $Id: DrByte 2024 Feb 23 Modified in v2.0.0-beta1 $
  * @private
  */
 
@@ -20,6 +20,7 @@ define('TABLE_ADMIN_MENUS', DB_PREFIX . 'admin_menus');
 define('TABLE_ADMIN_PAGES', DB_PREFIX . 'admin_pages');
 define('TABLE_ADMIN_PAGES_TO_PROFILES', DB_PREFIX . 'admin_pages_to_profiles');
 define('TABLE_ADMIN_PROFILES', DB_PREFIX . 'admin_profiles');
+define('TABLE_ADMIN_EXPIRED_TOKENS', DB_PREFIX . 'admin_expired_tokens');
 define('TABLE_AUTHORIZENET', DB_PREFIX . 'authorizenet');
 define('TABLE_BANNERS', DB_PREFIX . 'banners');
 define('TABLE_BANNERS_HISTORY', DB_PREFIX . 'banners_history');
@@ -35,6 +36,7 @@ define('TABLE_COUPON_GV_QUEUE', DB_PREFIX . 'coupon_gv_queue');
 define('TABLE_COUPON_GV_CUSTOMER', DB_PREFIX . 'coupon_gv_customer');
 define('TABLE_COUPON_EMAIL_TRACK', DB_PREFIX . 'coupon_email_track');
 define('TABLE_COUPON_REDEEM_TRACK', DB_PREFIX . 'coupon_redeem_track');
+define('TABLE_COUPON_REFERRERS', DB_PREFIX . 'coupon_referrers');
 define('TABLE_COUPON_RESTRICT', DB_PREFIX . 'coupon_restrict');
 define('TABLE_COUPONS', DB_PREFIX . 'coupons');
 define('TABLE_COUPONS_DESCRIPTION', DB_PREFIX . 'coupons_description');

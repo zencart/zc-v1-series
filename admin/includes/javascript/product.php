@@ -1,3 +1,10 @@
+<?php
+/**
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: DrByte 2024 Apr 10 Modified in v2.0.1 $
+ */
+?>
 <script>
     let tax_rates = [];
 <?php
@@ -20,25 +27,25 @@
         }
     }
 
-    function updateGross() {
+    function updateNoTax() {
         const taxRate = getTaxRate();
-        let grossValue = $('input[name="products_price"]').val();
+        let NoTaxValue = $('input[name="products_price_tax_incl"]').val();
 
         if (taxRate > 0) {
-            grossValue = grossValue * ((taxRate / 100) + 1);
+            NoTaxValue = NoTaxValue / ((taxRate / 100) + 1);
         }
 
-        $('input[name="products_price_gross"]').val(doRound(grossValue, 4));
+        $('input[name="products_price"]').val(doRound(NoTaxValue, 4));
     }
 
-    function updateNet() {
+    function updateTaxIncl() {
         const taxRate = getTaxRate();
-        let netValue = $('input[name="products_price_gross"]').val();
+        let TaxInclValue = $('input[name="products_price"]').val();
 
         if (taxRate > 0) {
-            netValue = netValue / ((taxRate / 100) + 1);
+            TaxInclValue = TaxInclValue * ((taxRate / 100) + 1);
         }
 
-        $('input[name="products_price"]').val(doRound(netValue, 4));
+        $('input[name="products_price_tax_incl"]').val(doRound(TaxInclValue, 4));
     }
 </script>

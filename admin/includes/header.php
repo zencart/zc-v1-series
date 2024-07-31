@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2023 Mar 14 Modified in v1.5.8a $
+ * @version $Id: DrByte 2024 Feb 22 Modified in v2.0.0-beta1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -58,6 +58,18 @@ if (empty($action)) {
     $hide_languages = true;
 } // hide when other language dropdown is used
 
+// -----
+// If the current page-load did not use the admin_html_head.php for the CSS files'
+// loading, let the admin know via message and log a PHP Deprecated issue ... once for
+// each page during an admin's session.
+//
+// Note: This section will be removed in a future version of Zen Cart!
+//
+if (!isset($zen_admin_html_head_loaded) && !isset($_SESSION['pages_needing_update'][$current_page])) {
+    $_SESSION['pages_needing_update'][$current_page] = true;
+    $messageStack->add(WARNING_PAGE_REQUIRES_UPDATE, 'warning');
+    trigger_error(WARNING_PAGE_REQUIRES_UPDATE, E_USER_DEPRECATED);
+}
 
 // display alerts/error messages, if any
 if ($messageStack->size > 0) {
@@ -201,8 +213,9 @@ if (defined('MODULE_ORDER_TOTAL_GV_SHOW_QUEUE_IN_ADMIN') && MODULE_ORDER_TOTAL_G
     </div>
     <div class="col-12 col-sm-12 col-md-6 col-lg-6">
         <?php
-        echo((strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') ? iconv('ISO-8859-1', 'UTF-8', $zcDate->output(ADMIN_NAV_DATE_TIME_FORMAT, time())) : $zcDate->output(ADMIN_NAV_DATE_TIME_FORMAT, time())); //windows does not "do" UTF-8...so a manual conversion is necessary
-        echo '&nbsp;' . date("O", time()) . ' GMT';  // time zone
+        /** @var zcDate $zcDate */
+        $date = $zcDate->output(ADMIN_NAV_DATE_TIME_FORMAT, time());
+        echo (function_exists('mb_convert_encoding')) ? mb_convert_encoding($date, 'UTF-8') : $date;
         echo '&nbsp;[' . $_SERVER['REMOTE_ADDR'] . ']'; // current admin user's IP address
         echo '<br>';
         echo gethostname();

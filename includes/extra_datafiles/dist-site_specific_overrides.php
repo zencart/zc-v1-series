@@ -11,8 +11,16 @@
  *
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: brittainmark 2023 Jul 31 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott C Wilson 2024 Mar 01 Modified in v2.0.0-rc1 $
  */
+// -----
+// Identify whether the link to the 'accessibility' page is included in the "Information" sidebox.
+//
+// true .... Show in the sidebox (default)
+// false ... Don't show in the sidebox
+//
+// $flag_show_accessibility_sidebox_link = false;
+
 // -----
 // Identify whether the link to the 'about_us' page is included in the "Information" sidebox.
 //
@@ -67,3 +75,19 @@
 // If a product is in two different sub categories of parent category it will only be counted once.
 //
 //define('COUNT_DISTINCT_PRODUCTS', true);
+
+// -----
+// Checkout Shipping: when no shipping method is available, i.e. Checkout cannot proceed to Payment
+//
+// true .... Replace the "Continue" button with a "Contact Us" button/link.
+// false ... Maintain the "Continue" button, which redirects back to Checkout Shipping; this is the default.
+//
+//$show_contact_us_instead_of_continue = false;
+
+// -----
+// Product Listing: enable sorting by column heading
+// 
+// true .... Display the legacy clickable column headings to sort the product listing (in addition to the sorter dropdown)
+// false ... Do not show the column headings; this is the default.
+//
+//$show_table_header_row = false;

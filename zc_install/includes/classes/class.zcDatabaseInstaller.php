@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Zcwilt 2024 Jan 20 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Mar 09 Modified in v2.0.0-rc2 $
  *
  */
 
@@ -70,10 +70,11 @@ class zcDatabaseInstaller
             'TRUNCATE TABLE ',
             'RENAME TABLE ',
             'TO ',
-            'UPDATE ',
             'UPDATE IGNORE ',
+            'UPDATE ',
             'DELETE FROM ',
             'DROP INDEX ',
+            'INNER JOIN ',
             'LEFT JOIN ',
             'FROM ',
             ') ENGINE=MYISAM',
@@ -184,6 +185,8 @@ class zcDatabaseInstaller
                 } else {
                     $this->completeLine = false;
                 }
+            } else {
+                $this->completeLine = false;
             }
             if ($this->completeLine) {
                 $output = (trim(str_replace(';', '', $this->newLine)) !== '' && !$this->ignoreLine) ? $this->tryExecute($this->newLine) : '';
@@ -217,6 +220,7 @@ class zcDatabaseInstaller
                 }
                 if (method_exists($this, $parseMethod)) {
                     $this->$parseMethod();
+                    break;
                 }
             }
         }
@@ -485,11 +489,27 @@ class zcDatabaseInstaller
         } else {
             $this->line = 'ALTER TABLE ' . $this->dbPrefix . substr($this->line, 12);
 
+            $exists = false;
+
             switch (strtoupper($this->lineSplit[3])) {
+                case 'CHANGE':
+                case 'MODIFY':
+                    // Check to see if the column / index already exists
+                    // we treat it falsey in this case because we cannot perform the change if the column is not present
+
+                    // we check for semi-optional COLUMN keyword
+                    if (strtoupper($this->lineSplit[4]) === 'COLUMN') {
+                        $exists = !$this->tableColumnExists($this->lineSplit[2], $this->lineSplit[5]);
+                        $result = sprintf(REASON_COLUMN_DOESNT_EXIST_TO_CHANGE, $this->lineSplit[5]);
+                    } else {
+                        $exists = !$this->tableColumnExists($this->lineSplit[2], $this->lineSplit[4]);
+                        $result = sprintf(REASON_COLUMN_DOESNT_EXIST_TO_CHANGE, $this->lineSplit[4]);
+                    }
+                    $this->writeUpgradeExceptions($this->line, $result, $this->fileName);
+                    break;
                 case 'ADD':
                 case 'DROP':
                     // Check to see if the column / index already exists
-                    $exists = false;
                     switch (strtoupper($this->lineSplit[4])) {
                         case 'COLUMN':
                             $exists = $this->tableColumnExists($this->lineSplit[2], $this->lineSplit[5]);
@@ -525,14 +545,13 @@ class zcDatabaseInstaller
                             // No known item added, MySQL defaults to column definition unless the action is to drop the item, then it is the reverse.
                             $exists = strtoupper($this->lineSplit[3]) !== 'DROP' && $this->tableColumnExists($this->lineSplit[2], $this->lineSplit[4]);
                     }
-                    // Ignore this line if the column / index already exists
-                    if ($exists) {
-                        $this->ignoreLine = true;
-                    }
-
                     break;
                 default:
                     // Do nothing
+            }
+            // Ignore this line if the column / index already exists
+            if ($exists) {
+                $this->ignoreLine = true;
             }
         }
     }
@@ -577,6 +596,17 @@ class zcDatabaseInstaller
             } else {
                 $this->line = 'RENAME TABLE ' . $this->dbPrefix . $this->lineSplit[2] . ' TO ' . $this->dbPrefix . substr($this->line, (13 + strlen($this->lineSplit[2]) + 4));
             }
+        }
+    }
+
+    public function parserInnerJoin(): void
+    {
+        if (!$this->tableExists($this->lineSplit[2])) {
+            $result = sprintf(REASON_TABLE_NOT_FOUND, $this->lineSplit[2]) . ' CHECK PREFIXES!';
+            $this->writeUpgradeExceptions($this->line, $result, $this->fileName);
+            error_log($result . "\n" . $this->line . "\n---------------\n\n");
+        } else {
+            $this->line = 'INNER JOIN ' . $this->dbPrefix . substr($this->line, 11);
         }
     }
 

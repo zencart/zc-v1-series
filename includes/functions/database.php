@@ -2,9 +2,9 @@
 /**
  * database functions and aliases into the $db queryFactory class
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Oct 16 Modified in v1.5.8a $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 
 /**
@@ -54,6 +54,10 @@ function zen_db_output(string $string)
  */
 function zen_db_prepare_input($string, bool $trimspace = true)
 {
+
+    if (!IS_ADMIN_FLAG && is_string($string)) {
+        $string = zen_sanitize_string($string);
+    }
     if (is_string($string)) {
         if ($trimspace == true) {
             return trim(stripslashes($string));
@@ -82,10 +86,10 @@ function zen_db_prepare_input($string, bool $trimspace = true)
  * @param string $whereCondition condition for UPDATE (exclude the word "WHERE")
  * @return queryFactoryResult
  */
-function zen_db_perform(string $tableName, array $tableData, $performType = 'INSERT', string $whereCondition = '')
+function zen_db_perform(string $tableName, array $tableData, $performType = 'INSERT', string $whereCondition = ''): queryFactoryResult
 {
     global $db;
-    if (strtolower($performType) == 'insert') {
+    if (strtolower($performType) === 'insert') {
         $query = 'INSERT INTO ' . $tableName . ' (';
         foreach ($tableData as $columns => $value) {
             $query .= $columns . ', ';
@@ -107,7 +111,7 @@ function zen_db_perform(string $tableName, array $tableData, $performType = 'INS
             }
         }
         $query = substr($query, 0, -2) . ')';
-    } elseif (strtolower($performType) == 'update') {
+    } elseif (strtolower($performType) === 'update') {
         $query = 'UPDATE ' . $tableName . ' SET ';
         foreach ($tableData as $columns => $value) {
             $value = (string)$value;

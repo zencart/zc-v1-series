@@ -1,5 +1,400 @@
+/**
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
+ * @copyright Portions Copyright 2003 osCommerce
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
+ */
+
+body {
+    padding: 0 4px;
+}
+
+a, body, html, table {
+    font: normal normal 11px Verdana, sans-serif;
+}
+
+.pageHeading, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    color: #333;
+    font-weight: bold;
+}
+
+.pageHeading, h1, .h1 {
+    font-size: 18px;
+    font-variant: small-caps;
+}
+
+h2, .h2 {
+    font-size: 17px;
+}
+
+h3, .h3 {
+    font-size: 15px;
+}
+
+h4, .h4 {
+    font-size: 14px;
+}
+
+h5, .h5 {
+    font-size: 13px;
+}
+
+h6, .h6 {
+    font-size: 12px;
+}
+
+a {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+.table th.shrink, td.shrink { /*shrink column to minimum width*/
+    white-space: nowrap;
+    width: 1%;
+}
+/* Keep action buttons together and centered in TD */
+.table-condensed td.actions,
+.table td.actions {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+/* Fix hyperlink underline on hover */
+.table td.actions a[role=button] {
+    display: inline-block;
+    user-select: none;
+}
+a[role=button] .fa-inverse {
+    color: var(--fa-inverse,#eee);
+}
+
+
+td, th {
+    padding: 1px;
+}
+
+.main table td {
+    padding: 5px;
+}
+
+td.main {
+    padding: 5px 2px;
+}
+
+a:hover {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+a.headerLink:link {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.headerLink:visited {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.headerLink:hover {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+a.headerLink:active {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.menuBoxContentLink:link {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.menuBoxContentLink:visited {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.menuBoxContentLink:hover {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+a.menuBoxContentLink:active {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.menuBoxHeadingLink:link {
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.menuBoxHeadingLink:visited {
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.menuBoxHeadingLink:hover {
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.menuBoxHeadingLink:active {
+    color: #0000ff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.splitPageLink:link {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.splitPageLink:visited {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.splitPageLink:hover {
+    background-color: #ffff33;
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+a.splitPageLink:active {
+    color: #0000ff;
+    text-decoration: none;
+}
+
+a.splitPageLinkCurrent {
+    font-weight: bold;
+    border: 1px solid #0000FF;
+    padding: 2px;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+input, select, textarea {
+    font-size: 11px;
+}
+
 .infoBoxContent input {
     margin: 1px 2px;
+}
+
+input.cfgInput {
+    width: 99%;
+}
+
+textarea {
+    width: 80%;
+}
+
+form {
+    display: inline;
+}
+
+span.dataTableHeadingContentWhois {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+span.normalprice {
+    text-decoration: line-through;
+}
+
+span.productPriceDiscount, .inputRequirement {
+    color: #ff0000;
+}
+
+span.productSpecialPrice, span.productSalePrice, .stockWarning, span.coming {
+    color: #ff0000;
+}
+
+span.productSpecialPriceSale {
+    color: #ff0000;
+    text-decoration: line-through;
+}
+
+span.SortOrderHeader {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+span.SortOrderHeaderLink {
+    color: #0000ff;
+    font-weight: bold;
+}
+
+td.alert:not(.messageStackAlert), span.alert:not(.messageStackAlert) {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+td.attributeBoxContent {
+    background-color: #dcdbd1;
+    color: #333333;
+}
+
+td.ot-subtotal-Amount, td.ot-cod-fee-Amount, td.ot-group-pricing-Amount, td.ot-gv-Amount, td.ot-loworderfee-Amount, td.ot-shipping-Amount, td.ot-subtotal-Amount, td.ot-tax-Amount, td.ot-coupon-Amount {
+}
+
+td.ot-subtotal-Text, td.ot-cod-fee-Text, td.ot-total-Text, td.ot-group-pricing-Text, td.ot-gv-Text, td.ot-loworderfee-Text, td.ot-shipping-Text, td.ot-subtotal-Text, td.ot-tax-Text, td.ot-coupon-Text {
+    font-weight: bold;
+}
+
+td.ot-total-Amount {
+    border-top: 1px solid #9a9a9a;
+    font-weight: bold;
+}
+
+tr.attributeBoxContent {
+    background-color: #dcdbd1;
+    color: #333333;
+}
+
+.attributeBoxContent {
+    background-color: #dcdbd1;
+    color: #333333;
+}
+
+.attributes-even {
+    background-color: #ffffff;
+}
+
+.attributes-odd {
+    background-color: #f7f6ef;
+}
+
+.columnLeft {
+    background-color: #f2f1ee;
+    border-color: #999999;
+    border-style: solid;
+    border-width: 1px;
+    padding: 2px;
+}
+
+.row {
+    margin: 0;
+}
+
+.dataTableContent {
+    color: #333333;
+    padding: 2px;
+}
+
+.dataTableContentBot {
+    color: #333333;
+}
+
+.dataTableContentWhois {
+    color: #333333;
+}
+
+.dataTableHeadingContent {
+    color: #333333;
+}
+
+.dataTableHeadingContentWhois {
+    color: #333333;
+}
+
+.dataTableHeadingContentWhois a:link, .dataTableHeadingContentWhois a:visited {
+    color: #0000ff;
+}
+
+.dataTableHeadingContentWhois a:hover {
+    color: #ffffff;
+}
+
+.dataTableHeadingRow {
+    background-color: #d7d6cc;
+}
+
+.dataTableHeadingRowWhois {
+    background-color: #d7d6cc;
+}
+
+.dataTableRow {
+    background-color: #f2f1ee;
+}
+
+.dataTableRowBot {
+    background-color: #facbfa;
+}
+
+.dataTableRowOver {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.dataTableRowOverBot {
+    background-color: #ffffff;
+}
+
+.dataTableRowOverWhois {
+    background-color: #ffffff;
+}
+
+.dataTableRowSelected {
+    background-color: #e7e6e0;
+}
+
+.dataTableRowSelectedBot {
+    background-color: #ff93ff;
+}
+
+.dataTableRowSelectedWhois {
+    background-color: #dee4e8;
+}
+
+.dataTableRowSpacer, td.dataTableRowSpacer, TR.dataTableRowSpacer {
+    background-color: #d7d6cc;
+    color: #ff6600;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.0;
+}
+
+.dataTableRowWhois {
+    background-color: #f2f1ee;
+}
+
+.errorText {
+    color: #ff0000;
+}
+
+.fieldRequired {
+    color: #ff0000;
+}
+
+.formArea {
+    background-color: #f4f4f4;
+    border-color: #666;
+    border-style: solid;
+    border-width: 1px;
+    padding: 15px;
+}
+
+.formAreaTitle {
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .infoBoxContent {
@@ -179,7 +574,77 @@ a.btn-pricemanager-off {
     outline: none;
     outline-offset: 0;
 }
-.text-right {
-    text-align: right;
+
+
+/* end of print-specific styles */
+
+.orderProductsPopover {
+    color: #333;
+}
+
+.well.product-tax-prices {
+    color: #31778f;
+    background-color: #d9eff7;
+    border-color: #bcecf1;
+    padding: 10px 10px 0 10px;
+}
+.well.product-shipping-measurements {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    padding: 10px 10px 0 10px;
+}
+
+/** utility */
+
+.control-label {/*for multiple inputs*/
+    font-weight: 700;
+}
+
+.txt-black {
+  color:#000;
+}
+.txt-yellow {
+  color: #ff0;
+}
+.txt-orange {
+  color: #ffa500
+}
+.txt-lime {
+  color:#5ce400
+}
+.txt-red {
+  color:#f00;
+}
+.txt-navy {
+  color: #000080;
+}
+.txt-blue {
+  color: #00f;
+}
+.txt-white {
+  color:#fff;
+}
+.txt-pink {
+  color: #ffbaba;
+}
+.txt-gold {
+  color: gold;
+}
+.star-shadow {
+  text-shadow: 1px 1px 2px grey;
+}
+.txt-transparent {
+  color: transparent;
+}
+.opacity-25 {
+  opacity: 25%;
+}
+
+
+/* CKEditor */
+.ck-editor__editable, .ck-source-editing-area {
+    min-height: 250px;
+    max-height: 650px;
 }
 

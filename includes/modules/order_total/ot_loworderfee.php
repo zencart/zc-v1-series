@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2024 Jan 23 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 class ot_loworderfee
 {
@@ -21,7 +21,7 @@ class ot_loworderfee
     public $code;
     /**
      * $description is a soft name for this order total method
-     * @var string 
+     * @var string
      */
     public $description;
     /**
@@ -35,6 +35,11 @@ class ot_loworderfee
      */
     public $title;
     /**
+     * $enabled determines whether this module shows or not... during checkout.
+     * @var boolean
+     */
+    public $enabled;
+    /**
      * $output is an array of the display elements used on checkout pages
      * @var array
      */
@@ -45,6 +50,7 @@ class ot_loworderfee
         $this->code = 'ot_loworderfee';
         $this->title = MODULE_ORDER_TOTAL_LOWORDERFEE_TITLE;
         $this->description = MODULE_ORDER_TOTAL_LOWORDERFEE_DESCRIPTION;
+        $this->enabled = $this->isEnabled();
         $this->sort_order = defined('MODULE_ORDER_TOTAL_LOWORDERFEE_SORT_ORDER') ? MODULE_ORDER_TOTAL_LOWORDERFEE_SORT_ORDER : null;
         if (null === $this->sort_order) return false;
     }
@@ -52,7 +58,9 @@ class ot_loworderfee
     function process()
     {
         global $order, $currencies;
-
+        if ($this->enabled === false) {
+            return;
+        }
         switch (MODULE_ORDER_TOTAL_LOWORDERFEE_DESTINATION) {
             case 'national':
                 if ($order->delivery['country_id'] == STORE_COUNTRY) {
@@ -185,5 +193,16 @@ class ot_loworderfee
     {
         global $db;
         $db->Execute("DELETE FROM " . TABLE_CONFIGURATION . " WHERE configuration_key IN ('" . implode("', '", $this->keys()) . "')");
+    }
+
+    public function isEnabled(): bool
+    {
+        if (!defined('MODULE_ORDER_TOTAL_LOWORDERFEE_STATUS') || !defined('MODULE_ORDER_TOTAL_LOWORDERFEE_LOW_ORDER_FEE')) {
+            return false;
+        }
+        if (MODULE_ORDER_TOTAL_LOWORDERFEE_STATUS !== 'true' || MODULE_ORDER_TOTAL_LOWORDERFEE_LOW_ORDER_FEE !== 'true') {
+            return false;
+        }
+        return true;
     }
   }

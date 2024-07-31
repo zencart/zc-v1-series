@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 11 Modified in v2.0.0-alpha1 $
+ * @version $Id: piloujp 2024 Mar 12 Modified in v2.0.0-rc2 $
  */
 // This should be first line of the script:
 $zco_notifier->notify('NOTIFY_MODULE_START_CREATE_ACCOUNT');
@@ -125,14 +125,7 @@ if (isset($_POST['action']) && ($_POST['action'] === 'process') && !isset($login
 
     if (ACCOUNT_DOB === 'true') {
         if (ENTRY_DOB_MIN_LENGTH > 0 or !empty($_POST['dob'])) {
-            // Support ISO-8601 style date
-            if (preg_match('/^([0-9]{4})(|-|\/)([0-9]{2})\2([0-9]{2})$/', $dob)) {
-                // Account for incorrect date format provided to strtotime such as swapping day and month instead of the expected yyyymmdd, yyyy-mm-dd, or yyyy/mm/dd format
-                if (strtotime($dob) !== false) {
-                    $_POST['dob'] = $dob = date(DATE_FORMAT, strtotime($dob));
-                }
-            }
-            if (substr_count($dob, '/') > 2 || checkdate((int)substr(zen_date_raw($dob), 4, 2), (int)substr(zen_date_raw($dob), 6, 2), (int)substr(zen_date_raw($dob), 0, 4)) == false) {
+			if (strlen($dob) >10 || zen_valid_date($dob) === false) {
                 $error = true;
                 $messageStack->add('create_account', ENTRY_DATE_OF_BIRTH_ERROR);
             }

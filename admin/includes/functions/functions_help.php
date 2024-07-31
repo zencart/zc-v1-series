@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Dec 09 Modified in v1.5.8a $
+ * @version $Id: Scott Wilson 2024 Mar 10 Modified in v2.0.0-rc2 $
  */
 
 function page_has_help()
@@ -148,11 +148,13 @@ function page_has_help()
         FILENAME_SQLPATCH => 'https://docs.zen-cart.com/user/admin_pages/tools/install_sql_patches/',
         FILENAME_COUPON_ADMIN => 'https://docs.zen-cart.com/user/admin_pages/discounts/coupon_admin/',
         FILENAME_COUPON_RESTRICT => 'https://docs.zen-cart.com/user/admin_pages/discounts/coupon_restrictions/',
+        FILENAME_COUPON_REFERRERS => 'https://docs.zen-cart.com/user/order_total/coupons/#coupon-referrers/',
         FILENAME_GV_QUEUE => 'https://docs.zen-cart.com/user/admin_pages/discounts/gift_certificate_queue/',
         FILENAME_GV_MAIL => 'https://docs.zen-cart.com/user/admin_pages/discounts/send_gift_certificate/',
         FILENAME_GV_SENT => 'https://docs.zen-cart.com/user/admin_pages/discounts/gift_certificates_sent/',
         FILENAME_PROFILES => 'https://docs.zen-cart.com/user/admin_pages/admins/admin_profiles/',
         FILENAME_USERS => 'https://docs.zen-cart.com/user/admin_pages/admins/admin_users/',
+        FILENAME_ADMIN_ACCOUNT => 'https://docs.zen-cart.com/user/admin_pages/admins/admin_account/',
         FILENAME_ADMIN_PAGE_REGISTRATION => 'https://docs.zen-cart.com/user/admin_pages/admins/admin_page_registration/',
         FILENAME_ADMIN_ACTIVITY => 'https://docs.zen-cart.com/user/admin_pages/admins/admin_activity_logs/',
         FILENAME_RECORD_ARTISTS => 'https://docs.zen-cart.com/user/admin_pages/extras/record_artists/',

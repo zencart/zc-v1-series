@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2024 Jan 19 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott C Wilson 2024 May 09 Modified in v2.0.1 $
  */
 
 /*
@@ -46,7 +46,7 @@ class ot_coupon extends base
      * $deduction amount of deduction calculated/afforded while being applied to an order
      * @var float|null
      */
-    protected $deduction;
+    public $deduction;
     /**
      * $description is a soft name for this order total method
      * @var string
@@ -519,7 +519,7 @@ class ot_coupon extends base
                     $products = $_SESSION['cart']->get_products();
                     $coupon_product_count = 0;
                     foreach ($products as $product) {
-                        if (CouponValidation::is_product_valid($product['id'], $coupon_details['coupon_id'])) {
+                        if (CouponValidation::is_product_valid((int)$product['id'], (int)$coupon_details['coupon_id'])) {
                             $coupon_product_count += $_SESSION['cart']->get_quantity($product['id']);
                         }
                     }
@@ -634,21 +634,22 @@ class ot_coupon extends base
      * Calculate eligible total amounts against which discounts will be applied
      *
      * @param int $coupon_id
-     * @return array
      */
-    function get_order_total($coupon_id)
+    function get_order_total($coupon_id): array
     {
         global $order;
-        $orderTaxGroups = $order->info['tax_groups'];
-        $orderTotalTax = $order->info['tax'];
-        $orderTotal = $order->info['total'];
+        $orderTaxGroups = $order->info['tax_groups'] ?? [];
+        $orderTotalTax = $order->info['tax'] ?? 0;
+        $orderTotal = $order->info['total'] ?? 0;
+
+        $coupon_id = (int)$coupon_id;
 
         // for products which are not applicable for this coupon, calculate their value in the cart and reduce it from the final order-total that the coupon's discounts will apply to
         $products = $_SESSION['cart']->get_products();
         $i = 0;
         foreach ($products as $product) {
             $i++;
-            $is_product_valid = (CouponValidation::is_product_valid($product['id'], $coupon_id) && CouponValidation::is_coupon_valid_for_sales($product['id'], $coupon_id));
+            $is_product_valid = (CouponValidation::is_product_valid((int)$product['id'], $coupon_id) && CouponValidation::is_coupon_valid_for_sales((int)$product['id'], $coupon_id));
 
             $this->notify('NOTIFY_OT_COUPON_PRODUCT_VALIDITY', ['is_product_valid' => $is_product_valid, 'i' => $i]);
 
@@ -673,26 +674,33 @@ class ot_coupon extends base
         }
 
         // shipping/tax
-        if ($this->include_shipping != 'true') {
-            $orderTotal -= $order->info['shipping_cost'];
-            if (isset($_SESSION['shipping_tax_description']) && $_SESSION['shipping_tax_description'] != '') {
-                $orderTotalTax -= $order->info['shipping_tax'];
+        if ($this->include_shipping !== 'true') {
+            $orderTotal -= $order->info['shipping_cost'] ?? 0;
+            if (!empty($_SESSION['shipping_tax_description'])) {
+                $orderTotalTax -= $order->info['shipping_tax'] ?? 0;
             }
         }
-        if (DISPLAY_PRICE_WITH_TAX != 'true') {
+        if (DISPLAY_PRICE_WITH_TAX !== 'true') {
             $orderTotal -= $orderTotalTax;
         }
 
         // change what total is used for Discount Coupon Minimum
-        $orderTotalFull = $order->info['total'];
+        $orderTotalFull = $order->info['total'] ?? 0;
         //echo 'Current $orderTotalFull: ' . $orderTotalFull . ' shipping_cost: ' . $order->info['shipping_cost'] . '<br>';
-        $orderTotalFull -= $order->info['shipping_cost'];
+        $orderTotalFull -= $order->info['shipping_cost'] ?? 0;
         //echo 'Current $orderTotalFull less shipping: ' . $orderTotalFull . '<br>';
         $orderTotalFull -= $orderTotalTax;
         //echo 'Current $orderTotalFull less taxes: ' . $orderTotalFull . '<br>';
         // left for total order amount ($orderTotalDetails['totalFull']) vs qualified order amount ($order_total['orderTotal']) - to include both in array
         // add total order amount ($orderTotalFull) to array for $order_total['totalFull'] vs $order_total['orderTotal']
-        return ['totalFull' => $orderTotalFull, 'orderTotal' => $orderTotal, 'orderTaxGroups' => $orderTaxGroups, 'orderTax' => $orderTotalTax, 'shipping' => $order->info['shipping_cost'], 'shippingTax' => $order->info['shipping_tax']];
+        return [
+            'totalFull' => $orderTotalFull,
+            'orderTotal' => $orderTotal,
+            'orderTaxGroups' => $orderTaxGroups,
+            'orderTax' => $orderTotalTax,
+            'shipping' => $order->info['shipping_cost'] ?? 0,
+            'shippingTax' => $order->info['shipping_tax'] ?? 0,
+        ];
     }
 
     /**
@@ -820,10 +828,11 @@ class ot_coupon extends base
         if ($found_valid !== null) {
             return $found_valid;
         }
+        $coupon_id = (int)$coupon_id;
 
         $found_valid = false;
         foreach ($products as $product) {
-            if (CouponValidation::is_product_valid($product['id'], $coupon_id) && CouponValidation::is_coupon_valid_for_sales($product['id'], $coupon_id)) {
+            if (CouponValidation::is_product_valid((int)$product['id'], $coupon_id) && CouponValidation::is_coupon_valid_for_sales((int)$product['id'], $coupon_id)) {
                 $found_valid = true;
                 break;
             }

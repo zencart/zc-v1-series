@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 Apr 25 Modified in v2.0.1 $
  */
 require('includes/application_top.php');
 
@@ -639,6 +639,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
     $products_options_values_name = str_replace('"', '\"', $products_options_values_name);
     $products_options_values_name = str_replace('&quot;', '\"', $products_options_values_name);
     $products_options_values_name = str_replace('&frac12;', '1/2', $products_options_values_name);
+    $products_options_values_name = str_replace('&amp;', '&', $products_options_values_name);
 
     if ($counter == 1) {
       $value_string .= '  if (' . $selectedName . ' == "' . $attribute['products_options_id'] . '") {' . "\n";
@@ -715,7 +716,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
                 <?php
                 }
                 ?>
-                <?php if ($zc_products->get_allow_add_to_cart($products_filter) == "Y") { ?>
+                <?php if (zen_get_products_allow_add_to_cart($products_filter) == "Y") { ?>
                   <li><a class="dropdown-item" href="<?php echo zen_href_link(FILENAME_PRODUCTS_PRICE_MANAGER, '&products_filter=' . $products_filter . '&current_category_id=' . $current_category_id); ?>"><?php echo IMAGE_PRODUCTS_PRICE_MANAGER; ?></a></li>
                 <?php } ?>
                 <?php
@@ -1522,7 +1523,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
 // calculate current total attribute price
 // $attributes_values
 
-                  $attributes_price_final = zen_get_attributes_price_final($attributes_value['products_attributes_id'], 1, $attributes_values, false);
+                  $attributes_price_final = zen_get_attributes_price_final($attributes_value['products_attributes_id'], 1, $attributes_values, false, false, 0, true);
                   $attributes_price_final_value = $attributes_price_final;
                   $attributes_price_final = $currencies->display_price($attributes_price_final, zen_get_tax_rate($product_check->fields['products_tax_class_id']), 1);
                   $attributes_price_final_onetime = zen_get_attributes_price_final_onetime($attributes_value['products_attributes_id'], 1, $attributes_values);
@@ -1622,7 +1623,7 @@ function zen_js_option_values_list($selectedName, $fieldName)
                     <?php
                     $new_attributes_price = '';
                     if ($attributes_value['attributes_discounted']) {
-                      $new_attributes_price = zen_get_attributes_price_final($attributes_value['products_attributes_id'], 1, '', false);
+                      $new_attributes_price = zen_get_attributes_price_final($attributes_value['products_attributes_id'], 1, '', false, false, 0, true);
                       $new_attributes_price2 = zen_get_discount_calc($products_filter, true, $new_attributes_price);
                       if ($new_attributes_price != $attributes_price_final_value) {
                         $new_attributes_price = '|' . $currencies->display_price($new_attributes_price2, zen_get_tax_rate($product_check->fields['products_tax_class_id']), 1);

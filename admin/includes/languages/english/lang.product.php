@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 17 Modified in v2.0.0-beta1 $
 */
 
 $define = [
@@ -29,9 +29,15 @@ $define = [
     'TEXT_EDIT_PRODUCTS_IMAGE' => 'Edit Product Image:',
     'TEXT_PRODUCTS_URL' => 'Products URL:',
     'TEXT_PRODUCTS_URL_WITHOUT_HTTP' => '<small>(without http://)</small>',
-    'TEXT_PRODUCTS_PRICE_NET' => 'Products Price (Net):',
-    'TEXT_PRODUCTS_PRICE_GROSS' => 'Products Price (Gross):',
+    'TEXT_PRODUCTS_PRICE_INCL' => 'Products Price (Incl.):',
+    'TEXT_PRODUCTS_PRICE_EXCL' => 'Products Price (Excl.):',
+    'TEXT_SHIPPING_PACKAGE_DETAILS' => 'Package Shipping Details',
     'TEXT_PRODUCTS_WEIGHT' => 'Products Shipping Weight:',
+    'TEXT_PRODUCTS_LENGTH' => 'Length:',
+    'TEXT_PRODUCTS_WIDTH' => 'Width:',
+    'TEXT_PRODUCTS_HEIGHT' => 'Height:',
+    'TEXT_PRODUCT_SHIPS_IN_OWN_BOX' => 'Ships in Own Box?',
+    'TEXT_PRODUCT_SHIPS_IN_OWN_BOX_HELP' => 'Item ships in its original box? (ie: will not be combined in another box for shipping, and no additional packaging costs to be added)',
     'TEXT_PRODUCT_IS_FREE' => 'Product is Free:',
     'TEXT_PRODUCTS_IS_FREE_PREVIEW' => '*Product is marked as FREE',
     'TEXT_PRODUCTS_IS_FREE_EDIT' => '*Product is marked as FREE',

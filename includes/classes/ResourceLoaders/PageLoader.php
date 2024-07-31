@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: brittainmark 2022 Aug 24 Modified in v1.5.8-alpha2 $
+ * @version $Id: lat9 2024 May 18 Modified in v2.0.1 $
  */
 
 namespace Zencart\PageLoader;
@@ -97,7 +97,7 @@ class PageLoader
     {
         foreach ($this->installedPlugins as $plugin) {
             $checkDir = 'zc_plugins/' . $plugin['unique_key'] . '/' . $plugin['version'] . '/catalog/includes/templates/default/' . $templateDir . '/';
-            if (file_exists($checkDir . $templateCode )) {
+            if ($this->fileSystem->fileExistsInDirectory($checkDir, preg_replace('/\//', '', $templateCode))) {
                 return $checkDir;
             }
         }

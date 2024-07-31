@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 23 Modified in v2.0.0-beta1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
   die('Illegal Access');
@@ -20,6 +20,10 @@ $parameters = [
   'products_price_w' => '0',
   'products_virtual' => DEFAULT_PRODUCT_MUSIC_PRODUCTS_VIRTUAL,
   'products_weight' => '0',
+  'products_length' => '',
+  'products_width' => '',
+  'products_height' => '',
+  'product_ships_in_own_box' => '',
   'products_date_added' => '',
   'products_last_modified' => '',
   'products_date_available' => '',
@@ -300,23 +304,23 @@ if (zen_get_categories_status($current_category_id) == 0 && $pInfo->products_sta
       <?php echo ($pInfo->products_priced_by_attribute == 1 ? '<span class="help-block errorText">' . TEXT_PRODUCTS_PRICED_BY_ATTRIBUTES_EDIT . '</span>' : ''); ?>
     </div>
   </div>
-  <div class="well" style="color: #31708f;background-color: #d9edf7;border-color: #bce8f1;padding: 10px 10px 0 0;">
+  <div class="well product-tax-prices">
     <div class="form-group row mb-3">
         <?php echo zen_draw_label(TEXT_PRODUCTS_TAX_CLASS, 'products_tax_class_id', 'class="col-sm-3 form-label"'); ?>
       <div class="col-sm-9 col-md-6">
-          <?php echo zen_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $pInfo->products_tax_class_id, 'onchange="updateGross()" class="form-control" id="products_tax_class_id"'); ?>
+          <?php echo zen_draw_pull_down_menu('products_tax_class_id', $tax_class_array, $pInfo->products_tax_class_id, 'onchange="updateTaxIncl()" class="form-control" id="products_tax_class_id"'); ?>
       </div>
     </div>
     <div class="form-group row mb-3">
-        <?php echo zen_draw_label(TEXT_PRODUCTS_PRICE_NET, 'products_price', 'class="col-sm-3 form-label"'); ?>
+        <?php echo zen_draw_label(TEXT_PRODUCTS_PRICE_EXCL, 'products_price', 'class="col-sm-3 form-label"'); ?>
       <div class="col-sm-9 col-md-6">
-          <?php echo zen_draw_input_field('products_price', $pInfo->products_price, 'onkeyup="updateGross()" class="form-control" id="products_price" inputmode="decimal"'); ?>
+          <?php echo zen_draw_input_field('products_price', $pInfo->products_price, 'onkeyup="updateTaxIncl()" class="form-control" id="products_price" inputmode="decimal"'); ?>
       </div>
     </div>
     <div class="form-group row mb-3">
-        <?php echo zen_draw_label(TEXT_PRODUCTS_PRICE_GROSS, 'products_price_gross', 'class="col-sm-3 form-label"'); ?>
+        <?php echo zen_draw_label(TEXT_PRODUCTS_PRICE_INCL, 'products_price_tax_incl', 'class="col-sm-3 form-label"'); ?>
       <div class="col-sm-9 col-md-6">
-          <?php echo zen_draw_input_field('products_price_gross', $pInfo->products_price, 'onkeyup="updateNet()" class="form-control" id="products_price_gross" inputmode="decimal"'); ?>
+          <?php echo zen_draw_input_field('products_price_tax_incl', $pInfo->products_price, 'onkeyup="updateNoTax()" class="form-control" id="products_price_tax_incl" inputmode="decimal"'); ?>
       </div>
     </div>
 <?php
@@ -334,7 +338,7 @@ if (zen_get_categories_status($current_category_id) == 0 && $pInfo->products_sta
 ?>
   </div>
   <script>
-    updateGross();
+    updateTaxIncl();
   </script>
   <div class="form-group row mb-3">
     <p class="col-sm-3 form-label"><?php echo TEXT_PRODUCTS_VIRTUAL; ?></p>
@@ -485,11 +489,42 @@ if (zen_get_categories_status($current_category_id) == 0 && $pInfo->products_sta
       ?>
     </div>
   </div>
+  <div class="well product-shipping-measurements">
+      <h2><?php echo TEXT_SHIPPING_PACKAGE_DETAILS; ?></h2>
   <div class="form-group row mb-3">
       <?php echo zen_draw_label(TEXT_PRODUCTS_WEIGHT, 'products_weight', 'class="col-sm-3 form-label"'); ?>
-    <div class="col-sm-9 col-md-6">
+      <?php echo zen_get_translated_config_setting('SHIPPING_WEIGHT_UNITS', 'TEXT_SHIPPING_', SHIPPING_WEIGHT_UNITS); ?>
+    <div class="col-sm-6 col-md-4">
         <?php echo zen_draw_input_field('products_weight', $pInfo->products_weight, 'class="form-control" id="products_weight" inputmode="decimal"'); ?>
     </div>
+  </div>
+  <div class="form-group row mb-3">
+    <?php echo zen_draw_label(TEXT_PRODUCTS_LENGTH, 'products_length', 'class="col-sm-3 form-label"'); ?>
+      <?php echo zen_get_translated_config_setting('SHIPPING_DIMENSION_UNITS', 'TEXT_SHIPPING_', SHIPPING_DIMENSION_UNITS); ?>
+    <div class="col-sm-6 col-md-4">
+    <?php echo zen_draw_input_field('products_length', $pInfo->products_length, 'class="form-control" id="products_length" inputmode="decimal"'); ?>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+     <?php echo zen_draw_label(TEXT_PRODUCTS_WIDTH, 'products_width', 'class="col-sm-3 form-label"'); ?>
+      <?php echo zen_get_translated_config_setting('SHIPPING_DIMENSION_UNITS', 'TEXT_SHIPPING_', SHIPPING_DIMENSION_UNITS); ?>
+    <div class="col-sm-6 col-md-4">
+    <?php echo zen_draw_input_field('products_width', $pInfo->products_width, 'class="form-control" id="products_width" inputmode="decimal"'); ?>
+    </div>
+  </div>
+    <div class="form-group row mb-3">
+    <?php echo zen_draw_label(TEXT_PRODUCTS_HEIGHT, 'products_height', 'class="col-sm-3 form-label"'); ?>
+        <?php echo zen_get_translated_config_setting('SHIPPING_DIMENSION_UNITS', 'TEXT_SHIPPING_', SHIPPING_DIMENSION_UNITS); ?>
+    <div class="col-sm-6 col-md-4">
+    <?php echo zen_draw_input_field('products_height', $pInfo->products_height, 'class="form-control" id="products_height" inputmode="decimal"'); ?>
+    </div>
+  </div>
+  <div class="form-group row mb-3">
+    <label class="col-sm-3 control-label" for="product_ships_in_own_box"><?php echo TEXT_PRODUCT_SHIPS_IN_OWN_BOX; ?></label>
+    <div class="col-sm-6 col-md-4">
+    <?php echo zen_draw_checkbox_field('product_ships_in_own_box', '1', $pInfo->product_ships_in_own_box, '', 'id="product_ships_in_own_box"') . '&nbsp;' . TEXT_PRODUCT_SHIPS_IN_OWN_BOX_HELP . '&nbsp;' ?>
+    </div>
+  </div>
   </div>
   <div class="form-group row mb-3">
       <?php echo zen_draw_label(TEXT_PRODUCTS_SORT_ORDER, 'products_sort_order', 'class="col-sm-3 form-label"'); ?>

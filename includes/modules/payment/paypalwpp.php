@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 20 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 May 01 Modified in v2.0.1 $
  */
 /**
  * load the communications layer code
@@ -614,7 +614,7 @@ if (false) { // disabled until clarification is received about coupons in PayPal
             ORDER BY paypal_ipn_id DESC LIMIT 1";
     $sql = $db->bindVars($sql, ':orderID', $zf_order_id, 'integer');
     $ipn = $db->Execute($sql);
-    if ($ipn->EOF && file_exists(DIR_FS_CATALOG . DIR_WS_MODULES . 'payment/paypal/paypalwpp_admin_notification.php')) {
+    if (!$ipn->EOF && file_exists(DIR_FS_CATALOG . DIR_WS_MODULES . 'payment/paypal/paypalwpp_admin_notification.php')) {
         require(DIR_FS_CATALOG . DIR_WS_MODULES . 'payment/paypal/paypalwpp_admin_notification.php');
     }
     return $output;
@@ -1156,7 +1156,7 @@ if (false) { // disabled until clarification is received about coupons in PayPal
 
         if (isset($order->delivery['country']['id'])) {
             $shippingISO = zen_get_countries_with_iso_codes($order->delivery['country']['id']);
-            $user_locale_info[] = strtoupper($shippingISO['countries_iso_code_2']);
+            $user_locale_info[] = strtoupper($shippingISO['countries_iso_code_2'] ?? '');
         }
 
         if (isset($order->billing['country']['id'])) {
@@ -1737,7 +1737,7 @@ if (false) { // disabled until clarification is received about coupons in PayPal
           }
         }
       }
-      $this->zcLog('ec-step1-addr_check3', 'address details from override check:'.($address_arr == FALSE ? ' <NONE FOUND>' : print_r($address_arr, true)));
+      $this->zcLog('ec-step1-addr_check3', 'address details from override check:'.(empty($address_arr) ? ' <NONE FOUND>' : print_r($address_arr, true)));
 
       // Do we require a "confirmed" shipping address ?
       if (MODULE_PAYMENT_PAYPALWPP_CONFIRMED_ADDRESS == 'Yes') {
@@ -2201,7 +2201,7 @@ if (false) { // disabled until clarification is received about coupons in PayPal
       if (MODULE_PAYMENT_PAYPALWPP_AUTOSELECT_CHEAPEST_SHIPPING == 'Yes') $this->setShippingMethod();
 
       // send the user on
-      if ($_SESSION['paypal_ec_markflow'] == 1) {
+      if (!empty($_SESSION['paypal_ec_markflow']) && $_SESSION['paypal_ec_markflow'] == 1) {
         $this->terminateEC('', false, FILENAME_CHECKOUT_PROCESS);
       } else {
         $this->terminateEC('', false, FILENAME_CHECKOUT_CONFIRMATION);
@@ -3096,8 +3096,8 @@ if (false) { // disabled until clarification is received about coupons in PayPal
             $this->_doDebug('PayPal Error Log - ec_step1()', "In function: ec_step1()\r\n\r\nValue List:\r\n" . str_replace('&',"\r\n", $doPayPal->_sanitizeLog($doPayPal->_parseNameValueList($doPayPal->lastParamList))) . "\r\n\r\nResponse:\r\n" . print_r($response, true));
           }
           $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_GEN_ERROR;
-          $errorNum = urldecode($response['L_ERRORCODE0'] . $response['RESULT']);
-          if ($response['RESULT'] == 25) $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_NOT_WPP_ACCOUNT_ERROR;
+          $errorNum = urldecode($response['L_ERRORCODE0'] . ($response['RESULT'] ?? ''));
+          if (isset($response['RESULT']) && $response['RESULT'] == 25) $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_NOT_WPP_ACCOUNT_ERROR;
           if ($response['L_ERRORCODE0'] == 10002) $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_SANDBOX_VS_LIVE_ERROR;
           if ($response['L_ERRORCODE0'] == 10565) {
             $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_WPP_BAD_COUNTRY_ERROR;
@@ -3168,7 +3168,7 @@ if (false) { // disabled until clarification is received about coupons in PayPal
           }
           $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_REFUND_ERROR;
           if ($response['L_ERRORCODE0'] == 10009) $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_REFUNDFULL_ERROR;
-          if ($response['RESULT'] == 105 || isset($response['RESPMSG'])) $response['L_SHORTMESSAGE0'] = $response['RESULT'] . ' ' . $response['RESPMSG'];
+          if ((!empty($response['RESULT']) && $response['RESULT'] == 105) || isset($response['RESPMSG'])) $response['L_SHORTMESSAGE0'] = ($response['RESULT'] ?? '') . ' ' . $response['RESPMSG'];
           if (urldecode($response['L_LONGMESSAGE0']) == 'This transaction has already been fully refunded') $response['L_SHORTMESSAGE0'] = urldecode($response['L_LONGMESSAGE0']);
           if (urldecode($response['L_LONGMESSAGE0']) == 'Can not do a full refund after a partial refund') $response['L_SHORTMESSAGE0'] = urldecode($response['L_LONGMESSAGE0']);
           if (urldecode($response['L_LONGMESSAGE0']) == 'The partial refund amount must be less than or equal to the remaining amount') $response['L_SHORTMESSAGE0'] = urldecode($response['L_LONGMESSAGE0']);
@@ -3211,6 +3211,9 @@ if (false) { // disabled until clarification is received about coupons in PayPal
             $this->_doDebug('PayPal Error Log - ' . $operation, "Value List:\r\n" . str_replace('&',"\r\n", $doPayPal->_sanitizeLog($doPayPal->_parseNameValueList($doPayPal->lastParamList))) . "\r\n\r\nResponse:\r\n" . print_r($response, true));
           }
           $errorText = MODULE_PAYMENT_PAYPALWPP_TEXT_VOID_ERROR;
+          if (empty($response['RESULT'])) {
+              $response['RESULT'] = '';
+          }
           if ($response['RESULT'] == 12) $response['L_SHORTMESSAGE0'] = $response['RESULT'] . ' ' . $response['RESPMSG'];
           if ($response['RESULT'] == 108) $response['L_SHORTMESSAGE0'] = $response['RESULT'] . ' ' . $response['RESPMSG'];
           $errorText .= ' (' . urldecode($response['L_SHORTMESSAGE0']) . ') ' . $response['L_ERRORCODE0'];

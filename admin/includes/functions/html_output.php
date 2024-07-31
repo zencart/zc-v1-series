@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 09 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 24 Modified in v2.0.0-beta1 $
  */
 
 ////
@@ -466,6 +466,10 @@ function zen_draw_input_field($name, $value = '~*~*#', $parameters = '', $requir
     $field = '<textarea name="' . zen_output_string($name) . '" wrap="' . $wrap . '"' . ($cols > 0 ? ' cols="' . $cols . '"' : '') . ' rows="' . zen_output_string($height) . '"';
 
     if (!empty($parameters)) $field .= ' ' . $parameters;
+
+    if (!str_contains($parameters, 'id="')) {
+        $field .= ' id="' . zen_output_string(str_replace(['[', ']'], '-', $name)) . '"';
+    }
 
     $field .= '>';
 

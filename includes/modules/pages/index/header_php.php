@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 11 Modified in v2.0.0-beta1 $
  */
 
 // This should be first line of the script:
@@ -125,6 +125,7 @@ require DIR_WS_MODULES . zen_get_module_directory('require_languages.php');
 // set the product filters according to selected product type
 $typefilter = $_GET['typefilter'] ?? 'default';
 require zen_get_index_filters_directory($typefilter . '_filter.php');
+unset($and, $sql_joins, $order_by);
 
 // query the database based on the selected filters
 $listing = $db->Execute($listing_sql);

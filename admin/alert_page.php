@@ -1,8 +1,8 @@
 <?php
 /**
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Zen4All 2020 Jul 01 Modified in v1.5.8-alpha $
+ * @version $Id: Scott Wilson 2024 Mar 10 Modified in v2.0.0-rc2 $
  */
 require('includes/application_top.php');
 $adminDirectoryExists = $installDirectoryExists = false;
@@ -35,7 +35,7 @@ if (!$adminDirectoryExists && !$installDirectoryExists) {
           <li><?php echo ALERT_REMOVE_ZCINSTALL; ?><br><br></li>
         <?php } ?>
         <?php if ($adminDirectoryExists) { ?>
-          <li><?php echo ALERT_RENAME_ADMIN; ?><br><a href="https://docs.zen-cart.com/user/running/rename_admin/" rel="noopener" target="_blank"><?php echo ADMIN_RENAME_FAQ_NOTE; ?></a></li>
+          <li><?php echo ALERT_RENAME_ADMIN; ?><br><a href="https://docs.zen-cart.com/user/installing/rename_admin/" rel="noopener" target="_blank"><?php echo ADMIN_RENAME_FAQ_NOTE; ?></a></li>
         <?php } ?>
       </ul>
       <?php if ($adminDirectoryExists) { ?>

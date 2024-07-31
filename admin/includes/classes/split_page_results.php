@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: pRose on charmes 2023 Feb 15 Modified in v1.5.8a $
+ * @version $Id: DrByte 2024 Mar 04 Modified in v2.0.0-rc1 $
  */
 
 class splitPageResults
@@ -192,7 +192,7 @@ class splitPageResults
             $sql = substr($sql_query, 0, $pos_to) . $where_sql;
             $this->sql_before = $sql;
             if (isset($current_page_number)) {
-                $sql .= "SUBSTRING(" . $this->letterGroupColumn . ", 1, " . $letterGroupLength . ") = '" . $current_page_number . "'";
+                $sql .= "SUBSTRING(" . $this->letterGroupColumn . ", 1, " . $letterGroupLength . ") = '" . $current_page_number . "' ";
             } else {
                 $sql .= $this->letterGroupColumn . " IS NULL ";
             }
@@ -246,7 +246,7 @@ class splitPageResults
             $letter = $check_page->fields['letter'];
             $sql_query = $this->sql_before;
             if (!empty($letter)) {
-                $sql_query .= "SUBSTRING(" . $this->letterGroupColumn . ", 1, " . $this->letterGroupLength . ") = '" . $letter . "'";
+                $sql_query .= "SUBSTRING(" . $this->letterGroupColumn . ", 1, " . $this->letterGroupLength . ") = '" . $letter . "' ";
             } else {
                 $sql_query .= $this->letterGroupColumn . " IS NULL ";
             }

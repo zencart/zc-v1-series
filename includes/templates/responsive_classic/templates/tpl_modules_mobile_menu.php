@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Oct 03 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott C Wilson 2024 Mar 01 Modified in v2.0.0-rc1 $
  */
 ?>
 
@@ -67,7 +67,6 @@ echo $menulist;
 
 <?php if (SHOW_CATEGORIES_BOX_PRODUCTS_NEW == 'true') {
       // display limits
-//    $display_limit = zen_get_products_new_timelimit();
       $display_limit = zen_get_new_date_range();
 
       $show_this = $db->Execute("select p.products_id
@@ -104,6 +103,17 @@ echo $menulist;
 <?php if (DEFINE_CONDITIONS_STATUS <= 1) { ?>
         <li><a href="<?php echo zen_href_link(FILENAME_CONDITIONS); ?>"><?php echo BOX_INFORMATION_CONDITIONS; ?></a></li>
 <?php } ?>
+<?php
+// -----
+// The following flag is set by /includes/init_includes/init_common_elements.php; refer to that module's
+// comments for the way to override this setting.
+//
+if ($flag_show_accessibility_sidebox_link === true) {
+?>
+    <li><?php echo '<a href="' . zen_href_link(FILENAME_ACCESSIBILITY) . '">' . BOX_INFORMATION_ACCESSIBILITY . '</a>'; ?></li>
+<?php
+}
+?>
 <?php if (!empty($external_bb_url) && !empty($external_bb_text)) { // forum/bb link ?>
         <li><a href="<?php echo $external_bb_url; ?>" rel="noopener" target="_blank"><?php echo $external_bb_text; ?></a></li>
 <?php } ?>

@@ -2,10 +2,10 @@
 /**
  * ot_gv order-total module
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Oct 16 Modified in v1.5.8a $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 /**
  * Enter description here...
@@ -50,11 +50,11 @@ class ot_gv {
     protected $deduction;
     /**
      * $description is a soft name for this order total method
-     * @var string 
+     * @var string
      */
     public $description;
     /**
-     * $header the module box header 
+     * $header the module box header
      * @var string
      */
     public $header;
@@ -98,7 +98,7 @@ class ot_gv {
      * @var array
      */
     protected $validation_errors = [];
-  
+
   /**
    * process gift vouchers
    *
@@ -122,7 +122,7 @@ class ot_gv {
     $this->credit_class = true;
     if (!(isset($_SESSION['cot_gv']) && zen_not_null(ltrim($_SESSION['cot_gv'], ' 0'))) || $_SESSION['cot_gv'] == '0') $_SESSION['cot_gv'] = '0.00';
     if (IS_ADMIN_FLAG !== true && zen_is_logged_in() && !zen_in_guest_checkout()) {
-      $this->checkbox = $this->user_prompt . '<input type="text" size="6" onkeyup="submitFunction()" name="cot_gv" value="' . number_format($_SESSION['cot_gv'], 2) . '" onfocus="if (this.value == \'' . number_format($_SESSION['cot_gv'], 2) . '\') this.value = \'\';">' . ($this->user_has_gv_account($_SESSION['customer_id']) > 0 ? '<br>' . MODULE_ORDER_TOTAL_GV_USER_BALANCE . $currencies->format($this->user_has_gv_account($_SESSION['customer_id'])) : '');
+      $this->checkbox = $this->user_prompt . '<input type="text" size="6" onkeyup="submitFunction()" name="cot_gv" value="' . number_format($currencies->normalizeValue($_SESSION['cot_gv']), 2) . '" onfocus="if (this.value == \'' . number_format($currencies->normalizeValue($_SESSION['cot_gv']), 2) . '\') this.value = \'\';">' . ($this->user_has_gv_account($_SESSION['customer_id']) > 0 ? '<br>' . MODULE_ORDER_TOTAL_GV_USER_BALANCE . $currencies->format($this->user_has_gv_account($_SESSION['customer_id'])) : '');
     }
     $this->output = array();
     if (IS_ADMIN_FLAG === true) {
@@ -261,27 +261,49 @@ class ot_gv {
       }
     }
   }
-  /**
-   * check system to see if GVs should be made available or not. If true, then supply GV-selection fields on checkout pages
-   */
-  function credit_selection() {
-    global $db, $currencies;
-    $selection = array();
-    $gv_query = $db->Execute("SELECT coupon_id FROM " . TABLE_COUPONS . " WHERE coupon_type = 'G' AND coupon_active='Y'");
-    // checks to see if any GVs are in the system and active or if the current customer has any GV balance
-    if ($gv_query->RecordCount() > 0 || $this->use_credit_amount()) {
-      $selection = array('id' => $this->code,
-                         'module' => $this->title,
-                         'redeem_instructions' => MODULE_ORDER_TOTAL_GV_REDEEM_INSTRUCTIONS,
-                         'checkbox' => $this->use_credit_amount(),
-                         'fields' => array(array('title' => MODULE_ORDER_TOTAL_GV_TEXT_ENTER_CODE,
-                         'field' => zen_draw_input_field('gv_redeem_code', '', 'id="disc-'.$this->code.'" onkeyup="submitFunction(0,0)"'),
-                         'tag' => 'disc-'.$this->code,
-                         )));
 
+    /**
+    * check system to see if GVs should be made available or not. If true, then supply GV-selection fields on checkout pages
+    */
+    function credit_selection()
+    {
+        global $db, $order;
+
+        // -----
+        // Don't offer a GV payment for orders that contain **only** GV's!
+        //
+        $only_gvs_in_order = true;
+        foreach ($order->products as $next_product) {
+            if (str_starts_with($next_product['model'] ?? '', 'GIFT') === false) {
+                $only_gvs_in_order = false;
+                break;
+            }
+        }
+        if ($only_gvs_in_order === true) {
+            return [];
+        }
+
+        $selection = [];
+        $gv_query = $db->Execute("SELECT coupon_id FROM " . TABLE_COUPONS . " WHERE coupon_type = 'G' AND coupon_active = 'Y' LIMIT 1");
+        // checks to see if any GVs are in the system and active or if the current customer has any GV balance
+        if (!$gv_query->EOF || $this->use_credit_amount()) {
+            $selection = [
+                'id' => $this->code,
+                'module' => $this->title,
+                'redeem_instructions' => MODULE_ORDER_TOTAL_GV_REDEEM_INSTRUCTIONS,
+                'checkbox' => $this->use_credit_amount(),
+                'fields' => [
+                    [
+                        'title' => MODULE_ORDER_TOTAL_GV_TEXT_ENTER_CODE,
+                        'field' => zen_draw_input_field('gv_redeem_code', '', 'id="disc-' . $this->code . '" onkeyup="submitFunction(0,0)"'),
+                        'tag' => 'disc-'.$this->code,
+                    ],
+                ],
+            ];
+        }
+        return $selection;
     }
-    return $selection;
-  }
+
   /**
    * Verify that the customer has entered a valid redemption amount, and return the amount that can be applied to this order
    */
@@ -517,7 +539,7 @@ class ot_gv {
   }
 
   function help() {
-       return array('link' => 'https://docs.zen-cart.com/user/order_total/gift_certificates/'); 
+       return array('link' => 'https://docs.zen-cart.com/user/order_total/gift_certificates/');
   }
 
   /**

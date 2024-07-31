@@ -12,7 +12,11 @@ trait GeneralConcerns
 
     public static function detectUser()
     {
+        if (isset($_SERVER['IS_DDEV_PROJECT'])) {
+            return 'ddev';
+        }
         $user = $_SERVER['USER'] ?? $_SERVER['MY_USER'];
+
         return $user;
     }
 
@@ -29,23 +33,27 @@ trait GeneralConcerns
             die('could not find config file ' .$configFile);
         }
         echo $configFile . PHP_EOL;
-
-        require($configFile);
-        require_once('database_tables.php');
-
+        $file = require($configFile);
+        return $file;
     }
 
 
-    public static function loadMigrationAndSeeders()
+    public static function loadMigrationAndSeeders($mainConfigs = [])
     {
         self::databaseSetup(); //setup Capsule
-        self::runMigrations();
-        self::runInitialSeeders();
+        self::runDatabaseLoader($mainConfigs);
     }
 
     public function createHttpBrowser()
     {
         $this->browser = new HttpBrowser(HttpClient::create());
+    }
+
+    public static function locateElementInPageSource(string $element_lookup_text, string $page_source, int $length = 1500): string
+    {
+        $position = strpos($page_source, $element_lookup_text);
+        // if not found, return whole $page_source; but if found, only return a portion of the page
+        return ($position === false) ? $page_source : substr($page_source, $position, $length);
     }
 
     /**

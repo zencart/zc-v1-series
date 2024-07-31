@@ -4,10 +4,10 @@
      * Processes all outbound email from Zen Cart
      * Hooks into phpMailer class for actual email encoding and sending
      *
- * @copyright Copyright 2003-2024 Zen Cart Development Team
+     * @copyright Copyright 2003-2024 Zen Cart Development Team
      * @copyright Portions Copyright 2003 osCommerce
      * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
-     * @version $Id: lat9 2023 Dec 26 Modified in v2.0.0-alpha1 $
+     * @version $Id: Scott C Wilson 2024 Apr 25 Modified in v2.0.1 $
      */
 
     use PHPMailer\PHPMailer\PHPMailer;
@@ -506,7 +506,10 @@
             if ($ErrorInfo !== '') {
                 $mail_langs = $mail->getTranslations();
                 if (strpos($ErrorInfo, $mail_langs['recipients_failed']) === false) {
-                    trigger_error('Email Error: ' . $ErrorInfo);
+                   // Don't log SMTP rejected spam; log others
+                   if (!str_contains($ErrorInfo, 'spam content')) {
+                       trigger_error('Email Error: ' . $ErrorInfo);
+                   }
                 } else {
                     $log_prefix = (IS_ADMIN_FLAG === true) ? '/myDEBUG-bounced-email-adm-' : '/myDEBUG-bounced-email-';
                     $log_date = new DateTime();
@@ -548,19 +551,21 @@
         $email_html = (EMAIL_USE_HTML == 'true') ? zen_db_prepare_input_html_safe($email_html) : zen_db_prepare_input('HTML disabled in admin');
         $email_text = zen_db_prepare_input($email_text);
         $module = zen_db_prepare_input($module);
-        $error_msgs = zen_db_prepare_input($error_msgs);
+        $error_msgs = empty($error_msgs) ? 'NULL' : zen_db_prepare_input($error_msgs);
 
-        $db->Execute("INSERT INTO " . TABLE_EMAIL_ARCHIVE . "
-                  (email_to_name, email_to_address, email_from_name, email_from_address, email_subject, email_html, email_text, date_sent, module)
-                  VALUES ('" . zen_db_input($to_name) . "',
-                          '" . zen_db_input($to_email_address) . "',
-                          '" . zen_db_input($from_email_name) . "',
-                          '" . zen_db_input($from_email_address) . "',
-                          '" . zen_db_input($email_subject) . "',
-                          '" . zen_db_input($email_html) . "',
-                          '" . zen_db_input($email_text) . "',
-                          now() ,
-                          '" . zen_db_input($module) . "')");
+        $db->perform(TABLE_EMAIL_ARCHIVE, [
+            [ 'fieldName' => 'email_to_name', 'value' => $to_name, 'type' => 'string' ],
+            [ 'fieldName' => 'email_to_address', 'value' => $to_email_address, 'type' => 'string' ],
+            [ 'fieldName' => 'email_from_name', 'value' => $from_email_name, 'type' => 'string' ],
+            [ 'fieldName' => 'email_from_address', 'value' => $from_email_address, 'type' => 'string' ],
+            [ 'fieldName' => 'email_subject', 'value' => $email_subject, 'type' => 'string' ],
+            [ 'fieldName' => 'email_html', 'value' => $email_html, 'type' => 'string' ],
+            [ 'fieldName' => 'email_text', 'value' => $email_text, 'type' => 'string' ],
+            [ 'fieldName' => 'date_sent', 'value' => 'now()', 'type' => 'passthru' ],
+            [ 'fieldName' => 'module', 'value' => $module, 'type' => 'string' ],
+            [ 'fieldName' => 'errorinfo', 'value' => $error_msgs, 'type' => 'string' ],
+        ]);
+
         return $db;
     }
 
@@ -601,6 +606,9 @@
         if (is_array($content)) {
             $block = $content;
         } else {
+            if ($content === '' || $content === 'none') {
+               return '';
+            }
             $block['EMAIL_MESSAGE_HTML'] = $content;
         }
 
@@ -795,8 +803,8 @@
             OFFICE_EMAIL . "\t" . $email_from . "\n" .
             (trim($login) !== '' ? OFFICE_LOGIN_NAME . "\t" . $login . "\n" : '') .
             (trim($login_email) !== '' ? OFFICE_LOGIN_EMAIL . "\t" . $login_email . "\n" : '') .
-            (trim($login_phone) !== '' ? OFFICE_LOGIN_PHONE . "\t" . $login_phone . "\n" : '') .
-            ($login_fax !== '' ? OFFICE_LOGIN_FAX . "\t" . $login_fax . "\n" : '') .
+            (trim($login_phone) !== '' ? OFFICE_LOGIN_PHONE . "\t" . zen_output_string_protected($login_phone) . "\n" : '') .
+            ($login_fax !== '' ? OFFICE_LOGIN_FAX . "\t" . zen_output_string_protected($login_fax) . "\n" : '') .
             OFFICE_IP_ADDRESS . "\t" . $_SESSION['customers_ip_address'] . ' - ' . $_SERVER['REMOTE_ADDR'] . "\n" .
             ($email_host_address != '' ? OFFICE_HOST_ADDRESS . "\t" . $email_host_address . "\n" : '') .
             OFFICE_DATE_TIME . "\t" . date("D M j Y G:i:s T") . "\n";
@@ -808,15 +816,15 @@
                 '<tr><td class="extra-info-bold">' . OFFICE_EMAIL . '</td><td>' . $email_from . '</td></tr>' .
                 ($login !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_NAME . '</td><td>' . $login . '</td></tr>' : '') .
                 ($login_email !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_EMAIL . '</td><td>' . $login_email . '</td></tr>' : '') .
-                ($login_phone !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_PHONE . '</td><td>' . $login_phone . '</td></tr>' : '') .
-                ($login_fax !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_FAX . '</td><td>' . $login_fax . '</td></tr>' : '') .
+                ($login_phone !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_PHONE . '</td><td>' . zen_output_string_protected($login_phone) . '</td></tr>' : '') .
+                ($login_fax !== '' ? '<tr><td class="extra-info-bold">' . OFFICE_LOGIN_FAX . '</td><td>' . zen_output_string_protected($login_fax) . '</td></tr>' : '') .
             '   <tr><td class="extra-info-bold">' . OFFICE_IP_ADDRESS . '</td><td>' . $_SESSION['customers_ip_address'] . ' - ' . $_SERVER['REMOTE_ADDR'] . '</td></tr>' .
                 ($email_host_address != '' ? '<tr><td class="extra-info-bold">' . OFFICE_HOST_ADDRESS . '</td><td>' . $email_host_address . '</td></tr>' : '') .
             '   <tr><td class="extra-info-bold">' . OFFICE_DATE_TIME . '</td><td>' . date('D M j Y G:i:s T') . '</td></tr>';
 
         foreach ($moreinfo as $key => $val) {
-            $extra_info['TEXT'] .= $key . ": \t" . $val . "\n";
-            $extra_info['HTML'] .= '<tr><td class="extra-info-bold">' . $key . '</td><td>' . $val . '</td></tr>';
+            $extra_info['TEXT'] .= zen_output_string_protected($key) . ": \t" . zen_output_string_protected($val) . "\n";
+            $extra_info['HTML'] .= '<tr><td class="extra-info-bold">' . zen_output_string_protected($key) . '</td><td>' . zen_output_string_protected($val) . '</td></tr>';
         }
 
         $extra_info['TEXT'] .= "\n\n";

@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: pRose on charmes 2023 Sep 15 Modified in v2.0.0-alpha1 $
+ * @version $Id: neekfenwick 2024 Mar 08 Modified in v2.0.0-rc1 $
 */
 
 $define = [
@@ -38,10 +38,11 @@ $define = [
     'TEXT_COPY_METATAGS' => 'Copy Metatags to Duplicate?',
     'TEXT_COPY_LINKED_CATEGORIES' => 'Copy Linked Categories to Duplicate?',
     'TEXT_COPY_EDIT_DUPLICATE' => 'Open Duplicate Product for editing',
-    'TEXT_COPY_AS_DUPLICATE_ATTRIBUTES' => 'Attributes copied from Product ID#%u to duplicate Product ID#%u',
-    'TEXT_COPY_AS_DUPLICATE_METATAGS' => 'Metatags for Language ID#%u copied from Product ID#%u to duplicate Product ID#%u',
-    'TEXT_COPY_AS_DUPLICATE_CATEGORIES' => 'Linked Category ID#%u copied from Product ID#%u to duplicate Product ID#%u',
-    'TEXT_COPY_AS_DUPLICATE_DISCOUNTS' => 'Discounts copied from Product ID#%u to duplicate Product ID#%u',
+    'TEXT_COPY_AS_DUPLICATE_ATTRIBUTES' => 'Attributes copied from Product ID#%1$u to duplicate Product ID#%2$u',
+    'TEXT_COPY_AS_DUPLICATE_METATAGS' => 'Metatags for Language ID#%1$u copied from Product ID#%2$u to duplicate Product ID#%3$u',
+    'TEXT_COPY_AS_DUPLICATE_CATEGORIES' => 'Linked Category ID#%1$u copied from Product ID#%2$u to duplicate Product ID#%3$u',
+    'TEXT_COPY_AS_DUPLICATE_DISCOUNTS' => 'Discounts copied from Product ID#%1$u to duplicate Product ID#%2$u',
+    'TEXT_COPY_AS_DUPLICATE_SPECIALS' => 'Special Pricing copied from Product ID#%1$u to duplicate Product ID#%2$u',
     'TEXT_DUPLICATE_IDENTIFIER' => 'COPY',
     'TEXT_INFO_HEADING_ATTRIBUTE_FEATURES' => 'Attributes Changes for Products ID# ',
     'TEXT_PRODUCTS_ATTRIBUTES_INFO' => 'Attribute Features For:',
@@ -50,6 +51,7 @@ $define = [
     'TEXT_INFO_ATTRIBUTES_FEATURES_COPY_TO_PRODUCT' => 'Copy Attributes to another <strong>product</strong> from:<br>',
     'TEXT_INFO_ATTRIBUTES_FEATURES_COPY_TO_CATEGORY' => 'Copy Attributes to another <strong>category</strong> from:<br>',
     'TEXT_COPY_ATTRIBUTES' => 'Copy Product Attributes to Duplicate?',
+    'TEXT_COPY_SPECIALS' => 'Copy Product Specials Price to Duplicate?',
     'TEXT_COPY_DISCOUNTS_ONLY' => 'Only used for Duplicate Products with Quantity Discounts ...',
     'TEXT_COPY_DISCOUNTS' => 'Copy Product Quantity Discounts to Duplicate?',
     'TEXT_INFO_HEADING_STATUS_CATEGORY' => 'Change Category Status for:',

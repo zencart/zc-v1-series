@@ -4,7 +4,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: neekfenwick 2024 Mar 08 Modified in v2.0.0-rc1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -22,7 +22,7 @@ if (isset($_POST['products_id'], $_POST['categories_id'])) {
         }
     } elseif ($_POST['copy_as'] === 'duplicate') {
 
-        $product = zen_get_product_details($products_id);
+        $product = (new Product((int)$products_id))->withDefaultLanguage();
 
         // fix Product copy from if Unit is 0
         if ($product->fields['products_quantity_order_units'] == 0) {
@@ -55,6 +55,12 @@ if (isset($_POST['products_id'], $_POST['categories_id'])) {
             'products_quantity' =>  'float',
             'products_price' =>  'float',
             'products_weight' =>  'float',
+
+            'products_length' =>  'float',
+            'products_width' =>  'float',
+            'products_height' =>  'float',
+            'product_ships_in_own_box' =>  'int',
+
             'products_tax_class_id' =>  'int',
             'manufacturers_id' =>  'int',
             'product_is_free' =>  'int',
@@ -67,11 +73,20 @@ if (isset($_POST['products_id'], $_POST['categories_id'])) {
         //
         $zco_notifier->notify('NOTIFY_MODULES_COPY_PRODUCT_CONFIRM_DUPLICATE_FIELDS', $product, $separately_updated_fields, $casted_fields);
 
+        $db_fields = $db->metaColumns(TABLE_PRODUCTS);
+
         foreach ($product->fields as $key => $value) {
-            if (in_array($key, $separately_updated_fields)) {
+            // only prepare fields that are part of TABLE_PRODUCTS
+            if (!array_key_exists(strtoupper($key), $db_fields)) {
                 continue;
             }
 
+            // skip any fields that are handled already or will be done differently
+            if (in_array($key, $separately_updated_fields, true)) {
+                continue;
+            }
+
+            // cast types according to rules
             $value = zen_db_input($value);
             if (array_key_exists($key, $casted_fields)) {
                 if ($casted_fields[$key] === 'int') {
@@ -204,6 +219,13 @@ if (isset($_POST['products_id'], $_POST['categories_id'])) {
             foreach ($categories_from as $row) {
                 zen_link_product_to_category($dup_products_id, (int)$row);
                 $messageStack->add_session(sprintf(TEXT_COPY_AS_DUPLICATE_CATEGORIES, (int)$row, $products_id, $dup_products_id), 'success');
+            }
+        }
+
+// copy specials to Duplicate
+        if (!empty($_POST['copy_specials']) && $_POST['copy_specials'] === 'copy_specials_yes') {
+            if (zen_copy_specials_to_product($products_id, $dup_products_id)) {
+                $messageStack->add_session(sprintf(TEXT_COPY_AS_DUPLICATE_SPECIALS, $products_id, $dup_products_id), 'success');
             }
         }
 

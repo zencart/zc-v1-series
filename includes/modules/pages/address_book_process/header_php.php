@@ -2,10 +2,10 @@
 /**
  * Header code file for the Address Book Process page
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: torvista 2022 May 25 Modified in v1.5.8-alpha $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 // This should be first line of the script:
 $zco_notifier->notify('NOTIFY_HEADER_START_ADDRESS_BOOK_PROCESS');
@@ -115,7 +115,7 @@ if (isset($_POST['action']) && (($_POST['action'] == 'process') || ($_POST['acti
                      FROM " . TABLE_ZONES . "
                      WHERE zone_country_id = :zoneCountryID
                      AND " .
-                     ((trim($state) != '' && $zone_id == 0) ? "(upper(zone_name) like ':zoneState%' OR upper(zone_code) like '%:zoneState%') OR " : "") .
+                     ((trim($state) != '' && (int)$zone_id === 0) ? "(upper(zone_name) like ':zoneState%' OR upper(zone_code) like '%:zoneState%') OR " : "") .
                     "zone_id = :zoneID
                      ORDER BY zone_code ASC, zone_name";
 

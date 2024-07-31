@@ -1,22 +1,22 @@
 <?php
 /**
- * @author      Serban Ghita <serbanghita@gmail.com>
- * @license     MIT License https://github.com/serbanghita/Mobile-Detect/blob/master/LICENSE.txt
- *
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @author ZCAdditions.com, ZCA Responsive Template Default
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: DrByte 2024 Apr 10 Modified in v2.0.1 $
  */
 
 function layoutTypes()
 {
-    return array('default', 'mobile', 'tablet', 'full');
+    return ['default', 'mobile', 'tablet', 'full'];
 }
 
 function initLayoutType()
 {
     // Safety check.
-    if (!class_exists('Mobile_Detect')) { return 'default'; }
+    if (!class_exists('MobileDetect')) { return 'default'; }
 
-    $detect = new Mobile_Detect;
+    $detect = new Detection\MobileDetect;
     $isMobile = $detect->isMobile();
     $isTablet = $detect->isTablet();
 
@@ -32,8 +32,8 @@ function initLayoutType()
         }
     }
 
-    if ( !in_array($layoutType, $layoutTypes) ) { 
-        $layoutType = 'default'; 
+    if ( !in_array($layoutType, $layoutTypes) ) {
+        $layoutType = 'default';
     }
 
     $_SESSION['layoutType'] = $layoutType;

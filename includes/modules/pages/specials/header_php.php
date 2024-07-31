@@ -6,11 +6,11 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Jan 31 Modified in v2.0.0-beta1 $
  */
 $zco_notifier->notify('NOTIFY_HEADER_START_SPECIALS');
 
-require(DIR_WS_MODULES . zen_get_module_directory('require_languages.php'));
+require DIR_WS_MODULES . zen_get_module_directory('require_languages.php');
 
 // load extra language strings used by product_listing module
 $languageLoader->setCurrentPage('index');
@@ -70,8 +70,8 @@ if (!empty($_GET['sale_category'])) {
 }
 
 // display sort order dropdown
-$disp_order_default = PRODUCT_NEW_LIST_SORT_DEFAULT;
-$order_by = $order_by ?? ' ORDER BY s.specials_date_added DESC ';
+$disp_order_default = 8;
+$default_sort_order = ' ORDER BY s.specials_date_added DESC ';
 
 // set the product filters according to selected product type
 $typefilter = $_GET['typefilter'] ?? 'default';

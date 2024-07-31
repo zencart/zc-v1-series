@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 
 /**
@@ -29,7 +29,7 @@ function zen_get_products_special_price($product_id, $specials_price_only = fals
         $special_price = false;
     }
 
-    if (strpos($product->fields['products_model'], 'GIFT') === 0) {    //Never apply a salededuction to Ian Wilson's Giftvouchers
+    if (strpos(($product->fields['products_model'] ?? ''), 'GIFT') === 0) {    //Never apply a salededuction to Ian Wilson's Giftvouchers
         if (!empty($special_price)) {
             return $special_price;
         }
@@ -216,7 +216,7 @@ function zen_get_products_display_price($product_id)
             if ($display_sale_price) {
                 if (SHOW_SALE_DISCOUNT === '1') {
                     if ($display_normal_price != 0) {
-                        $show_discount_amount = number_format(100 - (($display_sale_price / $display_normal_price) * 100), SHOW_SALE_DISCOUNT_DECIMALS);
+                        $show_discount_amount = number_format(100 - (($display_sale_price / $display_normal_price) * 100), (int)SHOW_SALE_DISCOUNT_DECIMALS);
                     } else {
                         $show_discount_amount = '';
                     }
@@ -242,7 +242,7 @@ function zen_get_products_display_price($product_id)
                     '<span class="productPriceDiscount">' .
                         '<br>' .
                         PRODUCT_PRICE_DISCOUNT_PREFIX .
-                        number_format(100 - (($display_special_price / $display_normal_price) * 100), SHOW_SALE_DISCOUNT_DECIMALS) .
+                        number_format(100 - (($display_special_price / $display_normal_price) * 100), (int)SHOW_SALE_DISCOUNT_DECIMALS) .
                         PRODUCT_PRICE_DISCOUNT_PERCENTAGE .
                     '</span>';
             } else {
@@ -1288,6 +1288,9 @@ function zen_get_attributes_price_final($attribute_id, $qty = 1, $pre_selected =
         $attributes_price_final += zen_get_attributes_price_final_onetime($products_attributes_id, 1, $pre_selected);
     }
 
+    if ($include_products_price_in === false) {
+        return $attributes_price_final - $products_price_without_attributes;
+    }
     return $attributes_price_final;
 }
 
@@ -1430,7 +1433,16 @@ function zen_get_letters_count_price($string, $free = 0, $price = 0)
 function zen_get_products_discount_price_qty($product_id, $check_qty, $check_amount = 0)
 {
     global $db;
+
     $product_id = (int)$product_id;
+
+    if (IS_ADMIN_FLAG === false) {
+        $new_qty = $_SESSION['cart']->in_cart_mixed_discount_quantity($product_id);
+        // check for discount qty mix
+        if ($new_qty > $check_qty) {
+            $check_qty = $new_qty;
+        }
+    }
 
     $result = zen_get_product_details($product_id);
     if ($result->EOF) {

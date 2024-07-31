@@ -23,31 +23,37 @@ $oID = zen_db_prepare_input($_GET['oID']);
 
 include DIR_FS_CATALOG . DIR_WS_CLASSES . 'order.php';
 $order = new order($oID);
-$show_including_tax = (DISPLAY_PRICE_WITH_TAX == 'true');
-
-// prepare order-status pulldown list
-$ordersStatus = zen_getOrdersStatuses();
-$orders_statuses = $ordersStatus['orders_statuses'];
-$orders_status_array = $ordersStatus['orders_status_array'];
-
-$show_customer = false;
-if (isset($order->delivery['name']) && $order->billing['name'] != $order->delivery['name']) {
-    $show_customer = true;
-}
-if (isset($order->delivery['street_address']) && $order->billing['street_address'] != $order->delivery['street_address']) {
-    $show_customer = true;
-}
 ?>
-    <!doctype html>
-    <html <?php echo HTML_PARAMS; ?>>
-    <head>
-        <?php require DIR_WS_INCLUDES . 'admin_html_head.php'; ?>
-        <script>
-            function couponpopupWindow(url) { /* just a stub for coupon output that might fire it */
-            }
-        </script>
-    </head>
-    <body>
+<!doctype html>
+<html <?= HTML_PARAMS ?>>
+  <head>
+    <?php require DIR_WS_INCLUDES . 'admin_html_head.php'; ?>
+    <script>
+      function couponpopupWindow(url) { /* just a stub for coupon output that might fire it */ }
+    </script>
+  </head>
+  <body>
+<?php
+if (empty($order->info)) {
+?>
+      <p class="text-danger text-center"><?= ERROR_ORDER_DOES_NOT_EXIST . $oID ?></p>
+<?php
+} else {
+    $show_including_tax = (DISPLAY_PRICE_WITH_TAX == 'true');
+
+    // prepare order-status pulldown list
+    $ordersStatus = zen_getOrdersStatuses();
+    $orders_statuses = $ordersStatus['orders_statuses'];
+    $orders_status_array = $ordersStatus['orders_status_array'];
+
+    $show_customer = false;
+    if (isset($order->delivery['name']) && $order->billing['name'] != $order->delivery['name']) {
+      $show_customer = true;
+    }
+    if (isset($order->delivery['street_address']) && $order->billing['street_address'] != $order->delivery['street_address']) {
+      $show_customer = true;
+    }
+?>
     <div class="container">
         <!-- body_text //-->
         <div class="table-responsive">
@@ -388,40 +394,144 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
                     <?php
                 }
                 ?>
-                </tbody>
-            </table>
-        </div>
+              </td>
+              <td class="dataTableContent">
+                <?php echo $order->products[$i]['model']; ?>
+              </td>
+                            <?php
+              // -----
+              // Additional fields can be added into columns before the Tax columns.
+              //
+              // A watching observer can provide an associative array in the following format:
+              //
+              // $extra_data = array(
+              //     array(
+              //       'align' => $alignment,    // One of 'center', 'right', or 'left' (optional)
+              //       'text' => $value
+              //     ),
+              // );
+              //
+              // Observer notes:
+              // - Be sure to check that the $p2/$extra_data value is specifically (bool)false before initializing, since
+              //   multiple observers might be injecting content!
+              // - If heading-columns are added, be sure to add the associated header columns, too, via the
+              //   'NOTIFY_ADMIN_INVOICE_HEADERS_B4_QTY' notification.
+              //
+              $extra_data = false;
+              $zco_notifier->notify('NOTIFY_ADMIN_INVOICE_DATA_B4_TAX',  $order->products[$i]['id'], $extra_data);
+              if (is_array($extra_data)) {
+                  foreach ($extra_data as $data_info) {
+                      $align = (isset($data_info['align'])) ? (' text-' . $data_info['align']) : '';
+?>
+                <td class="dataTableContent<?php echo $align; ?>"><?php echo $data_info['text']; ?></td>
+<?php
+                  }
+              }
+?>
+<?php if ($show_product_tax) { ?>
+              <td class="dataTableContent text-right">
+                <?php echo zen_display_tax_value($order->products[$i]['tax']); ?>%
+              </td>
+<?php } ?>
+              <td class="dataTableContent text-right">
+                <strong><?php echo $currencies->format($order->products[$i]['final_price'], true, $order->info['currency'], $order->info['currency_value']) . ($order->products[$i]['onetime_charges'] != 0 ? '<br>' . $currencies->format($order->products[$i]['onetime_charges'], true, $order->info['currency'], $order->info['currency_value']) : ''); ?></strong>
+              </td>
+<?php if ($show_including_tax)  { ?>
+              <td class="dataTableContent text-right">
+                <strong><?php echo $currencies->format(zen_add_tax($order->products[$i]['final_price'], $order->products[$i]['tax']), true, $order->info['currency'], $order->info['currency_value']) . ($order->products[$i]['onetime_charges'] != 0 ? '<br>' . $currencies->format(zen_add_tax($order->products[$i]['onetime_charges'], $order->products[$i]['tax']), true, $order->info['currency'], $order->info['currency_value']) : ''); ?></strong>
+              </td>
+<?php } ?>
+              <td class="dataTableContent text-right">
+                <strong><?php echo $currencies->format(zen_round($order->products[$i]['final_price'], $decimals) * $order->products[$i]['qty'], true, $order->info['currency'], $order->info['currency_value']) . ($order->products[$i]['onetime_charges'] != 0 ? '<br>' . $currencies->format($order->products[$i]['onetime_charges'], true, $order->info['currency'], $order->info['currency_value']) : ''); ?></strong>
+              </td>
+<?php if ($show_including_tax)  { ?>
+              <td class="dataTableContent text-right align-top">
+                <strong>
+                  <?php echo $priceIncTax; ?>
+                  <?php if ($order->products[$i]['onetime_charges'] != 0) {
+                      echo '<br>' . $currencies->format(zen_add_tax($order->products[$i]['onetime_charges'], $order->products[$i]['tax']), true, $order->info['currency'], $order->info['currency_value']);
+                  }
+                  ?>
+                </strong>
+              </td>
+<?php }
+              // -----
+              // Additional fields can be added into columns after the Tax columns.
+              //
+              // A watching observer can provide an associative array in the following format:
+              //
+              // $extra_data = array(
+              //     array(
+              //       'align' => $alignment,    // One of 'center', 'right', or 'left' (optional)
+              //       'text' => $value
+              //     ),
+              // );
+              //
+              // Observer notes:
+              // - Be sure to check that the $p2/$extra_data value is specifically (bool)false before initializing, since
+              //   multiple observers might be injecting content!
+              // - If heading-columns are added, be sure to add the associated header columns, too, via the
+              //   'NOTIFY_ADMIN_INVOICE_HEADERS_AFTER_TAX' notification.
+              //
+              $extra_data = false;
+              $zco_notifier->notify('NOTIFY_ADMIN_INVOICE_DATA_AFTER_TAX', $order->products[$i]['id'], $extra_data);
+              if (is_array($extra_data)) {
+                  foreach ($extra_data as $data_info) {
+                      $align = (isset($data_info['align'])) ? (' text-' . $data_info['align']) : '';
+?>
+                <td class="dataTableContent<?php echo $align; ?>"><?php echo $data_info['text']; ?></td>
+<?php
+                  }
+              }
+?>
+            </tr>
+            <?php
+          }
+          ?>
+        </tbody>
+      </table>
+      <?php
+        $additional_content = false;
+        $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_INVOICE_ADDITIONAL_DATA_MIDDLE', $oID, $additional_content);
+          if ($additional_content !== false) {
+      ?>
+          <table class="table">
+              <tr><td class="main additional_data" colspan="2"><?php echo $additional_content; ?></td></tr>
+          </table>
+      <?php
+          }
+      ?>
         <div class="table-responsive">
             <table class="table">
-                <?php
-                for ($i = 0, $n = sizeof($order->totals); $i < $n; $i++) {
-                    ?>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td class="text-right <?php echo str_replace('_', '-', $order->totals[$i]['class']); ?>-Text"><?php echo $order->totals[$i]['title']; ?></td>
-                        <td class="text-right <?php echo str_replace('_', '-', $order->totals[$i]['class']); ?>-Amount"><?php echo $order->totals[$i]['text']; ?></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-            </table>
-        </div>
-        <?php if (ORDER_COMMENTS_INVOICE > 0) { ?>
-            <div class="table-responsive">
-                <table class="table table-condensed" style="width:100%;">
-                    <thead class="table-dark">
-                    <tr>
-                        <th class="text-left"><strong><?php echo TABLE_HEADING_DATE_ADDED; ?></strong></th>
-                        <th class="text-left"><strong><?php echo TABLE_HEADING_STATUS; ?></strong></th>
-                        <th class="text-left"><strong><?php echo TABLE_HEADING_COMMENTS; ?></strong></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    $orders_history = $db->Execute("SELECT orders_status_id, date_added, customer_notified, comments
+          <?php
+          for ($i = 0, $n = sizeof($order->totals); $i < $n; $i++) {
+            ?>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="text-right <?php echo str_replace('_', '-', $order->totals[$i]['class']); ?>-Text"><?php echo $order->totals[$i]['title']; ?></td>
+            <td class="text-right <?php echo str_replace('_', '-', $order->totals[$i]['class']); ?>-Amount"><?php echo $order->totals[$i]['text']; ?></td>
+          </tr>
+          <?php
+        }
+        ?>
+      </table>
+      </div>
+      <?php if (ORDER_COMMENTS_INVOICE > 0) { ?>
+      <div class="table-responsive">
+          <table class="table table-condensed" style="width:100%;">
+              <thead class="table-dark">
+            <tr>
+              <th class="text-left"><strong><?php echo TABLE_HEADING_DATE_ADDED; ?></strong></th>
+              <th class="text-left"><strong><?php echo TABLE_HEADING_STATUS; ?></strong></th>
+              <th class="text-left"><strong><?php echo TABLE_HEADING_COMMENTS; ?></strong></th>
+            </tr>
+          </thead>
+          <tbody>
+              <?php
+              $orders_history = $db->Execute("SELECT orders_status_id, date_added, customer_notified, comments
                                             FROM " . TABLE_ORDERS_STATUS_HISTORY . "
                                             WHERE orders_id = " . zen_db_input($oID) . "
                                             AND customer_notified >= 0
@@ -483,7 +593,9 @@ if (isset($order->delivery['street_address']) && $order->billing['street_address
         }
         ?>
     </div>
-
+<?php
+}
+?>
     <!-- body_text_eof //-->
     </body>
     </html>

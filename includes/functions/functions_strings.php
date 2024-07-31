@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2023 Dec 25 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 23 Modified in v2.0.0-beta1 $
  */
 
 
@@ -427,4 +427,33 @@ function zen_str_to_numeric($string) {
     }
 
     return (float)$string;
+}
+
+/**
+ * Find a language define for displaying translated output for a configuration_key's configuration_value.
+ * Given a configuration key, look up its configuration_value and find a language-define for it, using $prefix.$value.
+ * eg: key: SHIPPING_WEIGHT_UNITS, prefix: TEXT_SHIPPING_, key's value: 'lbs', get lang define of TEXT_SHIPPING_LBS
+ * Or if not found, fallback to supplied default; if no default, attempt to just return the configuration_value
+ *
+ * @param string $config_key Name of configuration_key constant
+ * @param string|null $lang_define_prefix Language define prefix to be prepended for lookup
+ * @param string|null $fallback Value to return if failures occur
+ * @return string
+ */
+function zen_get_translated_config_setting(string $config_key, ?string $lang_define_prefix = null, ?string $fallback = null): string
+{
+    // Get current configuration_value for the specified key.
+    // It would already be defined as a constant at this point, so if not defined, then it's invalid, so we'll return the fallback.
+    if (!defined($config_key)) {
+        return $fallback ?? $config_key;
+    }
+    $value = constant($config_key);
+
+    $lookup = strtoupper($lang_define_prefix . $value);
+
+    if (defined($lookup)) {
+        return constant($lookup);
+    }
+
+    return $fallback ?? $value;
 }

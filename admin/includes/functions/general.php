@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2023 Dec 31 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott C Wilson 2024 Apr 16 Modified in v2.0.1 $
  */
 
 
@@ -85,47 +85,39 @@ function zen_get_geo_zone_name($geo_zone_id)
     return $geo_zone_name;
 }
 
-// @TODO proxy into language class instead of new query
-function zen_get_languages()
+/**
+ * proxy into language class to get list of configured languages and their settings
+ */
+function zen_get_languages(): array
 {
-    global $db;
-    $languages = $db->Execute("SELECT languages_id, name, code, image, directory
-                               FROM " . TABLE_LANGUAGES . " ORDER BY sort_order");
-
-    while (!$languages->EOF) {
-        $languages_array[] = array(
-            'id' => $languages->fields['languages_id'],
-            'name' => $languages->fields['name'],
-            'code' => $languages->fields['code'],
-            'image' => $languages->fields['image'],
-            'directory' => $languages->fields['directory']
-        );
-        $languages->MoveNext();
+    /**
+     * @var language $lng
+     */
+    global $lng;
+    if ($lng === null) {
+        $lng = new language();
     }
-
-    return $languages_array;
+    return array_values($lng->get_languages_by_code());
 }
 
 
-//// @TODO - is there a coupon function already to do this query?
 function zen_cfg_select_coupon_id($coupon_id, $key = '')
 {
-    global $db;
-    $coupon_array = array();
+    $coupon_array = [];
     $name = (($key) ? 'configuration[' . $key . ']' : 'configuration_value');
-    $coupons = $db->execute("SELECT cd.coupon_name, c.coupon_id FROM " . TABLE_COUPONS . " c, " . TABLE_COUPONS_DESCRIPTION . " cd WHERE cd.coupon_id = c.coupon_id AND cd.language_id = " . (int)$_SESSION['languages_id']);
-    $coupon_array[] = array(
+    $coupons = Coupon::getAllCouponsByName();
+    $coupon_array[] = [
         'id' => '0',
         'text' => 'None'
-    );
+    ];
 
-    while (!$coupons->EOF) {
-        $coupon_array[] = array(
-            'id' => $coupons->fields['coupon_id'],
-            'text' => $coupons->fields['coupon_name']
-        );
-        $coupons->MoveNext();
+    foreach ($coupons as $coupon) {
+        $coupon_array[] = [
+            'id' => $coupon['coupon_id'],
+            'text' => $coupon['coupon_name']
+        ];
     }
+
     return zen_draw_pull_down_menu($name, $coupon_array, $coupon_id, 'class="form-control"');
 }
 
@@ -350,7 +342,7 @@ function zen_get_system_information($privacy = false)
         $output = '';
         if (DISPLAY_SERVER_UPTIME == 'true') {
             @exec('uptime 2>&1', $output, $errnum);
-            if ($errnum == 0) {
+            if ($errnum == 0 && isset($output[0])) {
                 $uptime = $output[0];
             }
         }
@@ -435,11 +427,11 @@ function zen_remove_order($order_id, $restock = false)
 
 function zen_call_function($function, $parameter, $object = '')
 {
-    if ($object == '') {
-        return call_user_func($function, $parameter);
+    if ($object === '') {
+        return $function($parameter);
     }
 
-    return call_user_func(array($object, $function), $parameter);
+    return call_user_func([$object, $function], $parameter);
 }
 
 //@todo - is there a function already for this query?
@@ -724,7 +716,7 @@ function zen_getOrdersStatuses(bool $keyed = false): array
     $orders_statuses = [];
     $orders_status_array = [];
     $orders_status_query = $db->Execute('SELECT orders_status_id, orders_status_name FROM ' . TABLE_ORDERS_STATUS . '
-                                 WHERE language_id = "' . (int)$_SESSION['languages_id'] . '" ORDER BY sort_order, orders_status_id');
+                                 WHERE language_id = ' . (int)$_SESSION['languages_id'] . ' ORDER BY sort_order, orders_status_id');
     foreach ($orders_status_query as $next_status) {
         if (!$keyed) {
             $orders_statuses[] = [

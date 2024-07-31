@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2023 Aug 18 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 
 // Normally this zen_date_raw function will ONLY be defined here.
@@ -22,28 +22,52 @@ if (!function_exists('zen_date_raw')) {
     function zen_date_raw($date, $reverse = false) {
         // sometimes zen_date_short is called with a zero-date value which returns false, which is then passed to $date here, so this just reformats to avoid confusion.
         if (empty($date) || strpos($date, '0001') || strpos($date, '0000')) {
-            $date = '01/01/0001';
+            $date = DateTime::createFromFormat('!m/d/Y', '01/01/0001')->format(DATE_FORMAT);
         }
 
-        if (DATE_FORMAT === 'd/m/Y') {
+		$date = preg_replace('/\D+/', '', $date);
+		$date_format = str_replace(['/', '-'], '', DATE_FORMAT);
+
+        if ($date_format === 'dmY') {
             if ($reverse) {
-                return substr($date, 0, 2) . substr($date, 3, 2) . substr($date, 6, 4);
+                return substr($date, 0, 2) . substr($date, 2, 2) . substr($date, 4, 4);
             } else {
-                return substr($date, 6, 4) . substr($date, 3, 2) . substr($date, 0, 2);
+                return substr($date, 4, 4) . substr($date, 2, 2) . substr($date, 0, 2);
             }
-        } elseif (DATE_FORMAT === 'Y/m/d') {
+        } elseif ($date_format === 'Ymd') {
             if ($reverse) {
-                return substr($date, 8, 2) . substr($date, 5, 2) . substr($date, 0, 4);
+                return substr($date, 6, 2) . substr($date, 4, 2) . substr($date, 0, 4);
             } else {
-                return substr($date, 0, 4) . substr($date, 5, 2) . substr($date, 8, 2);
+                return substr($date, 0, 4) . substr($date, 4, 2) . substr($date, 6, 2);
             }
         } elseif ($reverse) {
-            return substr($date, 3, 2) . substr($date, 0, 2) . substr($date, 6, 4);
+            return substr($date, 2, 2) . substr($date, 0, 2) . substr($date, 4, 4);
         } else {
-            return substr($date, 6, 4) . substr($date, 0, 2) . substr($date, 3, 2);
+            return substr($date, 4, 4) . substr($date, 0, 2) . substr($date, 2, 2);
         }
     }
 }
+
+
+/**
+ * Validate a date in the selected locale date format
+ *
+ * @param string $date
+ * @param string $format (optional) needs to be a valid short date format for DateTimeImmutableObject using / or - or nothing as separators
+ * @return bool
+ */
+function zen_valid_date(string $date, string $format = DATE_FORMAT): bool
+{
+	// Build 3 formats from 1 with 3 possible separators
+	$format0 = str_replace('-', '/', $format);
+	$format1 = str_replace('/', '-', $format);
+    $format2 = str_replace(['/','-'], '', $format);
+    $d0 = DateTime::createFromFormat('!' . $format0, $date);
+    $d1 = DateTime::createFromFormat('!' . $format1, $date);
+    $d2 = DateTime::createFromFormat('!' . $format2, $date);
+    return ($d0 && $d0->format($format0) == $date) || ($d1 && $d1->format($format1) == $date) || ($d2 && $d2->format($format2) == $date);
+}
+
 
 /**
  * Output a raw date string in the selected locale date format
@@ -69,7 +93,6 @@ function zen_date_long($raw_date)
 
 /**
  * Output a raw date string in the selected locale date format
- * NOTE: Includes a workaround for dates before 01/01/1970 that fail on windows servers
  *
  * @param string $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
  * @return bool|false|string|string[]|null
@@ -85,13 +108,7 @@ function zen_date_short($raw_date)
     $minute = (int)substr($raw_date, 14, 2);
     $second = (int)substr($raw_date, 17, 2);
 
-// error on 1969 only allows for leap year
-    if ($year != 1969 && @date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
-        return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
-    } else {
-        return preg_replace('/2037$/', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
-    }
-
+    return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
 }
 
 
@@ -178,7 +195,7 @@ function zen_checkdate($date_to_check, $format_string, &$date_array)
         }
     }
 
-    if ($date_separator_idx != $format_separator_idx) {
+    if (!isset($date_separator_idx, $format_separator_idx) || $date_separator_idx != $format_separator_idx) {
         return false;
     }
 

@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2023 Dec 31 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Mar 07 Modified in v2.0.0-rc1 $
  */
 
 function zen_get_zcversion()
@@ -17,7 +17,7 @@ function zen_get_zcversion()
  */
 function zen_set_time_limit($limit)
 {
-    @set_time_limit($limit);
+    @set_time_limit((int)$limit);
 }
 
 /**
@@ -60,18 +60,34 @@ function fmod_round($x, $y)
     return $results;
 }
 
+/**
+ * Cast an input to a desired type.
+ * (Note: does not operate recursively on arrays)
+ */
+function zen_cast($input, ?string $cast_to): mixed
+{
+    return match ($cast_to) {
+        'string' => (string)$input,
+        'boolean', 'bool' => (bool)$input,
+        'int', 'integer' => (int)$input,
+        'double', 'float' => (float)$input,
+        'array' => (is_array($input)) ? $input : [$input],
+        default => $input,
+    };
+}
 
 /**
- * Convert value to a float -- mainly used for sanitizing and returning non-empty strings or nulls
+ * Convert value to a float/int -- mainly used for sanitizing and returning non-empty strings or nulls
  * @param int|float|string $input
  * @return float|int
  */
-function convertToFloat($input = 0)
+function convertToFloat($input = 0): float|int
 {
     if ($input === null) return 0;
-    $val = preg_replace('/[^0-9,\.\-]/', '', $input);
+    if (is_float($input) || is_int($input)) return $input;
+    $val = preg_replace('/[^0-9,\.\-]/', '', (string)$input);
     // do a non-strict compare here:
-    if ($val == 0) return 0;
+    if ($val == 0 || empty($val)) return 0;
     return (float)$val;
 }
 
@@ -188,13 +204,13 @@ function zen_get_all_get_params($exclude_array = array())
             if (!in_array($key, $exclude_array)) {
                 if (!is_array($value)) {
                     if (!empty($value)) {
-                        $get_url .= rawurlencode(stripslashes($key)) . '=' . rawurlencode(stripslashes($value)) . '&';
+                        $get_url .= rawurlencode(stripslashes((string)$key)) . '=' . rawurlencode(stripslashes((string)$value)) . '&';
                     }
                 } else {
                     if (IS_ADMIN_FLAG) continue; // admin (and maybe catalog?) doesn't support passing arrays by GET, so skipping any arrays here
                     foreach (array_filter($value) as $arr) {
                         if (is_array($arr)) continue;
-                        $get_url .= rawurlencode(stripslashes($key)) . '[]=' . rawurlencode(stripslashes($arr)) . '&';
+                        $get_url .= rawurlencode(stripslashes((string)$key)) . '[]=' . rawurlencode(stripslashes((string)$arr)) . '&';
                     }
                 }
             }
@@ -400,6 +416,23 @@ function utilDumpRequest($mode = 'p', $out = 'log')
     } else if ($out == 'echo' || $out == 'e') {
         echo $val;
     }
+}
+
+/**
+ * Convert a truthy/falsey string to boolean.
+ * Recognizes words like Yes, No, Off, On, True/False (both string and native types); and is not case-sensitive
+ * Also recognizes numbers both as strings and integers ('0', '1') as booleans
+ * Blank (empty string) is treated as false.
+ *
+ * By default, will return null if the passed value is neither truthy/falsey (ie: 'red', or '2')
+ */
+function zen_to_boolean(mixed $value, bool $null_on_failure = true): bool|null
+{
+    if ($null_on_failure) {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    }
+
+    return filter_var($value, FILTER_VALIDATE_BOOLEAN);
 }
 
 /**

@@ -2,10 +2,10 @@
 /**
  * Contact Us Page
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2022 Jul 24 Modified in v1.5.8-alpha2 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 
 // This should be first line of the script:
@@ -48,7 +48,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'send')) {
                 $check_customer = $db->Execute($sql);
                 $customer_email = $check_customer->fields['customers_email_address'];
                 $customer_name  = $check_customer->fields['customers_firstname'] . ' ' . $check_customer->fields['customers_lastname'];
-                $customer_telephone = $check_customer->fields['customers_telephone'];
+                $customer_telephone = zen_sanitize_string($check_customer->fields['customers_telephone']);
             } else {
                 $customer_email = NOT_LOGGED_IN_TEXT;
                 $customer_name = NOT_LOGGED_IN_TEXT;
@@ -132,7 +132,7 @@ if (zen_is_logged_in() && !zen_in_guest_checkout()) {
     $check_customer = $db->Execute($sql);
     $email_address = $check_customer->fields['customers_email_address'];
     $name = $check_customer->fields['customers_firstname'] . ' ' . $check_customer->fields['customers_lastname'];
-    $telephone = $check_customer->fields['customers_telephone'];
+    $telephone = zen_sanitize_string($check_customer->fields['customers_telephone']);
 }
 
 // -----

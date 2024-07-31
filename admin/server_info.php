@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Steve 2023 Jul 28 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 Feb 15 Modified in v2.0.0-beta1 $
  */
 
   require('includes/application_top.php');
@@ -116,8 +116,8 @@ if (strpos($disabled_functions,"phpinfo") === false) {
     foreach ($show_variables as $variable) {
         ?>
         <tr class="db-row">
-            <td class="db-info db-name"><?php echo $variable['Variable_name']; ?></td>
-            <td class="db-info db-value"><?php echo empty($variable['Value']) ? '&nbsp;' : htmlspecialchars($variable['Value']); ?></td>
+            <td class="db-info db-name"><?= $variable['Variable_name'] ?></td>
+            <td class="db-info db-value"><?= htmlspecialchars($variable['Value']) ?></td>
         </tr>
         <?php
     }

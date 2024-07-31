@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: Scott Wilson 2024 May 07 Modified in v2.0.1 $
+ */
 
 class CouponValidation
 {
@@ -9,6 +14,7 @@ class CouponValidation
     public static function is_product_valid(int $product_id, int $coupon_id): bool
     {
         global $db;
+        global $zco_notifier; 
 
         $product_id = (int)$product_id;
 
@@ -18,15 +24,21 @@ class CouponValidation
 
         $coupons = $db->Execute($coupons_query);
 
-        $product_query = "SELECT products_model FROM " . TABLE_PRODUCTS . "
+        $product_query = "SELECT * FROM " . TABLE_PRODUCTS . "
                           WHERE products_id = $product_id";
 
         $product = $db->Execute($product_query);
 
-        if (str_starts_with($product->fields['products_model'], 'GIFT')) {
+        if (str_starts_with($product->fields['products_model'] ?? '', 'GIFT')) {
             return false;
         }
 
+        $product_can_use_coupon = true; 
+        $zco_notifier->notify('NOTIFY_COUPON_ADDITIONAL_CHECKS', $product->fields, $coupon_id, $product_can_use_coupon); 
+        if ($product_can_use_coupon === false) {
+            return false;
+        }
+        
         // modified to manage restrictions better - leave commented for now
         if ($coupons->RecordCount() === 0) {
             return true;
@@ -178,5 +190,32 @@ class CouponValidation
             }
         }
         return 'none';
+    }
+
+    /**
+     * Check if a referrer is already assigned to a coupon.
+     * Because only one coupon can be active at a time, we can only support
+     * a one-to-one relationship between coupons and referrers.
+     * e.g. referrer 'abc.com' may only be assigned to one coupon, not two or more.
+     *
+     * @param string $referrer The domain to check e.g. 'abc.com'
+     * @param int $exclude_coupon_id Optional coupon_id to exclude/ignore (ie: "self" record)
+     * @return ?array
+     */
+    public static function referrer_already_assigned(string $referrer, ?int $exclude_coupon_id = null): ?array
+    {
+        global $db;
+        $sql = "SELECT c.coupon_id, coupon_code
+                FROM " . TABLE_COUPONS . " c
+                LEFT JOIN " . TABLE_COUPON_REFERRERS . " r ON (c.coupon_id = r.coupon_id)
+                WHERE referrer_domain = :referrer";
+        $sql = $db->bindVars($sql, ':referrer', $referrer, 'string');
+        if (!empty($exclude_coupon_id)) {
+            $sql .= " AND c.coupon_id <> $exclude_coupon_id";
+        }
+
+        $result = $db->Execute($sql);
+
+        return $result->RecordCount() !== 0 ? $result->fields : null;
     }
 }

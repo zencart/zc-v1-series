@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -21,12 +21,15 @@ $error_categories = false;
 
 $show_submit = zen_run_normal();
 
-$columns_per_row = defined('PRODUCT_LISTING_COLUMNS_PER_ROW') ? PRODUCT_LISTING_COLUMNS_PER_ROW : 1;
-$product_listing_layout_style = (int)$columns_per_row > 1 ? 'columns' : 'table';
-if (empty($columns_per_row)) $product_listing_layout_style = 'fluid';
-if ($columns_per_row === 'fluid') $product_listing_layout_style = 'fluid';
+$columns_per_row = defined('PRODUCT_LISTING_COLUMNS_PER_ROW') ? (int)PRODUCT_LISTING_COLUMNS_PER_ROW : 1;
+if (empty($product_listing_layout_style) || !in_array($product_listing_layout_style, ['columns', 'table', 'fluid'])) {
+    $product_listing_layout_style = $columns_per_row > 1 ? 'columns' : 'table';
+    if (empty($columns_per_row)) {
+        $product_listing_layout_style = 'fluid';
+    }
+}
 
-$max_results = (int)MAX_DISPLAY_PRODUCTS_LISTING;
+$max_results = (int)($product_listing_max_results ?? MAX_DISPLAY_PRODUCTS_LISTING);
 if ($product_listing_layout_style === 'columns' && $columns_per_row > 1) {
     $max_results = ($columns_per_row * (int)($max_results / $columns_per_row));
 }
@@ -39,7 +42,7 @@ $zco_notifier->notify('NOTIFY_MODULE_PRODUCT_LISTING_RESULTCOUNT', $listing_spli
 $how_many = 0;
 
 // Begin Row Headings
-if ($product_listing_layout_style === 'table') {
+if ($product_listing_layout_style === 'table' && !empty($show_table_header_row)) {
     $list_box_contents[0] = ['params' => 'class="productListing-rowheading"'];
 
     $zc_col_count_description = 0;
@@ -126,17 +129,16 @@ if ($num_products_count > 0) {
     // Retrieve all records into an array to allow for sorting and insertion of additional data if needed
     $records = [];
     foreach ($listing as $record) {
+        $product_info = (new Product((int)$record['products_id']))->getDataForLanguage((int)$_SESSION['languages_id']) ?? [];
         $category_id = !empty($record['categories_id']) ? $record['categories_id'] : $record['master_categories_id'];
         $parent_category_name = trim(zen_get_categories_parent_name($category_id));
         $category_name = trim(zen_get_category_name($category_id, (int)$_SESSION['languages_id']));
+
         $records[] = array_merge($record,
             [
                 'parent_category_name' => (!empty($parent_category_name)) ? $parent_category_name : $category_name,
                 'category_name' => $category_name,
-//                'products_name' => $record['products_name'],
-//                'master_categories_id' => $record['master_categories_id'],
-//                'products_sort_order' => $record['products_sort_order'],
-            ]);
+            ], $product_info);
     }
 
     if (!empty($_GET['keyword'])) $skip_sort = true;
@@ -174,26 +176,32 @@ if ($num_products_count > 0) {
 //            }
 //        }
 
-        // set css classes for "row" wrapper, to allow for fluid grouping of cells based on viewport
-        // these defaults are based on Bootstrap4, but can be customized to suit your own framework
+        // Set css classes for "row" wrapper, to allow for fluid grouping of cells based on viewport
+        // these defaults are inspired by Bootstrap4, but can be customized to suit your own framework
         if ($product_listing_layout_style === 'fluid') {
-            $grid_cards_classes = 'row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3';
-            // this array is intentionally in reverse order, with largest index first
-            $grid_classes_matrix = [
-                '10' => 'row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5',
-                '8' => 'row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4',
-                '6' => 'row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3',
-            ];
-            // determine classes to use based on number of grid-columns used by "center" column
+            $grid_cards_classes = $grid_product_cards_classes ?? 'row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3';
+            if (!isset($grid_product_classes_matrix)) {
+                // this array is intentionally in reverse order, with largest index first
+                $grid_product_classes_matrix = [
+                    // the array index here corresponds to $center_column-width, often defined in tpl_main_page.php
+                    '12' => 'row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6',
+                    '10' => 'row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5',
+                    '9' => 'row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5',
+                    '8' => 'row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4',
+                    '6' => 'row row-cols-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3',
+                ];
+            }
+
+            // determine classes to use based on number of grid-columns used by "center" column. See tpl_main_page.php
             if (isset($center_column_width)) {
-                foreach ($grid_classes_matrix as $width => $classes) {
+                foreach ($grid_product_classes_matrix as $width => $classes) {
                     if ($center_column_width >= $width) {
                         $grid_cards_classes = $classes;
                         break;
                     }
                 }
             }
-            $list_box_contents[$rows]['params'] = 'class="row ' . $grid_cards_classes . ' text-center"';
+            $list_box_contents[$rows]['params'] = 'class="' . $grid_cards_classes . ' text-center"';
         }
 
         $product_contents = [];
@@ -202,12 +210,15 @@ if ($num_products_count > 0) {
         if (!empty($_GET['cPath'])) $linkCpath = $_GET['cPath'];
         if (!empty($_GET['manufacturers_id']) && !empty($_GET['filter_id'])) $linkCpath = $_GET['filter_id'];
 
+        for ($col = 0, $n = count($column_list); $col < $n; $col++) {
+            $lc_align = '';
+            $lc_text = '';
 
             $href = zen_href_link(zen_get_info_page($record['products_id']), 'cPath=' . zen_get_generated_category_path_rev($linkCpath) . '&products_id=' . $record['products_id']);
-            $listing_product_name = $record['products_name'] ?? '';
+            $listing_product_name = zen_get_products_name((int)$record['products_id']);
             $listing_description = '';
             if ((int)PRODUCT_LIST_DESCRIPTION > 0) {
-                $listing_description = zen_trunc_string(zen_clean_html(stripslashes(zen_get_products_description($record['products_id'], $_SESSION['languages_id']))), PRODUCT_LIST_DESCRIPTION);
+                $listing_description = zen_trunc_string(zen_clean_html(stripslashes($record['products_description'])), PRODUCT_LIST_DESCRIPTION);
             }
             $listing_model = $record['products_model'] ?? '';
             $listing_mfg_name = $record['manufacturers_name'] ?? '';
@@ -216,7 +227,7 @@ if ($num_products_count > 0) {
             $listing_mfg_link = zen_href_link(FILENAME_DEFAULT, 'manufacturers_id=' . (int)$record['manufacturers_id']);
             $listing_price = zen_get_products_display_price($record['products_id']);
             $more_info_button = '<a class="moreinfoLink list-more" href="' . $href . '" title="' . $record['products_id'] . '">' . MORE_INFO_TEXT . '</a>';
-            $buy_now_link = zen_href_link($_GET['main_page'], zen_get_all_get_params(array('action')) . 'action=buy_now&products_id=' . $record['products_id']);
+            $buy_now_link = zen_href_link($_GET['main_page'], zen_get_all_get_params(['action']) . 'action=buy_now&products_id=' . $record['products_id']);
             $buy_now_button = '<a class="" href="' . $buy_now_link . '">' . zen_image_button(BUTTON_IMAGE_BUY_NOW, BUTTON_BUY_NOW_ALT, 'class="listingBuyNowButton"') . '</a>';
             $listing_qty_input_form = zen_draw_form('cart_quantity', zen_href_link($_GET['main_page'], zen_get_all_get_params(array('action')) . 'action=add_product&products_id=' . $record['products_id']), 'post', 'enctype="multipart/form-data"')
                 . '<input class="" type="text" name="cart_quantity" value="' . (zen_get_buy_now_qty($record['products_id'])) . '" maxlength="6" size="4" aria-label="' . ARIA_QTY_ADD_TO_CART . '">'
@@ -267,12 +278,7 @@ if ($num_products_count > 0) {
             }
             $zco_notifier->notify('NOTIFY_MODULES_PRODUCT_LISTING_PRODUCTS_BUTTON', [], $record, $lc_button);
 
-        for ($col = 0, $n = count($column_list); $col < $n; $col++) {
-            $lc_align = '';
-            $lc_text = '';
-            if ((int)PRODUCT_LIST_DESCRIPTION > 0) {
-                $lc_text .= '<div class="listingDescription">' . $listing_description . '</div>';
-            }
+
             switch ($column_list[$col]) {
                 case 'PRODUCT_LIST_MODEL':
                     $lc_align = 'center';
@@ -341,8 +347,8 @@ if ($num_products_count > 0) {
                     $lc_align = 'center';
                     $lc_text = '';
                     if (!empty($record['products_image']) || PRODUCTS_IMAGE_NO_IMAGE_STATUS > 0) {
-                        $lc_text .= '<a href="' . $href . '" class="product_listing_image_link">';
-                        $lc_text .= zen_image(DIR_WS_IMAGES . $record['products_image'], $listing_product_name, IMAGE_PRODUCT_LISTING_WIDTH, IMAGE_PRODUCT_LISTING_HEIGHT, 'class="listingProductImage"');
+                        $lc_text .= '<a href="' . $href . '" title="' . zen_output_string_protected($listing_product_name) . '" class="product_listing_image_link">';
+                        $lc_text .= zen_image(DIR_WS_IMAGES . $record['products_image'], $listing_product_name, IMAGE_PRODUCT_LISTING_WIDTH, IMAGE_PRODUCT_LISTING_HEIGHT, 'loading="lazy" class="listingProductImage"');
                         $lc_text .= '</a>';
                     }
                     break;
@@ -386,10 +392,12 @@ if ($num_products_count > 0) {
             if ($product_listing_layout_style === 'columns') {
                 $style = ' style="width:' . $col_width . '%;"';
             }
+            $grid_product_card_params = $grid_product_card_params ?? 'centerBoxContentsProducts centeredContent back gridlayout';
+            $grid_product_wrap_classes = $grid_product_wrap_classes ?? '';
             $list_box_contents[$rows][] = [
-                'params' => 'class="centerBoxContentsProducts centeredContent back gridlayout"' . $style,
+                'params' => 'class="' . $grid_product_card_params . '"' . $style,
                 'text' => $lc_text,
-                'wrap_with_classes' => '',
+                'wrap_with_classes' => $grid_product_wrap_classes,
                 'card_type' => $product_listing_layout_style,
                 'category' => $record['master_categories_id'],
                 'parent_category_name' => $record['parent_category_name'],
@@ -407,7 +415,6 @@ if ($num_products_count > 0) {
         }
     }
 } else {
-
     $list_box_contents = [];
     $list_box_contents[0][] = [
         'params' => 'class="productListing-data"',

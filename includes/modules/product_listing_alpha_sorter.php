@@ -6,7 +6,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Mar 09 Modified in v2.0.0-rc2 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -34,5 +34,5 @@ if (PRODUCT_LIST_ALPHA_SORTER === 'true') {
     } else {
         echo '<label class="inputLabel sr-only" for="select-alpha_filter_id">' . TEXT_PRODUCTS_LISTING_ALPHA_SORTER_NAMES . '</label>';
     }
-    echo zen_draw_pull_down_menu('alpha_filter_id', $letters_list, ($_GET['alpha_filter_id'] ?? ''), 'onchange="this.form.submit()"');
+    echo zen_draw_pull_down_menu('alpha_filter_id', $letters_list, ($_GET['alpha_filter_id'] ?? ''), 'onchange="this.form.submit()" aria-label="' . TEXT_PRODUCTS_LISTING_ALPHA_SORTER_NAMES . '"');
 }

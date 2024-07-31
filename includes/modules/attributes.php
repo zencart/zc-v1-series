@@ -5,10 +5,10 @@
  * Prepares attributes content for rendering in the template system
  * Prepares HTML for input fields with required uniqueness so template can display them as needed and keep collected data in proper fields
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: nickwhaley 2022 Dec 12 Modified in v1.5.8a $
+ * @version $Id: Scott C Wilson 2024 Apr 16 Modified in v2.0.1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -44,7 +44,7 @@ $products_price_is_priced_by_attributes = zen_get_products_price_is_priced_by_at
 
 
 if (PRODUCTS_OPTIONS_SORT_ORDER == '0') {
-    $options_order_by = ' order by LPAD(popt.products_options_sort_order,11,"0"), popt.products_options_name';
+    $options_order_by = " ORDER BY LPAD(popt.products_options_sort_order,11,'0'), popt.products_options_name";
 } else {
     $options_order_by = ' order by popt.products_options_name';
 }
@@ -66,9 +66,9 @@ $products_options_names = $db->Execute($sql);
 
 
 if (PRODUCTS_OPTIONS_SORT_BY_PRICE == '1') {
-    $order_by = ' order by LPAD(pa.products_options_sort_order,11,"0"), pov.products_options_values_name';
+    $order_by = " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pov.products_options_values_name";
 } else {
-    $order_by = ' order by LPAD(pa.products_options_sort_order,11,"0"), pa.options_values_price';
+    $order_by = " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pa.options_values_price";
 }
 
 while (!$products_options_names->EOF) {

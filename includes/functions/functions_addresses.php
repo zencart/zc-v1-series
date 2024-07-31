@@ -4,7 +4,7 @@
  *
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2024 Jan 23 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 Mar 03 Modified in v2.0.0-rc1 $
  */
 
 /**
@@ -117,10 +117,10 @@ function zen_get_countries_with_iso_codes($country_id, $activeOnly = TRUE)
  * returns a pulldown array with zones defined for the specified country
  * used by zen_prepare_country_zones_pull_down()
  *
- * @param int $country_id
+ * @param int|string $country_id
  * @return array for pulldown
  */
-function zen_get_country_zones($country_id)
+function zen_get_country_zones(int|string $country_id): array
 {
     global $db;
     $zones_array = array();
@@ -187,39 +187,24 @@ function zen_get_zone_code(int $country_id, int $zone_id, ?string $default_zone 
 }
 
 /**
- * Build an array for pulldown use, including padding for browser-specific constraints
+ * Build an array of country zones for pulldown use
  *
- * @TODO - rework to remove unnecessary code for Mozilla/IE concerns
- *
- * @param string $country_id
+ * @param int|string $country_id
  * @return array
  */
-function zen_prepare_country_zones_pull_down($country_id = '')
+function zen_prepare_country_zones_pull_down(int|string $country_id = 0): array
 {
-// preset the width of the drop-down for Netscape
-    $pre = '';
-    if ((!zen_browser_detect('MSIE')) && (zen_browser_detect('Mozilla/4'))) {
-        for ($i = 0; $i < 45; $i++) $pre .= '&nbsp;';
-    }
-
     $zones = zen_get_country_zones($country_id);
 
     if (count($zones) > 0) {
-        $zones_select = array(array('id' => '', 'text' => PLEASE_SELECT));
+        $zones_select = [['id' => '', 'text' => PLEASE_SELECT]];
         $zones = array_merge($zones_select, $zones);
     } else {
-        $zones = array(array('id' => '', 'text' => TYPE_BELOW));
-// create dummy options for Netscape to preset the height of the drop-down
-        if ((!zen_browser_detect('MSIE')) && (zen_browser_detect('Mozilla/4'))) {
-            for ($i = 0; $i < 9; $i++) {
-                $zones[] = array('id' => '', 'text' => $pre);
-            }
-        }
+        $zones = [['id' => '', 'text' => TYPE_BELOW]];
     }
 
     return $zones;
 }
-
 
 /**
  * Get array of address_format_ids, suitable for a dropdown
@@ -321,7 +306,7 @@ function zen_address_format($address_format_id = 1, $incoming = array(), $html =
     array_multisort($tmp, SORT_DESC, $address);
 
     // store translated values into original array, just for the sake of the notifier
-    $incoming = $address;
+    $incoming = array_merge($incoming, $address);
 
     // convert into $-prefixed keys
     foreach ($address as $key => $value) {

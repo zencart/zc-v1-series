@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Steve 2023 Mar 16 Modified in v1.5.8a $
+ * @version $Id: DrByte 2024 Mar 09 Modified in v2.0.0-rc2 $
  */
 require('includes/application_top.php');
 
@@ -250,6 +250,9 @@ function executeSql($lines, $database, $table_prefix = '') {
           break;
         case (substr($line_upper, 0, 7) == 'SELECT ' && substr_count($line_upper, 'FROM ') > 0):
           $line = str_ireplace('FROM ', 'FROM ' . $table_prefix, $line);
+          break;
+        case (substr($line_upper, 0, 10) == 'INNER JOIN '):
+          $line = 'INNER JOIN ' . $table_prefix . ltrim(substr($line, 11));
           break;
         case (substr($line_upper, 0, 10) == 'LEFT JOIN '):
           $line = 'LEFT JOIN ' . $table_prefix . ltrim(substr($line, 10));
@@ -517,7 +520,7 @@ function zen_check_alter_command($param) {
       if (strtoupper($param[4]) == 'INDEX') {
         // check that the index to be added doesn't already exist
         $index = $param[5];
-        $sql = "SHOW FIELDS FROM " . DB_PREFIX . $param[2];
+        $sql = "SHOW INDEX FROM " . DB_PREFIX . $param[2];
         $results = $db->Execute($sql);
         foreach ($results as $result) {
           if (ZC_UPG_DEBUG3 == true) {
@@ -590,7 +593,7 @@ function zen_check_alter_command($param) {
       if (strtoupper($param[4]) == 'INDEX') {
         // check that the index to be dropped exists
         $index = $param[5];
-        $sql = "SHOW FIELDS FROM " . DB_PREFIX . $param[2];
+        $sql = "SHOW INDEX FROM " . DB_PREFIX . $param[2];
         $results = $db->Execute($sql);
         foreach ($results as $result) {
           if (ZC_UPG_DEBUG3 == true) {

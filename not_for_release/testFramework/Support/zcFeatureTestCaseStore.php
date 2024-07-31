@@ -21,16 +21,19 @@ abstract class zcFeatureTestCaseStore extends zcFeatureTestCase
      *
      * set some defines where necessary
      */
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        $mainConfigs = self::loadConfigureFile('main');
         self::loadConfigureFile('store');
-        self::loadMigrationAndSeeders();
         if (!defined('TABLE_ADDRESS_BOOK')) {
             require DIR_FS_CATALOG . 'includes/database_tables.php';
         }
-        //$this->createHttpBrowser();
-
+        self::loadMigrationAndSeeders($mainConfigs);
     }
 
     public function tearDown(): void

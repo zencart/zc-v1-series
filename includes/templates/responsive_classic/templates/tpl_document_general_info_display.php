@@ -8,7 +8,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Jul 25 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 May 16 Modified in v2.0.1 $
  */
 ?>
 <div class="centerColumn" id="docGeneralDisplay">
@@ -63,10 +63,10 @@ require($template->get_template_dir('/tpl_products_next_previous.php',DIR_WS_TEM
  */
   require($template->get_template_dir('/tpl_modules_additional_images.php',DIR_WS_TEMPLATE, $current_page_base,'templates'). '/tpl_modules_additional_images.php'); ?>
 <!--eof Additional Product Images -->
-</div>
 <?php
   }
 ?>
+</div>
 <div id="pinfo-right">
 <!--bof Product details list  -->
 <?php if ( (($flag_show_product_info_model == 1 and $products_model != '') or ($flag_show_product_info_weight == 1 and $products_weight !=0) or ($flag_show_product_info_quantity == 1) or ($flag_show_product_info_manufacturer == 1 and !empty($manufacturers_name))) ) { ?>

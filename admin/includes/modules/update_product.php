@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Dec 10 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 17 Modified in v2.0.0-beta1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -47,7 +47,13 @@ if (isset($_POST['edit']) && $_POST['edit'] === 'edit') {
         'products_price' => convertToFloat($_POST['products_price']),
         'products_price_w' => zen_db_prepare_input($products_price_w),
         'products_date_available' => $products_date_available,
+
         'products_weight' => convertToFloat($_POST['products_weight']),
+        'products_length' => convertToFloat($_POST['products_length']),
+        'products_width' => convertToFloat($_POST['products_width']),
+        'products_height' => convertToFloat($_POST['products_height']),
+        'product_ships_in_own_box' => (int)($_POST['product_ships_in_own_box'] ?? 0),
+
         'products_status' => (int)$_POST['products_status'],
         'products_virtual' => (int)$_POST['products_virtual'],
         'products_tax_class_id' => (int)$_POST['products_tax_class_id'],

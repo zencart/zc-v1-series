@@ -2,17 +2,17 @@
 /**
  * column_single module 
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 Jul 10 Modified in v1.5.8-alpha $
+ * @version $Id: Scott C Wilson 2024 Apr 16 Modified in v2.0.1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
   die('Illegal Access');
 }
 // Check if there are boxes for the column
 $column_box_default='tpl_box_default_single.php';
-$column_single_display= $db->Execute("SELECT layout_box_name FROM " . TABLE_LAYOUT_BOXES . " WHERE (layout_box_location=0 OR layout_box_location=1) AND layout_box_status_single=1 AND layout_template ='" . $template_dir . "'" . ' ORDER BY LPAD(layout_box_sort_order_single,11,"0")');
+$column_single_display= $db->Execute("SELECT layout_box_name FROM " . TABLE_LAYOUT_BOXES . " WHERE (layout_box_location=0 OR layout_box_location=1) AND layout_box_status_single=1 AND layout_template ='" . $template_dir . "'" . " ORDER BY LPAD(layout_box_sort_order_single,11,'0')");
 // safety row stop
 $box_cnt=0;
 if (defined('BOX_WIDTH_SINGLE')) {

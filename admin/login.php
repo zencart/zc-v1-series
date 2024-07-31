@@ -3,14 +3,9 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License v2.0
- * @version $Id: Nick Fenwick 2023 Jul 03 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 require 'includes/application_top.php';
-
-define('ADMIN_SWITCH_SEND_LOGIN_FAILURE_EMAILS', 'Yes'); // Can be set to 'No' if you don't want warning/courtesy emails to be sent after several login failures have occurred
-// PCI-DSS / PA-DSS requirements for lockouts and intervals:
-define('ADMIN_LOGIN_LOCKOUT_TIMER', (30 * 60));
-define('ADMIN_PASSWORD_EXPIRES_INTERVAL', strtotime('- 90 day'));
 
 //////////
 $admin_name = $admin_pass = $message = "";

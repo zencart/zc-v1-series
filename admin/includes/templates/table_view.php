@@ -1,5 +1,9 @@
 <?php
 /**
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
+ * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
+ * @version $Id: DrByte 2024 Apr 10 Modified in v2.0.1 $
+ *
  * @var \Zencart\Filters\FilterManager $filterManager
  * @var \Zencart\ViewBuilders\SimpleDataFormatter $formatter
  * @var \Zencart\TableViewControllers\BaseController $tableController

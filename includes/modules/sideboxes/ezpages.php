@@ -2,10 +2,10 @@
 /**
  * ezpages sidebox - used to display links to EZ-Pages content
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 Jul 10 Modified in v1.5.8-alpha $
+ * @version $Id: lat9 2024 May 14 Modified in v2.0.1 $
  */
 
   $zco_notifier->notify('NOTIFY_START_EZPAGES_SIDEBOX');
@@ -66,6 +66,8 @@
       $title_link = false;
 
       $var_linksList = $page_query_list_sidebox;
+
+      $zco_notifier->notify('NOTIFY_EZPAGES_SIDEBOX_ADDITIONS', [], $var_linksList);
 
       require($template->get_template_dir('tpl_ezpages.php',DIR_WS_TEMPLATE, $current_page_base,'sideboxes'). '/tpl_ezpages.php');
 

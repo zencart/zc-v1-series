@@ -1,25 +1,20 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Oct 16 Modified in v1.5.8a $
+ * @version $Id: DrByte 2024 May 13 Modified in v2.0.1 $
  */
 
 namespace Zencart\PluginSupport;
 
+use queryFactory;
+
 class ScriptedInstaller
 {
+    use ScriptedInstallHelpers;
 
-    /**
-     * $dbConn is a database object 
-     * @var object
-     */
-    protected $dbConn;
-    /**
-     * $errorContainer is a PluginErrorContainer object
-     * @var object
-     */
-    protected $errorContainer;
+    protected queryFactory $dbConn;
+    protected PluginErrorContainer $errorContainer;
 
     public function __construct($dbConn, $errorContainer)
     {
@@ -39,9 +34,9 @@ class ScriptedInstaller
         return $uninstalled;
     }
 
-    public function doUpgrade()
+    public function doUpgrade($oldVersion)
     {
-        $upgraded = $this->executeUpgrade();
+        $upgraded = $this->executeUpgrade($oldVersion);
         return $upgraded;
     }
 
@@ -55,7 +50,7 @@ class ScriptedInstaller
         return true;
     }
 
-    protected function executeUpgrade()
+    protected function executeUpgrade($oldVersion)
     {
         return true;
     }

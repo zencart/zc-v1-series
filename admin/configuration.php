@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Erik Kerkhoven 2024 Jan 14 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 Feb 14 Modified in v2.0.0-beta1 $
  */
 require('includes/application_top.php');
 
@@ -75,9 +75,6 @@ if ($gID == 7) {
   }
   if (zen_get_configuration_key_value('ORDER_WEIGHT_ZERO_STATUS') == '1' && (!defined('MODULE_SHIPPING_FREESHIPPER_STATUS') || MODULE_SHIPPING_FREESHIPPER_STATUS != 'True')) {
     $shipping_errors .= '<br>' . ERROR_ORDER_WEIGHT_ZERO_STATUS;
-  }
-  if (defined('MODULE_SHIPPING_USPS_STATUS') and ( MODULE_SHIPPING_USPS_USERID == 'NONE' or MODULE_SHIPPING_USPS_SERVER == 'test')) {
-    $shipping_errors .= '<br>' . ERROR_USPS_STATUS;
   }
   if ($shipping_errors != '') {
     $messageStack->add(ERROR_SHIPPING_CONFIGURATION . $shipping_errors, 'caution');

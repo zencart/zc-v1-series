@@ -8,7 +8,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Mar 09 Modified in v2.0.0-rc2 $
  */
 
 ?>
@@ -85,12 +85,19 @@
                 echo zen_draw_hidden_field('manufacturers_id', $_GET['manufacturers_id']);
             }
 
+            // draw disp_order
+            if (!empty($_GET['disp_order'])) {
+                echo zen_draw_hidden_field('disp_order', $_GET['disp_order']);
+            }
+
             // draw sort
-            echo zen_draw_hidden_field('sort', $_GET['sort']);
+            if (!empty($_GET['sort'])) {
+                echo zen_draw_hidden_field('sort', $_GET['sort']);
+            }
 
             // draw filter_id (ie: category/mfg depending on $options)
             if ($do_filter_list) {
-                echo zen_draw_pull_down_menu('filter_id', $options, ($_GET['filter_id'] ?? ''), 'onchange="this.form.submit()"');
+                echo zen_draw_pull_down_menu('filter_id', $options, ($_GET['filter_id'] ?? ''), 'aria-label="' . TEXT_SHOW . '" onchange="this.form.submit()"');
             }
 
 

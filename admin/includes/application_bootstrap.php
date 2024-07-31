@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2023 Dec 31 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Feb 19 Modified in v2.0.0-beta1 $
  */
 
 use App\Models\PluginControl;
@@ -71,7 +71,8 @@ if ((defined('DEBUG_AUTOLOAD') && DEBUG_AUTOLOAD === true) || (defined('STRICT_E
  * This is intended to run before any dependencies are required
  * See https://www.zen-cart.com/requirements or run zc_install to see actual requirements!
  */
-if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80000) {
+if (PHP_VERSION_ID < 80002) {
+    // redirect to catalog to display the PHP version compatibility message
     chdir(realpath(__DIR__ . '/../'));
     require 'includes/application_top.php';
     exit(0);
@@ -86,8 +87,8 @@ if (file_exists('includes/local/configure.php')) {
     include('includes/local/configure.php');
 }
 
-if (file_exists('../includes/application_testing.php')) {
-    require('../includes/application_testing.php');
+if (file_exists('../not_for_release/testFramework/Support/application_testing.php')) {
+    require('../not_for_release/testFramework/Support/application_testing.php');
 }
 /**
  * check for and load application configuration parameters
@@ -171,7 +172,7 @@ require (DIR_FS_CATALOG . 'includes/application_laravel.php');
 
 $pluginManager = new PluginManager(new PluginControl, new PluginControlVersion);
 $installedPlugins = $pluginManager->getInstalledPlugins();
-$pluginManager = new PluginManager(new App\Models\PluginControl, new App\Models\PluginControlVersion);
+
 $pageLoader = PageLoader::getInstance();
 $pageLoader->init($installedPlugins, $PHP_SELF, new FileSystem);
 

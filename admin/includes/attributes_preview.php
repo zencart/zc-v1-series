@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Oct 16 Modified in v1.5.8a $
+ * @version $Id: Scott C Wilson 2024 Apr 16 Modified in v2.0.1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
   die('Illegal Access');
@@ -27,7 +27,7 @@ if (!defined('IS_ADMIN_FLAG')) {
 
     if ($pr_attr->fields['total'] > 0) {
       if (PRODUCTS_OPTIONS_SORT_ORDER=='0') {
-        $options_order_by= ' order by LPAD(popt.products_options_sort_order,11,"0")';
+        $options_order_by= " ORDER BY LPAD(popt.products_options_sort_order,11,'0')";
       } else {
         $options_order_by= ' order by popt.products_options_name';
       }
@@ -48,9 +48,9 @@ if (!defined('IS_ADMIN_FLAG')) {
       $number_of_uploads = 0;
 
       if ( PRODUCTS_OPTIONS_SORT_BY_PRICE =='1' ) {
-        $order_by= ' order by LPAD(pa.products_options_sort_order,11,"0"), pov.products_options_values_name';
+        $order_by= " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pov.products_options_values_name";
       } else {
-        $order_by= ' order by LPAD(pa.products_options_sort_order,11,"0"), pa.options_values_price';
+        $order_by= " ORDER BY LPAD(pa.products_options_sort_order,11,'0'), pa.options_values_price";
       }
 
       $discount_type = zen_get_products_sale_discount_type((int)$_GET['products_id']);

@@ -5,10 +5,10 @@
  * Loaded by main_page=index
  * Displays product-listing when a particular category/subcategory is selected for browsing
  *
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2020 Dec 25 Modified in v1.5.8-alpha $
+ * @version $Id: Scott Wilson 2024 Mar 09 Modified in v2.0.0-rc2 $
  */
 ?>
 <div class="centerColumn" id="indexProductList">
@@ -68,12 +68,19 @@ if (PRODUCT_LIST_CATEGORIES_IMAGE_STATUS == 'true') {
     echo zen_draw_hidden_field('manufacturers_id', $_GET['manufacturers_id']);
   }
 
+  // draw disp_order
+  if (!empty($_GET['disp_order'])) {
+      echo zen_draw_hidden_field('disp_order', $_GET['disp_order']);
+  }
+
   // draw sort
-  echo zen_draw_hidden_field('sort', $_GET['sort']);
+  if (!empty($_GET['sort'])) {
+      echo zen_draw_hidden_field('sort', $_GET['sort']);
+  }
 
   // draw filter_id (ie: category/mfg depending on $options)
   if ($do_filter_list) {
-    echo zen_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'onchange="this.form.submit()"');
+    echo zen_draw_pull_down_menu('filter_id', $options, (isset($_GET['filter_id']) ? $_GET['filter_id'] : ''), 'aria-label="' . TEXT_SHOW . '" onchange="this.form.submit()"');
   }
 
   // draw alpha sorter

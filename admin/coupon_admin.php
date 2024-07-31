@@ -3,7 +3,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 11 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott C Wilson 2024 May 07 Modified in v2.0.1 $
  */
 require 'includes/application_top.php';
 require DIR_WS_CLASSES . 'currencies.php';
@@ -39,11 +39,13 @@ if (isset($_GET['search']) && zen_not_null($_GET['search'])) {
         'cd.coupon_name',
         'cd.coupon_description',
         'c.coupon_code',
+        'cr.referrer_domain'
     ];
     $searchWords = zen_build_keyword_where_clause($keyword_search_fields, trim($keywords), true);
     $sql = "SELECT c.coupon_id, c.coupon_active
             FROM " . TABLE_COUPONS . " c
             LEFT JOIN " . TABLE_COUPONS_DESCRIPTION . " cd ON cd.coupon_id = c.coupon_id
+            LEFT JOIN " . TABLE_COUPON_REFERRERS . " cr ON cr.coupon_id = c.coupon_id
             " . $searchWords . $active;
   $search = $db->Execute($sql);
   if ($search->EOF) {
@@ -223,7 +225,7 @@ switch ($_GET['action']) {
       $update_errors = 1;
       $messageStack->add(ERROR_NO_COUPON_NAME, 'error');
     }
-    if ((!$_POST['coupon_amount']) && (!$_POST['coupon_free_ship'])) {
+    if ((!$_POST['coupon_amount']) && (empty($_POST['coupon_free_ship']))) {
       $update_errors = 1;
       $messageStack->add(ERROR_NO_COUPON_AMOUNT, 'error');
     }
@@ -316,6 +318,33 @@ switch ($_GET['action']) {
         ];
         zen_db_perform(TABLE_COUPONS_DESCRIPTION, $sql_data_desc_array, 'update', "coupon_id = " . (int)$_GET['cid'] . " and language_id = " . (int)$languages[$i]['id']);
       }
+      // referrers
+        $trimmed_referrers = array_map(static fn($referrer) => trim($referrer), explode(',', $_POST['coupon_referrer'] ?? []));
+        $results = $db->Execute("SELECT *
+                                 FROM " . TABLE_COUPON_REFERRERS . "
+                                 WHERE coupon_id = " . (int)$_GET['cid']);
+        $previous_referrers = [];
+        foreach ($results as $result) {
+            $previous_referrers[] = $result['referrer_domain'];
+        }
+        foreach ($trimmed_referrers as $referrer) {
+            // add new domains
+            if (empty(CouponValidation::referrer_already_assigned($referrer))) {
+                $sql_data_array = [
+                    'referrer_domain' => $referrer,
+                    'coupon_id' => (int)$_GET['cid'],
+                ];
+                zen_db_perform(TABLE_COUPON_REFERRERS, $sql_data_array);
+            }
+        }
+        foreach ($previous_referrers as $referrer) {
+            // delete removed domains
+            if (!in_array($referrer, $trimmed_referrers)) {
+                $sql = "DELETE FROM " . TABLE_COUPON_REFERRERS . " WHERE referrer_domain = :domain";
+                $sql = $db->bindVars($sql, ':domain', $referrer, 'string');
+                $db->Execute($sql);
+            }
+        }
     } else {
       zen_db_perform(TABLE_COUPONS, $sql_data_array);
       $cid = $db->insert_ID();
@@ -327,6 +356,17 @@ switch ($_GET['action']) {
         $sql_data_marray[$i]['language_id'] = (int)$language_id;
         zen_db_perform(TABLE_COUPONS_DESCRIPTION, $sql_data_marray[$i]);
       }
+      // referrers
+        $trimmed_referrers = array_map(static fn($referrer) => trim($referrer), explode(',', $_POST['coupon_referrer'] ?? []));
+        foreach ($trimmed_referrers as $referrer) {
+            if (empty(CouponValidation::referrer_already_assigned($referrer))) {
+                $sql_data_array = [
+                    'referrer_domain' => $referrer,
+                    'coupon_id' => (int)$_GET['cid'],
+                ];
+                zen_db_perform(TABLE_COUPON_REFERRERS, $sql_data_array);
+            }
+        }
     }
     zen_redirect(zen_href_link(FILENAME_COUPON_ADMIN, 'cid=' . $_GET['cid'] . (isset($_GET['status']) ? '&status=' . $_GET['status'] : '') . (isset($_GET['page']) ? '&page=' . $_GET['page'] : '')));
 }
@@ -658,6 +698,7 @@ switch ($_GET['action']) {
             <?php
             break;
           case 'update_preview':
+            $invalid_message = null; // Control whether we allow submitting the new values
             echo zen_draw_form('coupon', FILENAME_COUPON_ADMIN, 'action=update_confirm&oldaction=' . $_GET['oldaction'] . '&cid=' . $_GET['cid'] . (isset($_GET['page']) ? '&page=' . $_GET['page'] : ''));
             ?>
           <div class="table-responsive">
@@ -727,13 +768,35 @@ switch ($_GET['action']) {
                 <td><?php echo $_POST['coupon_uses_user']; ?></td>
               </tr>
               <tr>
+                <td><?php echo COUPON_REFERRER; ?></td>
+                <td><?php
+                    // Referrers inputs may be empty, sanitise here
+                    $trimmed_referrers = array_map(static fn($referrer) => trim($referrer), $_POST['coupon_referrer'] ?? []);
+                    $referrers = array_filter($trimmed_referrers, fn($referrer) => !empty(trim($referrer)));
+                    // Validate that none clash with existing coupons, excluding ourself
+                    foreach ($referrers as $referrer) {
+                        $already_assigned = CouponValidation::referrer_already_assigned($referrer, $_GET['cid']);
+                        if (!empty($already_assigned)) {
+                            $invalid_message = sprintf(
+                                COUPON_REFERRER_EXISTS,
+                                $already_assigned['coupon_code'],
+                                $already_assigned['coupon_id'],
+                                $referrer
+                            );
+                            break;
+                        }
+                    }
+                    $referrers = implode(',', $referrers);
+                    echo $referrers ?: 'none'; ?></td>
+              </tr>
+              <tr>
                 <td><?php echo COUPON_STARTDATE; ?></td>
-                <?php $start_date = date(DATE_FORMAT, mktime(0, 0, 0, $_POST['coupon_startdate_month'], $_POST['coupon_startdate_day'], $_POST['coupon_startdate_year'])); ?>
+                <?php $start_date = date(DATE_FORMAT, mktime(0, 0, 0, (int)$_POST['coupon_startdate_month'], (int)$_POST['coupon_startdate_day'], (int)$_POST['coupon_startdate_year'])); ?>
                 <td><?php echo $start_date; ?></td>
               </tr>
               <tr>
                 <td><?php echo COUPON_FINISHDATE; ?></td>
-                <?php $finish_date = date(DATE_FORMAT, mktime(0, 0, 0, $_POST['coupon_finishdate_month'], $_POST['coupon_finishdate_day'], $_POST['coupon_finishdate_year'])); ?>
+                <?php $finish_date = date(DATE_FORMAT, mktime(0, 0, 0, (int)$_POST['coupon_finishdate_month'], (int)$_POST['coupon_finishdate_day'], (int)$_POST['coupon_finishdate_year'])); ?>
                 <td><?php echo $finish_date; ?></td>
               </tr>
               <?php
@@ -750,18 +813,24 @@ switch ($_GET['action']) {
               echo zen_draw_hidden_field('coupon_code', stripslashes($c_code));
               echo zen_draw_hidden_field('coupon_uses_coupon', $_POST['coupon_uses_coupon']);
               echo zen_draw_hidden_field('coupon_uses_user', $_POST['coupon_uses_user']);
+              echo zen_draw_hidden_field('coupon_referrer', $referrers);
               echo zen_draw_hidden_field('coupon_products', (!empty($_POST['coupon_products']) ? $_POST['coupon_products'] : ''));
               echo zen_draw_hidden_field('coupon_categories', (!empty($_POST['coupon_categories']) ? $_POST['coupon_categories'] : ''));
-              echo zen_draw_hidden_field('coupon_startdate', date('Y-m-d', mktime(0, 0, 0, $_POST['coupon_startdate_month'], $_POST['coupon_startdate_day'], $_POST['coupon_startdate_year'])));
-              echo zen_draw_hidden_field('coupon_finishdate', date('Y-m-d', mktime(0, 0, 0, $_POST['coupon_finishdate_month'], $_POST['coupon_finishdate_day'], $_POST['coupon_finishdate_year'])));
+              echo zen_draw_hidden_field('coupon_startdate', date('Y-m-d', mktime(0, 0, 0, (int)$_POST['coupon_startdate_month'], (int)$_POST['coupon_startdate_day'], (int)$_POST['coupon_startdate_year'])));
+              echo zen_draw_hidden_field('coupon_finishdate', date('Y-m-d', mktime(0, 0, 0, (int)$_POST['coupon_finishdate_month'], (int)$_POST['coupon_finishdate_day'], (int)$_POST['coupon_finishdate_year'])));
               echo zen_draw_hidden_field('coupon_zone_restriction', $_POST['coupon_zone_restriction']);
               echo zen_draw_hidden_field('coupon_order_limit', $_POST['coupon_order_limit']);
               echo zen_draw_hidden_field('coupon_calc_base', (int)$_POST['coupon_calc_base']);
               echo zen_draw_hidden_field('coupon_is_valid_for_sales', (int)$_POST['coupon_is_valid_for_sales']);
               ?>
               <tr>
-                <td class="text-right">
-                  <button type="submit" class="btn btn-primary"><?php echo COUPON_BUTTON_CONFIRM; ?></button>&nbsp;<a href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN, 'cid=' . $_GET['cid'] . (isset($_GET['status']) ? '&status=' . $_GET['status'] : '') . (isset($_GET['page']) ? '&page=' . $_GET['page'] : '')); ?>" class="btn btn-secondary" role="button"><?php echo TEXT_CANCEL; ?></a>
+                <td class="text-right" colspan="2">
+                  <?php
+                  if (!empty($invalid_message)) {
+                    echo "<span class='errorText'>" . $invalid_message . '</span>';
+                  }
+                  ?>
+                  <button type="submit" class="btn btn-primary" <?php echo empty($invalid_message) ? '' : 'disabled' ?>><?php echo COUPON_BUTTON_CONFIRM; ?></button>&nbsp;<a href="<?php echo zen_href_link(FILENAME_COUPON_ADMIN, 'cid=' . $_GET['cid'] . (isset($_GET['status']) ? '&status=' . $_GET['status'] : '') . (isset($_GET['page']) ? '&page=' . $_GET['page'] : '')); ?>" class="btn btn-secondary" role="button"><?php echo TEXT_CANCEL; ?></a>
                 </td>
                 <td></td>
               </tr>
@@ -804,7 +873,16 @@ switch ($_GET['action']) {
             $coupon_is_valid_for_sales = $coupon->fields['coupon_is_valid_for_sales'];
             $coupon_product_count = $coupon->fields['coupon_product_count'];
 
-          case 'new':
+            $results = $db->Execute("SELECT *
+                                    FROM " . TABLE_COUPON_REFERRERS . "
+                                    WHERE coupon_id = " . (int)$_GET['cid']);
+            $coupon_referrer = '';
+            foreach ($results as $result) {
+                $coupon_referrer .= $result['referrer_domain'] . ',';
+            }
+            $coupon_referrer = trim($coupon_referrer, ',');
+
+            case 'new':
 // set some defaults
             if ($_GET['action'] != 'voucheredit' && empty($coupon_uses_user)) {
               $coupon_uses_user = 1;
@@ -941,6 +1019,30 @@ switch ($_GET['action']) {
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <?php echo zen_draw_label(COUPON_REFERRER . '&nbsp;<i class="fa-solid fa-circle-info fa-lg" data-toggle="tooltip" title="' . COUPON_REFERRER_HELP . '"></i>', 'coupon_referrer', 'class="control-label col-sm-3"'); ?>
+              <div class="input-group col-sm-9 col-md-6" data-list="referrers">
+              <?php
+              // Render an input box for each referrer value. These are collected on POST and recombined
+              $referrers = explode(',', $coupon_referrer ?? '');
+              foreach ($referrers as $idx => $referrer) {
+                $btn_cls = $idx === 0 ? 'btn-success' : 'btn-danger';
+                $btn_label = $idx === 0 ? 'fa-plus' : 'fa-times';
+
+              // NOTE: any changes to the following data-list-entry div/button HTML needs to be updated in the coupon_admin.js javascript as well:
+              ?>
+              <div class="col-sm-12" data-list-entry>
+                <div class="input-group"><?php echo zen_draw_input_field('coupon_referrer[]', $referrer, 'class="form-control"'); ?>
+                <div class="input-group-btn">
+                  <button type="button" class="btn <?php echo $btn_cls ?>">
+                    <i class="fa-solid <?php echo $btn_label ?>"></i>
+                  </button>
+                </div>
+                </div>
+              </div>
+              <?php } ?>
+              </div>
+            </div>
             <?php
             if (empty($coupon_startdate)) {
               $coupon_startdate = preg_split("/[-]/", date('Y-m-d'));
@@ -957,7 +1059,7 @@ switch ($_GET['action']) {
             <div class="form-group row mb-3">
               <p class="form-label col-sm-3"><?php echo COUPON_STARTDATE; ?></p>
               <div class="col-sm-9 col-md-6">
-                <div class="input-group"><?php echo zen_draw_date_selector('coupon_startdate', mktime(0, 0, 0, $coupon_startdate[1], (int)$coupon_startdate[2], $coupon_startdate[0])); ?>
+                <div class="input-group"><?php echo zen_draw_date_selector('coupon_startdate', mktime(0, 0, 0, (int)$coupon_startdate[1], (int)$coupon_startdate[2], (int)$coupon_startdate[0])); ?>
                   <span class="input-group-text">
                     <i class="fa-solid fa-circle-info fa-lg" data-toggle="tooltip" title="<?php echo COUPON_STARTDATE_HELP; ?>"></i>
                   </span>
@@ -967,7 +1069,7 @@ switch ($_GET['action']) {
             <div class="form-group row mb-3">
               <p class="form-label col-sm-3"><?php echo COUPON_FINISHDATE; ?></p>
               <div class="col-sm-9 col-md-6">
-                <div class="input-group"><?php echo zen_draw_date_selector('coupon_finishdate', mktime(0, 0, 0, $coupon_finishdate[1], (int)$coupon_finishdate[2], $coupon_finishdate[0])); ?>
+                <div class="input-group"><?php echo zen_draw_date_selector('coupon_finishdate', mktime(0, 0, 0, (int)$coupon_finishdate[1], (int)$coupon_finishdate[2], (int)$coupon_finishdate[0])); ?>
                   <span class="input-group-text">
                     <i class="fa-solid fa-circle-info fa-lg" data-toggle="tooltip" title="<?php echo COUPON_FINISHDATE_HELP; ?>"></i>
                   </span>
@@ -1082,15 +1184,17 @@ switch ($_GET['action']) {
                       $cc_query_raw = "SELECT *
                                      FROM " . TABLE_COUPONS . "
                                      WHERE coupon_id = " . (int)$_GET['cid'];
-                  } else {
-                      $cc_query_raw = "SELECT *
+                      $cc_query = $db->Execute($cc_query_raw, 1);
+                      $cInfo = new objectInfo($cc_query->fields);
+                  }
+                  $cc_query_raw = "SELECT *
                                      FROM " . TABLE_COUPONS . "
                                      WHERE coupon_type != 'G'" . $mysqlSearch . $mysqlActive;
-                  }
                   $maxDisplaySearchResults = ((defined('MAX_DISPLAY_SEARCH_RESULTS_DISCOUNT_COUPONS') && (int)MAX_DISPLAY_SEARCH_RESULTS_DISCOUNT_COUPONS > 0) ? (int)MAX_DISPLAY_SEARCH_RESULTS_DISCOUNT_COUPONS : 20);
 
                   $cc_split = new splitPageResults($_GET['page'], $maxDisplaySearchResults, $cc_query_raw, $cc_query_numrows);
                   $cc_list = $db->Execute($cc_query_raw);
+
                   if ($cc_list->EOF && (empty($_GET['cid']) || ($_GET['cid'] == $cc_list->fields['coupon_id'])) && empty($cInfo)) {
                     $cInfo = new objectInfo($cc_list->fields);
                   }
@@ -1098,6 +1202,18 @@ switch ($_GET['action']) {
                     if ((empty($_GET['cid']) || ($_GET['cid'] == $item['coupon_id'])) && empty($cInfo)) {
                       $cInfo = new objectInfo($item);
                     }
+                    if (isset($cInfo)) {
+					    $coupon_referrer = '';
+                        $sql = "SELECT referrer_domain
+                                FROM " . TABLE_COUPON_REFERRERS . "
+                                WHERE coupon_id = " . (int)$cInfo->coupon_id ?? 0;
+                        $results = $db->Execute($sql);
+                        foreach ($results as $result) {
+                            $coupon_referrer .= $result['referrer_domain'] . ',';
+                        }
+                        $cInfo->referrer = trim($coupon_referrer, ',');
+					}
+
                     if ((isset($cInfo)) && ($item['coupon_id'] == $cInfo->coupon_id)) {
                       ?>
                       <tr class="dataTableRowSelected" onclick="document.location.href = '<?php echo zen_href_link(FILENAME_COUPON_ADMIN, zen_get_all_get_params(array('cid', 'action')) . 'cid=' . $cInfo->coupon_id . '&action=voucheredit'); ?>'">
@@ -1254,6 +1370,7 @@ switch ($_GET['action']) {
                                              LEFT JOIN " . TABLE_COUPONS . " c ON c.coupon_id = cd.coupon_id
                                                AND cd.language_id = " . (int)$_SESSION['languages_id'] . "
                                              WHERE cd.coupon_id = " . (int)$cInfo->coupon_id);
+
                 $uses_coupon = $cInfo->uses_per_coupon;
                 $uses_user = $cInfo->uses_per_user;
                 $coupon_order_limit = $cInfo->coupon_order_limit;
@@ -1271,6 +1388,7 @@ switch ($_GET['action']) {
                   $contents[] = array('text' => COUPON_FINISHDATE . ':&nbsp;' . zen_date_short($cInfo->coupon_expire_date));
                   $contents[] = array('text' => COUPON_USES_COUPON . ':&nbsp;' . $uses_coupon);
                   $contents[] = array('text' => COUPON_USES_USER . ':&nbsp;' . $uses_user);
+                  $contents[] = array('text' => COUPON_REFERRER . ':&nbsp;' . ($cInfo->referrer ?? 'none'));
                   $contents[] = array('text' => COUPON_PRODUCTS . ':&nbsp;' . $prod_details);
                   $contents[] = array('text' => COUPON_CATEGORIES . ':&nbsp;' . $cat_details);
                   $contents[] = array('text' => COUPON_MIN_ORDER . ':&nbsp;' . $currencies->format($cInfo->coupon_minimum_order));

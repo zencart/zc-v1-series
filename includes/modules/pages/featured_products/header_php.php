@@ -5,13 +5,13 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: DrByte 2024 Jan 31 Modified in v2.0.0-beta1 $
  */
 
 // This should be first line of the script:
 $zco_notifier->notify('NOTIFY_HEADER_START_FEATURED_PRODUCTS');
 
-require(DIR_WS_MODULES . zen_get_module_directory('require_languages.php'));
+require DIR_WS_MODULES . zen_get_module_directory('require_languages.php');
 
 // load extra language strings used by product_listing module
 $languageLoader->setCurrentPage('index');
@@ -28,12 +28,11 @@ $define_list = [
     'PRODUCT_LIST_QUANTITY' => PRODUCT_LIST_QUANTITY,
     'PRODUCT_LIST_WEIGHT' => PRODUCT_LIST_WEIGHT,
     'PRODUCT_LIST_IMAGE' => PRODUCT_LIST_IMAGE,
-//    'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
+    //    'PRODUCT_LIST_BUY_NOW' => PRODUCT_LIST_BUY_NOW,
 ];
 asort($define_list);
 $column_list = [];
-foreach ($define_list as $key => $value)
-{
+foreach ($define_list as $key => $value) {
     if ((int)$value > 0) {
         $column_list[] = $key;
     }

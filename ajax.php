@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2023 Jul 23 Modified in v2.0.0-alpha1 $
+ * @version $Id: lat9 2024 May 18 Modified in v2.0.1 $
  */
 // Abort if the request was not an AJAX call
 if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
@@ -44,8 +44,6 @@ function ajaxAbort($status = 400, $msg = null)
 }
 // --- support functions ------------------
 
-
-
 if (!isset($_GET['act']) || !isset($_GET['method'])) {
     ajaxAbort();
 }
@@ -53,14 +51,19 @@ if (!isset($_GET['act']) || !isset($_GET['method'])) {
 $language_page_directory = DIR_WS_LANGUAGES . $_SESSION['language'] . '/';
 
 $className = 'zc' . ucfirst($_GET['act']);
-$classFile = $className . '.php';
-$basePath  = DIR_FS_CATALOG . DIR_WS_CLASSES;
-
-if (!file_exists(realpath($basePath . 'ajax/' . basename($classFile)))) {
-    ajaxAbort();
+$classFile = basename($className . '.php');
+$classPath = DIR_WS_CLASSES . 'ajax/';
+$basePath  = DIR_FS_CATALOG;
+$file = realpath($basePath . $classPath . $classFile);
+if (!empty($file) && file_exists($file)) {
+    require $file;
+} else {
+    $fs->loadFilesFromPluginsDirectory($installedPlugins, 'catalog/' . $classPath, '~^' . $classFile . '$~');
+    if (!class_exists($className)) {
+        ajaxAbort();
+    }
 }
 
-require realpath($basePath . 'ajax/' . basename($classFile));
 $class = new $className();
 if (!method_exists($class, $_GET['method'])) {
     ajaxAbort(400, 'class method error');

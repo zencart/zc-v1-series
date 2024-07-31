@@ -2,10 +2,10 @@
 /**
  * Template Information File
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: lat9 2022 Nov 29 Modified in v1.5.8a $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  *
  * picaflor-azul.com, Picaflor Responsive Classic
  */
@@ -17,7 +17,6 @@ $template_description = 'This HTML5 template is mobile friendly and uses contemp
 $template_screenshot = 'scr_responsive_classic.jpg';
 
 // -----
-// Normally, this template does not use "Single Column Settings" in the admin's "Layout Controller",
-// but if a site has set the value, the template honors that setting.
+// Enable the admin's "Layout Controller" to also display the single-column layout settings.
 //
-$uses_single_column_layout_settings = (isset($uses_single_column_layout_settings)) ? $uses_single_column_layout_settings : false;
+$uses_single_column_layout_settings = true;

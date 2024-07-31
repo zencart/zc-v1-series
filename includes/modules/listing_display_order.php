@@ -6,7 +6,7 @@
  * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: DrByte 2024 Jan 27 Modified in v2.0.0-alpha1 $
+ * @version $Id: Scott Wilson 2024 Apr 07 Modified in v2.0.1 $
  */
 if (!defined('IS_ADMIN_FLAG')) {
     die('Illegal Access');
@@ -15,7 +15,15 @@ if (empty($_GET['main_page'])) {
     $_GET['main_page'] = 'index';
 }
 if (empty($disp_order_default)) {
-    $disp_order_default = PRODUCT_ALL_LIST_SORT_DEFAULT;
+    if (PRODUCT_LISTING_DEFAULT_SORT_ORDER === '') {
+        // blank means products_sort_order
+        $disp_order_default = 8; // see 'case 8' below
+    } elseif (strlen(PRODUCT_LISTING_DEFAULT_SORT_ORDER) > 1) {
+        // if it is set to the legacy multi-column selector, ie "2a", ignore it and treat it as though blank
+        $disp_order_default = 8;
+    } else {
+        $disp_order_default = (int)PRODUCT_LISTING_DEFAULT_SORT_ORDER;
+    }
 }
 if (!isset($_GET['disp_order'])) {
     $_GET['disp_order'] = $disp_order_default;
@@ -25,11 +33,6 @@ if (!isset($_GET['disp_order'])) {
 }
 
 switch ((int)$_GET['disp_order']) {
-    case 0:
-        // reset and let reset continue
-        $_GET['disp_order'] = $disp_order_default;
-        $disp_order = $disp_order_default;
-        // no break here.
     case 1:
         $order_by = " ORDER BY pd.products_name";
         break;
@@ -51,7 +54,15 @@ switch ((int)$_GET['disp_order']) {
     case 7:
         $order_by = " ORDER BY p.products_date_added, pd.products_name";
         break;
+    case 8:
+        $order_by = $default_sort_order ??  " ORDER BY p.products_sort_order, pd.products_name ";
+        break;
+    case 0:
+        // reset
+        $_GET['disp_order'] = $disp_order_default;
+        $disp_order = $disp_order_default;
+        // no break here.
     default:
-        $order_by = " ORDER BY p.products_sort_order";
+        $order_by = " ORDER BY p.products_sort_order, pd.products_name";
         break;
 }

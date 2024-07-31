@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright 2003-2022 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Jan 09 New in v1.5.8-alpha $
+ * @version $Id: neekfenwick 2024 Feb 29 Modified in v2.0.0-rc1 $
 */
 
 $define = [
@@ -26,8 +26,8 @@ $define = [
     'TEXT_VOUCHER_IS' => 'The coupon code is ',
     'TEXT_REMEMBER' => 'Don\'t lose the coupon code, make sure to keep the code safe so you can benefit from this special offer.',
     'TEXT_VISIT' => 'Visit us at %s',
-    'TEXT_COUPON_HELP_DATE' => '<p>The coupon is valid between %s and %s</p>',
-    'HTML_COUPON_HELP_DATE' => '<p>The coupon is valid between %s and %s</p>',
+    'TEXT_COUPON_HELP_DATE' => '<p>The coupon is valid between %1$s and %2$s</p>',
+    'HTML_COUPON_HELP_DATE' => '<p>The coupon is valid between %1$s and %2$s</p>',
     'CUSTOMER_ID' => 'Customer ID',
     'CUSTOMER_NAME' => 'Customer Name',
     'REDEEM_DATE' => 'Date Redeemed',
@@ -57,6 +57,8 @@ $define = [
     'TEXT_COUPON_TOTAL_ORDER_BASED' => '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Based on Full Order Total of All Products Regardless of Qualifying Coupon Restrictions)',
     'COUPON_USES_COUPON' => 'Uses per Coupon',
     'COUPON_USES_USER' => 'Uses per Customer',
+    'COUPON_REFERRER' => 'Valid Referrers',
+    'COUPON_REFERRER_EXISTS' => 'Coupon &quot;%1$s&quot; (id %2$d) already exists with the referrer &quot;%3$s&quot;',
     'COUPON_PRODUCTS' => 'Valid Product List',
     'COUPON_CATEGORIES' => 'Valid Categories List',
     'DATE_CREATED' => 'Date Created',
@@ -87,6 +89,7 @@ $define = [
     'COUPON_SALE_HELP' => 'If you choose <i>NOT allowed</i>, products on sale or special will not be discounted or counted towards the coupon minimum order.',
     'COUPON_USES_COUPON_HELP' => 'The maximum number of times the coupon can be used, leave blank if you want no limit.',
     'COUPON_USES_USER_HELP' => 'Number of times a user can use the coupon, leave blank for no limit.',
+    'COUPON_REFERRER_HELP' => 'Domains to automatically apply the coupon when visiting from, one per row. e.g. &quot;jills-blog.com&quot; or &quot;bobsbits.com&quot;.  Click the green <i class=&quot;fa-solid fa-plus&quot;></i> icon to add a new row, or the red <i class=&quot;fa-solid fa-times&quot;></i> icon to remove a row.',
     'COUPON_BUTTON_PREVIEW' => 'Preview',
     'COUPON_BUTTON_CONFIRM' => 'Confirm',
     'COUPON_ACTIVE' => 'Status',
@@ -104,7 +107,7 @@ $define = [
     'TEXT_COUPON_COPY_INFO' => 'Copy for multiple duplicates',
     'TEXT_COUPON_COPY_DUPLICATE' => 'Create Multiple Coupons with Base Coupon Code of: ',
     'TEXT_COUPON_COPY_DUPLICATE_CNT' => 'How many duplicate Discount Coupons do you want to create? ',
-    'TEXT_CONFIRM_DELETE_DUPLICATE' => 'Delete all matching Discount Coupons based on the Base coupon code<br>Example: <strong>%s</strong> would delete all Discount Coupons codes starting with: <strong>%s</strong>',
+    'TEXT_CONFIRM_DELETE_DUPLICATE' => 'Delete all matching Discount Coupons based on the Base coupon code<br>Example: <strong>%1$s</strong> would delete all Discount Coupons codes starting with: <strong>%2$s</strong>',
     'TEXT_COUPON_DELETE_DUPLICATE' => 'Delete all Discount Coupons matching base code: ',
     'TEXT_DISCOUNT_COUPON_EMAIL' => 'Email',
     'TEXT_DISCOUNT_COUPON_CONFIRM_DELETE' => 'Confirm Deactivate',

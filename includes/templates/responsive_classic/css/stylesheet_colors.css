@@ -1,10 +1,10 @@
 /**
  * Main Stylesheet Colors CSS
  *
- * @copyright Copyright 2003-2023 Zen Cart Development Team
+ * @copyright Copyright 2003-2024 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version $Id: Scott C Wilson 2022 Oct 16 Modified in v1.5.8a $
+ * @version $Id: DrByte 2024 Feb 03 Modified in v2.0.0-beta1 $
  */
 
 /*bof font colors*/
@@ -28,7 +28,7 @@ legend, .specialsListBoxContents a, .centerBoxContentsAlsoPurch a, .centerBoxCon
 .productSpecialPrice, .productSalePrice, .productSpecialPriceSale, .productPriceDiscount {color:#900404;}
 .categoryListBoxContents a:hover, .categoryListBoxContents:hover a{color:#364fb5;}
 .list-more{color:#fff !important;}
-  
+
 /* Added by dbltoe for more accent on center page items.  Comment out any not wanted */
 .categoryListBoxContents:hover, centerBoxContentsListing:hover, .centerBoxContents:hover, .centerBoxContentsNew:hover, .centerBoxContentsFeatured:hover, .centerBoxContentsSpecials:hover, .specialsListBoxContents:hover {border-radius: 5px;background:#e2e3e4;box-shadow: 21px 21px 41px #bdbdbd, -21px -21px 41px #d9d9d9;}
 
@@ -88,3 +88,10 @@ ol.list-links li{border-bottom:1px solid #ddd;}
 .sideBoxContent optgroup {color: #db0000;}
 .sideBoxContent optgroup > option {color: #000000;}
 th#seProductsHeading, th#seTotalHeading {background: #000000;}
+
+/* CSS styles for the image modals */
+.imgmodal {background-color: rgba(0, 0, 0, 0.81);}
+.image-grid img {border: 1px solid #364fb5; box-shadow: 1px 1px 1px #364fb5;}
+.imgmodal img {border: none; box-shadow: none;}
+.imgmodal-content {background-color: #fff;}
+
