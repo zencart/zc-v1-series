@@ -546,14 +546,16 @@ if ($action === 'edit' || $action === 'update') {
     echo zen_draw_hidden_field('default_address_id', $cInfo->customers_default_address_id);
     echo zen_hide_session_id();
 ?>
-        <div class="row formAreaTitle"><?php echo CATEGORY_PERSONAL; ?></div>
+            <div class="row formAreaTitle">
+                <div class="col-12"><?php echo CATEGORY_PERSONAL; ?></div>
+            </div>
         <div class="formArea">
 <?php
     if (ACCOUNT_GENDER === 'true') {
 ?>
-            <div class="form-group">
+                    <div class="form-group row mb-3">
                 <div class="col-sm-3">
-                    <p class="control-label"><?php echo ENTRY_GENDER; ?></p>
+                            <p class="form-label"><?php echo ENTRY_GENDER; ?></p>
                 </div>
                 <div class="col-sm-9 col-md-6">
                     <label class="radio-inline"><?php
@@ -586,12 +588,12 @@ if ($action === 'edit' || $action === 'update') {
         ['id' => '4', 'text' => CUSTOMERS_AUTHORIZATION_4], // banned
     ];
 ?>
-            <div class="form-group">
+                <div class="form-group row mb-3">
                 <?php
                 echo zen_draw_label(
                     CUSTOMERS_AUTHORIZATION,
                     'customers_authorization',
-                    'class="col-sm-3 control-label"'
+                        'class="col-sm-3 form-label"'
                 ); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
@@ -603,9 +605,9 @@ if ($action === 'edit' || $action === 'update') {
                     ); ?>
                 </div>
             </div>
-            <div class="form-group">
+                <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_FIRST_NAME, 'customers_firstname', 'class="col-sm-3 control-label"'); ?>
+                    echo zen_draw_label(ENTRY_FIRST_NAME, 'customers_firstname', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -625,9 +627,9 @@ if ($action === 'edit' || $action === 'update') {
                     ); ?>
                 </div>
             </div>
-            <div class="form-group">
+                <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_LAST_NAME, 'customers_lastname', 'class="col-sm-3 control-label"'); ?>
+                    echo zen_draw_label(ENTRY_LAST_NAME, 'customers_lastname', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -650,9 +652,9 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     if (ACCOUNT_DOB === 'true') {
 ?>
-            <div class="form-group">
+                    <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_DATE_OF_BIRTH, 'customers_dob', 'class="col-sm-3 control-label"'); ?>
+                        echo zen_draw_label(ENTRY_DATE_OF_BIRTH, 'customers_dob', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -663,14 +665,14 @@ if ($action === 'edit' || $action === 'update') {
                         'maxlength="10" class="form-control" id="customers_dob" minlength="' . ENTRY_DOB_MIN_LENGTH . '"',
                         (ACCOUNT_DOB === 'true' && (int)ENTRY_DOB_MIN_LENGTH !== 0)
                     );
-                    echo ($error === true && $entry_date_of_birth_error === true) ? '&nbsp;' . ENTRY_DATE_OF_BIRTH_ERROR : '';?>
+                    echo ($error === true && $entry_date_of_birth_error === true) ? '&nbsp;' . ENTRY_DATE_OF_BIRTH_ERROR : ''; ?>
                 </div>
             </div>
 <?php
     }
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_EMAIL_ADDRESS, 'customers_email_address', 'class="col-sm-3 control-label"'); ?>
+                <div class="form-group row mb-3">
+                    <?php echo zen_draw_label(ENTRY_EMAIL_ADDRESS, 'customers_email_address', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -711,8 +713,8 @@ if ($action === 'edit' || $action === 'update') {
     if (!empty($additional_fields)) {
         foreach ($additional_fields as $current_field) {
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label($current_field['label'], $current_field['fieldname'], 'class="col-sm-3 control-label"'); ?>
+                        <div class="form-group row mb-3">
+                            <?php echo zen_draw_label($current_field['label'], $current_field['fieldname'], 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6"><?php echo $current_field['input']; ?></div>
             </div>
 <?php
@@ -727,11 +729,11 @@ if ($action === 'edit' || $action === 'update') {
             <?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?>
         </div>
         <div class="row formAreaTitle">
-            <?php echo CATEGORY_COMPANY; ?>
+                    <div class="col-12"><?php echo CATEGORY_COMPANY; ?></div>
         </div>
         <div class="formArea">
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_COMPANY, 'entry_company', 'class="col-sm-3 control-label"'); ?>
+                    <div class="form-group row mb-3">
+                        <?php echo zen_draw_label(ENTRY_COMPANY, 'entry_company', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -752,11 +754,13 @@ if ($action === 'edit' || $action === 'update') {
         <div class="row">
             <?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?>
         </div>
-        <div class="row formAreaTitle"><?php echo CATEGORY_ADDRESS; ?></div>
+            <div class="row formAreaTitle">
+                <div class="col-12"><?php echo CATEGORY_ADDRESS; ?></div>
+            </div>
         <div class="formArea">
-            <div class="form-group">
+                <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_STREET_ADDRESS, 'entry_street_address', 'class="col-sm-3 control-label"'); ?>
+                echo zen_draw_label(ENTRY_STREET_ADDRESS, 'entry_street_address', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -774,9 +778,9 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     if (ACCOUNT_SUBURB === 'true') {
 ?>
-            <div class="form-group">
+            <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_SUBURB, 'entry_suburb', 'class="col-sm-3 control-label"'); ?>
+                echo zen_draw_label(ENTRY_SUBURB, 'entry_suburb', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -809,9 +813,9 @@ if ($action === 'edit' || $action === 'update') {
                     ); ?>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row mb-3">
                 <?php
-                echo zen_draw_label(ENTRY_CITY, 'entry_city', 'class="col-sm-3 control-label"'); ?>
+                echo zen_draw_label(ENTRY_CITY, 'entry_city', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -829,7 +833,7 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     if (ACCOUNT_STATE === 'true') {
 ?>
-            <div class="form-group">
+            <div class="form-group row mb-3">
                 <?php
                 echo zen_draw_label(ENTRY_STATE, 'entry_state', 'class="col-sm-3 control-label"'); ?>
                 <div class="col-sm-9 col-md-6">
@@ -872,8 +876,8 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     }
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_COUNTRY, 'entry_country_id', 'class="col-sm-3 control-label"'); ?>
+            <div class="form-group row mb-3">
+                <?php echo zen_draw_label(ENTRY_COUNTRY, 'entry_country_id', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_pull_down_menu(
@@ -888,10 +892,12 @@ if ($action === 'edit' || $action === 'update') {
         <div class="row">
             <?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?>
         </div>
-        <div class="row formAreaTitle"><?php echo CATEGORY_CONTACT; ?></div>
+            <div class="row formAreaTitle">
+                <div class="col-12"><?php echo CATEGORY_CONTACT; ?></div>
+            </div>
         <div class="formArea">
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_TELEPHONE_NUMBER, 'customers_telephone', 'class="col-sm-3 control-label"'); ?>
+                <div class="form-group row mb-3">
+                <?php echo zen_draw_label(ENTRY_TELEPHONE_NUMBER, 'customers_telephone', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -914,8 +920,8 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     if (ACCOUNT_FAX_NUMBER === 'true') {
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_FAX_NUMBER, 'customers_fax', 'class="col-sm-3 control-label"'); ?>
+                    <div class="form-group row mb-3">
+                        <?php echo zen_draw_label(ENTRY_FAX_NUMBER, 'customers_fax', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
 <?php
         if ($processed === true) {
@@ -946,11 +952,13 @@ if ($action === 'edit' || $action === 'update') {
         <div class="row">
             <?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?>
         </div>
-        <div class="row formAreaTitle"><?php echo CATEGORY_OPTIONS; ?></div>
+            <div class="row formAreaTitle">
+                <div class="col-12"><?php echo CATEGORY_OPTIONS; ?></div>
+            </div>
         <div class="formArea">
-            <div class="form-group">
+            <div class="form-group row mb-3">
                 <div class="col-sm-3">
-                    <p class="control-label"><?php echo ENTRY_EMAIL_PREFERENCE; ?></p>
+                    <p class="form-label"><?php echo ENTRY_EMAIL_PREFERENCE; ?></p>
                 </div>
                 <div class="col-sm-9 col-md-6">
 <?php
@@ -981,8 +989,8 @@ if ($action === 'edit' || $action === 'update') {
 ?>
                 </div>
             </div>
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_NEWSLETTER, 'customers_newsletter', 'class="col-sm-3 control-label"'); ?>
+            <div class="form-group row mb-3">
+                <?php echo zen_draw_label(ENTRY_NEWSLETTER, 'customers_newsletter', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
 <?php
     if ($processed === true) {
@@ -1006,8 +1014,8 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     if (WHOLESALE_PRICING_CONFIG !== 'false') {
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label(TEXT_WHOLESALE_LEVEL, 'customers-whole', 'class="col-sm-3 control-label"'); ?>
+            <div class="form-group row mb-3">
+                <?php echo zen_draw_label(TEXT_WHOLESALE_LEVEL, 'customers-whole', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -1023,8 +1031,8 @@ if ($action === 'edit' || $action === 'update') {
 <?php
     }
 ?>
-            <div class="form-group">
-                <?php echo zen_draw_label(ENTRY_PRICING_GROUP, 'customers_group_pricing', 'class="col-sm-3 control-label"'); ?>
+            <div class="form-group row mb-3">
+                <?php echo zen_draw_label(ENTRY_PRICING_GROUP, 'customers_group_pricing', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
 <?php
     if ($processed === true) {
@@ -1065,8 +1073,8 @@ if ($action === 'edit' || $action === 'update') {
 ?>
                 </div>
             </div>
-            <div class="form-group">
-                <?php echo zen_draw_label(CUSTOMERS_REFERRAL, 'customers_referral', 'class="col-sm-3 control-label"'); ?>
+            <div class="form-group row mb-3">
+                <?php echo zen_draw_label(CUSTOMERS_REFERRAL, 'customers_referral', 'class="col-sm-3 form-label"'); ?>
                 <div class="col-sm-9 col-md-6">
                     <?php
                     echo zen_draw_input_field(
@@ -1086,9 +1094,9 @@ if ($action === 'edit' || $action === 'update') {
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group row mb-3">
                 <div class="col-sm-3">
-                    <p class="control-label"><?php echo TEXT_CUSTOMER_GROUPS; ?></p>
+                    <p class="form-label"><?php echo TEXT_CUSTOMER_GROUPS; ?></p>
                 </div>
                 <div class="col-sm-9 col-md-6">
                     <div class="row">
@@ -1121,14 +1129,16 @@ if ($action === 'edit' || $action === 'update') {
             <?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?>
         </div>
         <div class="row text-right">
+                <div class="col-12">
             <button type="submit" class="btn btn-primary">
                 <?php echo IMAGE_UPDATE; ?>
             </button>
             <a href="<?php
             echo zen_href_link(FILENAME_CUSTOMERS, zen_get_all_get_params(['action'])); ?>"
-               class="btn btn-default"><?php
+               class="btn btn-secondary"><?php
                 echo IMAGE_CANCEL; ?></a>
         </div>
+            </div>
         <?php echo '</form>'; ?>
 <?php
 } elseif ($action === 'list_addresses') {
@@ -1173,7 +1183,7 @@ if ($action === 'edit' || $action === 'update') {
                                 FILENAME_CUSTOMERS,
                                 zen_get_all_get_params(['action']),
                                 'NONSSL'
-                            ); ?>" class="btn btn-default" role="button">
+                            ); ?>" class="btn btn-secondary" role="button">
                             <?php echo IMAGE_BACK; ?>
                         </a>
                     </div>
@@ -1182,7 +1192,7 @@ if ($action === 'edit' || $action === 'update') {
 <?php
 } else {
 ?>
-            <div class="col-sm-offset-8 col-sm-4">
+            <div class="col-sm-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8">
                 <?php include DIR_WS_MODULES . 'search_box.php'; ?>
             </div>
 <?php
@@ -1245,9 +1255,10 @@ if ($action === 'edit' || $action === 'update') {
     }
 ?>
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 configurationColumnLeft">
+                    <div class="table-responsive">
                     <table class="table table-hover" role="listbox">
-                        <thead>
+                        <thead class="table-dark">
                         <tr class="dataTableHeadingRow">
                             <th class="dataTableHeadingContent text-right">
                                 <?php echo TABLE_HEADING_ID; ?>
@@ -1800,8 +1811,9 @@ if ($action === 'edit' || $action === 'update') {
                         </tbody>
                     </table>
                 </div>
+                </div>
 
-                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 configurationColumnRight">
 <?php
     $heading = [];
     $contents = [];
@@ -1849,7 +1861,7 @@ if ($action === 'edit' || $action === 'update') {
                             FILENAME_CUSTOMERS,
                             zen_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id,
                             'NONSSL'
-                        ) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL .
+                        ) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL .
                     '</a>'
             ];
             break;
@@ -1878,7 +1890,7 @@ if ($action === 'edit' || $action === 'update') {
             $contents[] = [
                 'text' =>
                     '<br>' .
-                    zen_draw_label(TEXT_CUST_NEW_PASSWORD, 'newpassword', 'class="control-label"') .
+                    zen_draw_label(TEXT_CUST_NEW_PASSWORD, 'newpassword', 'class="form-label"') .
                     zen_draw_input_field(
                         'newpassword',
                         '',
@@ -1891,7 +1903,7 @@ if ($action === 'edit' || $action === 'update') {
             $contents[] = [
                 'text' =>
                     '<br>' .
-                    zen_draw_label(TEXT_CUST_CONFIRM_PASSWORD, 'newpasswordConfirm', 'class="control-label"') .
+                    zen_draw_label(TEXT_CUST_CONFIRM_PASSWORD, 'newpasswordConfirm', 'class="form-label"') .
                     zen_draw_input_field(
                         'newpasswordConfirm',
                         '',
@@ -1911,7 +1923,7 @@ if ($action === 'edit' || $action === 'update') {
                         zen_href_link(
                             FILENAME_CUSTOMERS,
                             zen_get_all_get_params(['cID', 'action']) . 'cID=' . $cInfo->customers_id
-                        ) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL .
+                        ) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL .
                     '</a>'
             ];
             break;
@@ -1960,7 +1972,7 @@ if ($action === 'edit' || $action === 'update') {
                                     FILENAME_ORDERS,
                                     'cID=' . $cInfo->customers_id,
                                     'NONSSL'
-                                ) . '" class="btn btn-default" role="button">' . IMAGE_ORDERS .
+                                ) . '" class="btn btn-secondary" role="button">' . IMAGE_ORDERS .
                             '</a>' :
                             ''
                         ) .
@@ -1970,7 +1982,7 @@ if ($action === 'edit' || $action === 'update') {
                                 FILENAME_MAIL,
                                 'origin=customers.php&customer=' . $cInfo->customers_email_address . '&cID=' . $cInfo->customers_id,
                                 'NONSSL'
-                            ) . '" class="btn btn-default" role="button">' . IMAGE_EMAIL .
+                            ) . '" class="btn btn-secondary" role="button">' . IMAGE_EMAIL .
                         '</a>'
                 ];
                 $contents[] = [
@@ -2148,6 +2160,7 @@ if ($action === 'edit' || $action === 'update') {
                 </div>
             </div>
             <div class="row">
+                <div class="table-responsive">
                 <table class="table">
                     <tr>
                         <td>
@@ -2173,7 +2186,7 @@ if ($action === 'edit' || $action === 'update') {
 ?>
                     <tr>
                         <td colspan="2" class="text-right">
-                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMERS); ?>" class="btn btn-default" role="button">
+                            <a href="<?php echo zen_href_link(FILENAME_CUSTOMERS); ?>" class="btn btn-secondary" role="button">
                                 <?php echo IMAGE_RESET; ?>
                             </a>
                         </td>
@@ -2182,6 +2195,7 @@ if ($action === 'edit' || $action === 'update') {
     }
 ?>
                 </table>
+            </div>
             </div>
 <?php
 }

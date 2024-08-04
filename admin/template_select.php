@@ -53,8 +53,9 @@ if (!empty($action)) {
         <div class="row">
             <!-- body_text //-->
             <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
+            <div class="table-responsive">
                 <table class="table table-hover">
-                    <thead>
+            <thead class="table-dark">
                         <tr class="dataTableHeadingRow">
                             <th class="dataTableHeadingContent"><?= TABLE_HEADING_LANGUAGE ?></th>
                             <th class="dataTableHeadingContent"><?= TABLE_HEADING_NAME ?></th>
@@ -130,6 +131,7 @@ foreach ($templates as $template) {
                     <div class="col-xs-6"><?= $template_split->display_count($template_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_TEMPLATES) ?></div>
                     <div class="col-xs-6 text-right"><?= $template_split->display_links($template_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, MAX_DISPLAY_PAGE_LINKS, $_GET['page']) ?></div>
                 </div>
+
             </div>
             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
 <?php
@@ -153,6 +155,7 @@ switch ($action) {
             if (isset($value['missing'])) {
                 continue;
             }
+
             $template_array[] = [
                 'id' => $key,
                 'text' => $value['name'],
@@ -167,19 +170,19 @@ switch ($action) {
         }
         $contents[] = [
             'text' =>
-                zen_draw_label(TEXT_INFO_TEMPLATE_NAME, 'ln', 'class="control-label"') .
+                zen_draw_label(TEXT_INFO_TEMPLATE_NAME, 'ln', 'class="form-label"') .
                 zen_draw_pull_down_menu('ln', $template_array, '', 'class="form-control" id="ln"')
         ];
         $contents[] = [
             'text' =>
-                zen_draw_label(TEXT_INFO_LANGUAGE_NAME, 'lang', 'class="control-label"') .
+                zen_draw_label(TEXT_INFO_LANGUAGE_NAME, 'lang', 'class="form-label"') .
                 zen_draw_pull_down_menu('lang', $language_array, '', 'class="form-control" id="lang"')
         ];
         $contents[] = [
             'align' => 'text-center',
             'text' =>
                 '<button type="submit" class="btn btn-primary">' . IMAGE_INSERT . '</button> ' .
-                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page']) . '" class="btn btn-default" role="button">' .
+                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page']) . '" class="btn btn-secondary" role="button">' .
                     IMAGE_CANCEL .
                 '</a>'
         ];
@@ -198,14 +201,14 @@ switch ($action) {
         }
         $contents[] = [
             'text' =>
-                zen_draw_label(TEXT_INFO_TEMPLATE_NAME, 'ln', 'class="control-label"') .
+                zen_draw_label(TEXT_INFO_TEMPLATE_NAME, 'ln', 'class="form-label"') .
                 zen_draw_pull_down_menu('ln', $template_array, $templates->fields['template_dir'], 'class="form-control" id="ln"')
         ];
         $contents[] = [
             'align' => 'text-center',
             'text' =>
                 '<button type="submit" class="btn btn-primary">' . IMAGE_UPDATE . '</button> ' .
-                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page'] . '&tID=' . $tInfo->template_id) . '" class="btn btn-default" role="button">' .
+                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page'] . '&tID=' . $tInfo->template_id) . '" class="btn btn-secondary" role="button">' .
                     IMAGE_CANCEL .
                 '</a>'
         ];
@@ -221,7 +224,7 @@ switch ($action) {
             'align' => 'text-center',
             'text' =>
                 '<button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button> ' .
-                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page'] . '&tID=' . $tInfo->template_id) . '" class="btn btn-default" role="button">' .
+                '<a href="' . zen_href_link(FILENAME_TEMPLATE_SELECT, 'page=' . $_GET['page'] . '&tID=' . $tInfo->template_id) . '" class="btn btn-secondary" role="button">' .
                     IMAGE_CANCEL .
                 '</a>'
         ];

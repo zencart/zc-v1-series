@@ -63,43 +63,45 @@ foreach ($widgets as $key => $widget) {
       div.first { float: left; width: 90px; }
       div.col { float: left; width: 18%; }
     </style>
-  </head>
-  <body class="indexDashboard">
-    <!-- header //-->
-    <?php require(DIR_WS_INCLUDES . 'header.php'); ?>
-    <!-- header_eof //-->
+</head>
+<body class="indexDashboard">
+<!-- header //-->
+<?php require(DIR_WS_INCLUDES . 'header.php'); ?>
+<!-- header_eof //-->
 
-    <?php
-    $notifications = new AdminNotifications();
-    $availableNotifications = $notifications->getNotifications('index', $_SESSION['admin_id']);
-    require_once(DIR_WS_MODULES . 'notificationsDisplay.php');
-    ?>
-
-    <div id="colone" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-    <?php
-    foreach ($widgets as $widget) {
-        if ($widget['column'] === 1 && !empty($widget['visible'])) {
-            include $widget['path'];
+<?php
+$notifications = new AdminNotifications();
+$availableNotifications = $notifications->getNotifications('index', $_SESSION['admin_id']);
+require_once(DIR_WS_MODULES . 'notificationsDisplay.php');
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div id="colone" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <?php
+        foreach ($widgets as $widget) {
+            if ($widget['column'] === 1 && !empty($widget['visible'])) {
+                include $widget['path'];
+            }
         }
-    }
-    ?>
-    </div>
-    <div id="coltwo" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-    <?php
-    foreach ($widgets as $widget) {
-        if ($widget['column'] === 2 && !empty($widget['visible'])) {
-            include $widget['path'];
+        ?>
+        </div>
+        <div id="coltwo" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <?php
+        foreach ($widgets as $widget) {
+            if ($widget['column'] === 2 && !empty($widget['visible'])) {
+                include $widget['path'];
+            }
         }
-    }
-    ?>
-    </div>
-    <div id="colthree" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-    <?php
-    foreach ($widgets as $widget) {
-        if ($widget['column'] === 3 && !empty($widget['visible'])) {
-            include $widget['path'];
+        ?>
+        </div>
+        <div id="colthree" class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+        <?php
+        foreach ($widgets as $widget) {
+            if ($widget['column'] === 3 && !empty($widget['visible'])) {
+                include $widget['path'];
+            }
         }
-    }
-    ?>
+        ?>
+        </div>
     </div>
-
+</div>

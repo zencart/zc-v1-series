@@ -93,8 +93,9 @@ $mfa_status_of_store = MFA_ENABLED === 'True';
             echo zen_draw_hidden_field('action', $formAction);
         }
     ?>
+    <div class="table-responsive">
     <table class="table">
-        <thead>
+        <thead class="table-dark">
         <tr class="headingRow">
             <th class="name"><?php echo TEXT_ADMIN_NAME ?></th>
             <th class="email"><?php echo TEXT_EMAIL ?></th>
@@ -131,7 +132,7 @@ $mfa_status_of_store = MFA_ENABLED === 'True';
                 <?php if ($user == $userDetails['id']) { ?>
                         <td class="actions">
                             <button type="submit" class="btn btn-primary"><?php echo IMAGE_UPDATE; ?></button>
-                            <a href="<?php echo zen_href_link(FILENAME_ADMIN_ACCOUNT) ?>" class="btn btn-default" role="button"><?php echo IMAGE_CANCEL; ?></a>
+                            <a href="<?php echo zen_href_link(FILENAME_ADMIN_ACCOUNT) ?>" class="btn btn-secondary" role="button"><?php echo IMAGE_CANCEL; ?></a>
                         </td>
                     <?php } else { ?>
                         <td class="actions">&nbsp;</td>
@@ -173,6 +174,7 @@ $mfa_status_of_store = MFA_ENABLED === 'True';
         <?php } ?>
         </tbody>
     </table>
+    </div>
     <?php echo '</form>'; ?>
 </div>
 <!-- body_eof //-->

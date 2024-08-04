@@ -142,17 +142,18 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
     <div class="row">
         <!-- body_text //-->
         <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 configurationColumnLeft">
-            <table class="table table-hover" role="listbox">
-                <thead>
-                <tr class="dataTableHeadingRow">
-                    <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CURRENCY_NAME; ?></th>
-                    <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CURRENCY_CODES; ?></th>
-                    <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_CURRENCY_VALUE; ?></th>
-                    <th class="dataTableHeadingContent text-center"><?php echo TEXT_INFO_CURRENCY_LAST_UPDATED; ?></th>
-                    <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
-                </tr>
-                </thead>
-                <tbody>
+          <div class="table-responsive">
+          <table class="table table-hover" role="listbox">
+            <thead class="table-dark">
+              <tr class="dataTableHeadingRow">
+                <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CURRENCY_NAME; ?></th>
+                <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_CURRENCY_CODES; ?></th>
+                <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_CURRENCY_VALUE; ?></th>
+                <th class="dataTableHeadingContent text-center"><?php echo TEXT_INFO_CURRENCY_LAST_UPDATED; ?></th>
+                <th class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_ACTION; ?></th>
+              </tr>
+            </thead>
+            <tbody>
                 <?php
                 $currencies_query_raw = "SELECT currencies_id, title, code, symbol_left, symbol_right, decimal_point, thousands_point, decimal_places, last_updated, value
                                          FROM " . TABLE_CURRENCIES . "
@@ -201,8 +202,9 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
                 }
                 ?>
 
-                </tbody>
-            </table>
+            </tbody>
+          </table>
+          </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
             <?php
@@ -215,36 +217,36 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
 
                     $contents = ['form' => zen_draw_form('currencies', FILENAME_CURRENCIES, 'page=' . $_GET['page'] . (isset($cInfo) ? '&cID=' . $cInfo->currencies_id : '') . '&action=insert', 'post', 'class="form-horizontal"')];
                     $contents[] = ['text' => TEXT_INFO_INSERT_INTRO];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_TITLE, 'title', 'class="control-label"') . zen_draw_input_field('title', '', zen_set_field_length(TABLE_CURRENCIES, 'title', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_CODE, 'code', 'class="control-label"') . zen_draw_input_field('code', '', zen_set_field_length(TABLE_CURRENCIES, 'code', '3') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_LEFT, 'symbol_left', 'class="control-label"') . zen_draw_input_field('symbol_left', '', zen_set_field_length(TABLE_CURRENCIES, 'symbol_left', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, 'symbol_right', 'class="control-label"') . zen_draw_input_field('symbol_right', '', zen_set_field_length(TABLE_CURRENCIES, 'symbol_right', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_POINT, 'decimal_point', 'class="control-label"') . zen_draw_input_field('decimal_point', '', zen_set_field_length(TABLE_CURRENCIES, 'decimal_point', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_THOUSANDS_POINT, 'thousands_point', 'class="control-label"') . zen_draw_input_field('thousands_point', '', zen_set_field_length(TABLE_CURRENCIES, 'thousands_point', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_PLACES, 'decimal_places', 'class="control-label"') . zen_draw_input_field('decimal_places', '', zen_set_field_length(TABLE_CURRENCIES, 'decimal_places', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_VALUE, 'value', 'class="control-label"') . zen_draw_input_field('value', '', 'size="15" maxlength="14" class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_TITLE, 'title', 'class="form-label"') . zen_draw_input_field('title', '', zen_set_field_length(TABLE_CURRENCIES, 'title', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_CODE, 'code', 'class="form-label"') . zen_draw_input_field('code', '', zen_set_field_length(TABLE_CURRENCIES, 'code', '3') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_LEFT, 'symbol_left', 'class="form-label"') . zen_draw_input_field('symbol_left', '', zen_set_field_length(TABLE_CURRENCIES, 'symbol_left', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, 'symbol_right', 'class="form-label"') . zen_draw_input_field('symbol_right', '', zen_set_field_length(TABLE_CURRENCIES, 'symbol_right', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_POINT, 'decimal_point', 'class="form-label"') . zen_draw_input_field('decimal_point', '', zen_set_field_length(TABLE_CURRENCIES, 'decimal_point', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_THOUSANDS_POINT, 'thousands_point', 'class="form-label"') . zen_draw_input_field('thousands_point', '', zen_set_field_length(TABLE_CURRENCIES, 'thousands_point', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_PLACES, 'decimal_places', 'class="form-label"') . zen_draw_input_field('decimal_places', '', zen_set_field_length(TABLE_CURRENCIES, 'decimal_places', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_VALUE, 'value', 'class="form-label"') . zen_draw_input_field('value', '', 'size="15" maxlength="14" class="form-control"')];
                     $contents[] = ['text' => '<br>' . zen_draw_checkbox_field('default') . ' ' . TEXT_INFO_SET_AS_DEFAULT];
-                    $contents[] = ['align' => 'center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_INSERT . '</button> <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $_GET['cID']) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                    $contents[] = ['align' => 'center', 'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_INSERT . '</button> <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $_GET['cID']) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     break;
                 case 'edit':
                     $heading[] = ['text' => '<h4>' . TEXT_INFO_HEADING_EDIT_CURRENCY . '</h4>'];
 
                     $contents = ['form' => zen_draw_form('currencies', FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=save', 'post', 'class="form-horizontal"')];
                     $contents[] = ['text' => TEXT_INFO_EDIT_INTRO];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_TITLE, 'title', 'class="control-label"') . zen_draw_input_field('title', htmlspecialchars($cInfo->title, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'title', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_CODE, 'code', 'class="control-label"') . zen_draw_input_field('code', htmlspecialchars($cInfo->code, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'code', '3') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_LEFT, 'symbol_left', 'class="control-label"') . zen_draw_input_field('symbol_left', htmlspecialchars($cInfo->symbol_left, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'symbol_left', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, 'symbol_right', 'class="control-label"') . zen_draw_input_field('symbol_right', htmlspecialchars($cInfo->symbol_right, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'symbol_right', '32') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_POINT, 'decimal_point', 'class="control-label"') . zen_draw_input_field('decimal_point', htmlspecialchars($cInfo->decimal_point, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'decimal_point', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_THOUSANDS_POINT, 'thousands_point', 'class="control-label"') . zen_draw_input_field('thousands_point', htmlspecialchars($cInfo->thousands_point, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'thousands_point', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_PLACES, 'decimal_places', 'class="control-label"') . zen_draw_input_field('decimal_places', $cInfo->decimal_places, zen_set_field_length(TABLE_CURRENCIES, 'decimal_places', '1') . ' class="form-control"')];
-                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_VALUE, 'value', 'class="control-label"') . zen_draw_input_field('value', $cInfo->value, 'size="15" maxlength="14" class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_TITLE, 'title', 'class="form-label"') . zen_draw_input_field('title', htmlspecialchars($cInfo->title, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'title', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_CODE, 'code', 'class="form-label"') . zen_draw_input_field('code', htmlspecialchars($cInfo->code, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'code', '3') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_LEFT, 'symbol_left', 'class="form-label"') . zen_draw_input_field('symbol_left', htmlspecialchars($cInfo->symbol_left, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'symbol_left', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_SYMBOL_RIGHT, 'symbol_right', 'class="form-label"') . zen_draw_input_field('symbol_right', htmlspecialchars($cInfo->symbol_right, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'symbol_right', '32') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_POINT, 'decimal_point', 'class="form-label"') . zen_draw_input_field('decimal_point', htmlspecialchars($cInfo->decimal_point, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'decimal_point', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_THOUSANDS_POINT, 'thousands_point', 'class="form-label"') . zen_draw_input_field('thousands_point', htmlspecialchars($cInfo->thousands_point, ENT_COMPAT, CHARSET, true), zen_set_field_length(TABLE_CURRENCIES, 'thousands_point', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_DECIMAL_PLACES, 'decimal_places', 'class="form-label"') . zen_draw_input_field('decimal_places', $cInfo->decimal_places, zen_set_field_length(TABLE_CURRENCIES, 'decimal_places', '1') . ' class="form-control"')];
+                    $contents[] = ['text' => '<br>' . zen_draw_label(TEXT_INFO_CURRENCY_VALUE, 'value', 'class="form-label"') . zen_draw_input_field('value', $cInfo->value, 'size="15" maxlength="14" class="form-control"')];
                     if (DEFAULT_CURRENCY != $cInfo->code) {
                         $contents[] = ['text' => '<br>' . zen_draw_checkbox_field('default') . ' ' . TEXT_INFO_SET_AS_DEFAULT];
                     }
                     $contents[] = [
                         'align' => 'text-center',
-                        'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_UPDATE . '</button> <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                        'text' => '<br><button type="submit" class="btn btn-primary">' . IMAGE_UPDATE . '</button> <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     break;
                 case 'delete':
                     $heading[] = ['text' => '<h4>' . TEXT_INFO_HEADING_DELETE_CURRENCY . '</h4>'];
@@ -252,13 +254,12 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
                     $contents[] = ['text' => TEXT_INFO_DELETE_INTRO];
                     $contents[] = [
                         'align' => 'text-center',
-                        'text' => (($remove_currency) ? '<button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button>' : '') . ' <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $_GET['cID']) . '" class="btn btn-default" role="button">' . IMAGE_CANCEL . '</a>'];
+                        'text' => (($remove_currency) ? '<button type="submit" class="btn btn-danger">' . IMAGE_DELETE . '</button>' : '') . ' <a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $_GET['cID']) . '" class="btn btn-secondary" role="button">' . IMAGE_CANCEL . '</a>'];
                     $contents[] = ['text' => '<br><b>' . $cInfo->title . '</b>'];
                     break;
                 default:
                     if (is_object($cInfo)) {
                         $heading[] = ['text' => '<h4>' . $cInfo->title . '</h4>'];
-
                         $contents[] = [
                             'align' => 'center',
                             'text' => '<a href="' . zen_href_link(FILENAME_CURRENCIES, 'page=' . $_GET['page'] . '&cID=' . $cInfo->currencies_id . '&action=edit') . '" class="btn btn-primary" role="button">' . IMAGE_EDIT . '</a>
@@ -283,8 +284,9 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
             }
             ?>
         </div>
-    </div>
-    <div class="row">
+      </div>
+      <div class="row">
+          <div class="table-responsive">
         <table class="table">
             <tr>
                 <td><?php echo $currency_split->display_count($currency_query_numrows, MAX_DISPLAY_SEARCH_RESULTS, $_GET['page'], TEXT_DISPLAY_NUMBER_OF_CURRENCIES); ?></td>
@@ -306,8 +308,10 @@ require DIR_WS_INCLUDES . 'header.php'; ?>
             }
             ?>
         </table>
+        </div>
+      </div>
+      <!-- body_text_eof //-->
     </div>
-    <!-- body_text_eof //-->
 </div>
 <!-- body_eof //-->
 

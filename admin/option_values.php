@@ -181,7 +181,7 @@ switch ($_GET['action']) {
                         <div class="radio"><label><?= zen_draw_radio_field('language', 'all', true) . TEXT_UPDATE_SORT_LANGUAGE_ALL ?></label></div> <?php
                     } ?>
                     <button type="submit" class="btn btn-warning"><?= TEXT_UPDATE_SUBMIT ?></button>
-                    <a href="<?= zen_href_link(FILENAME_PRODUCTS_OPTIONS_VALUES) ?>" class="btn btn-default" role="button"><?= IMAGE_CANCEL ?></a>
+                    <a href="<?= zen_href_link(FILENAME_PRODUCTS_OPTIONS_VALUES) ?>" class="btn btn-secondary" role="button"><?= IMAGE_CANCEL ?></a>
                 </div>
                 <?='</form>' ?>
             </div>
